@@ -1,0 +1,35 @@
+---
+// 跨页公共：底部行动号召（产品页 / 解决方案页共用）
+// 图片约定：image → /images/global/team-cta.webp（团队图，建议透明底）
+interface Props {
+  title?: string;
+  description?: string;
+  buttonText?: string;
+  href?: string;
+  image?: string;
+}
+
+const {
+  title = "需要定制项目方案？",
+  description = "我们的专家团队可提供专业建议和定制化解决方案",
+  buttonText = "立即获取报价",
+  href = "/quote",
+  image = "/images/global/team-cta.webp",
+} = Astro.props;
+---
+
+<section class="w-full bg-white px-4 py-16">
+  <div class="mx-auto flex max-w-3xl flex-col items-center text-center">
+    <img src={image} alt="" class="h-40 w-auto object-contain" />
+    <h2 class="mt-2 text-2xl font-bold text-neutral-800 sm:text-3xl">
+      {title}
+    </h2>
+    <p class="mt-2 text-sm text-neutral-500">{description}</p>
+    <a
+      href={href}
+      class="mt-6 rounded-full border border-amber-200 bg-amber-50 px-8 py-3 text-sm font-semibold text-amber-900 transition-colors hover:bg-amber-100"
+    >
+      {buttonText}
+    </a>
+  </div>
+</section>

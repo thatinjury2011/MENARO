@@ -1,0 +1,37 @@
+---
+// 首页：应用空间（4 图一行）
+// 图片约定：复用 /images/solutions/space-1..4.webp
+import SectionTitle from "../shared/SectionTitle.astro";
+
+const spaces = [
+  { name: "浴室", image: "/images/solutions/space-1.webp" },
+  { name: "厨房", image: "/images/solutions/space-2.webp" },
+  { name: "商业空间", image: "/images/solutions/space-3.webp" },
+  { name: "高端住宅", image: "/images/solutions/space-4.webp" },
+];
+---
+
+<section class="w-full bg-white px-4 py-16 sm:px-6">
+  <div class="mx-auto max-w-7xl">
+    <SectionTitle title="应用空间" variant="highlight" />
+
+    <div class="mt-8 rounded-3xl bg-[#e9e3d9] p-6 sm:p-8">
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          spaces.map((space) => (
+            <div class="relative overflow-hidden rounded-2xl">
+              <img
+                src={space.image}
+                alt={space.name}
+                class="h-64 w-full object-cover"
+              />
+              <span class="absolute bottom-5 left-5 text-xl font-bold text-white drop-shadow-lg">
+                {space.name}
+              </span>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+</section>

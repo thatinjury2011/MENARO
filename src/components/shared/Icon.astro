@@ -1,0 +1,47 @@
+---
+// 跨页公共：内联线性图标（避免引入图标库）
+interface Props {
+  name: string;
+  class?: string;
+  strokeWidth?: number;
+}
+
+const { name, class: className = "size-5", strokeWidth = 1.8 } = Astro.props;
+
+const icons: Record<string, string> = {
+  search: '<circle cx="11" cy="11" r="7"/><path d="m20 20-3.6-3.6"/>',
+  plusCircle: '<circle cx="12" cy="12" r="9"/><path d="M12 8v8M8 12h8"/>',
+  check: '<path d="m5 13 4 4L19 7"/>',
+  leaf: '<path d="M4 20c0-8 6-14 16-16 0 10-5 16-13 16H4Z"/><path d="M4 20c2-4 5-7 9-9"/>',
+  shield:
+    '<path d="M12 3l7 3v5.5c0 4.4-3 8.3-7 9.5-4-1.2-7-5.1-7-9.5V6l7-3Z"/>',
+  droplet:
+    '<path d="M12 3.5C14.5 7 17 9.8 17 13a5 5 0 0 1-10 0c0-3.2 2.5-6 5-9.5Z"/>',
+  brush: '<path d="M14 4l6 6-8 8H6v-6l8-8Z"/><path d="M6 18l-2 2"/>',
+  layers: '<path d="m12 3 9 5-9 5-9-5 9-5Z"/><path d="m3 13 9 5 9-5"/>',
+  roller:
+    '<rect x="3.5" y="4" width="14" height="6.5" rx="1.5"/><path d="M17.5 7.2H21v4.3h-8.5v2.2"/><path d="M10.5 13.7h4v6.3h-4z"/>',
+  tile: '<rect x="3.5" y="3.5" width="7" height="7" rx="1"/><rect x="13.5" y="3.5" width="7" height="7" rx="1"/><rect x="3.5" y="13.5" width="7" height="7" rx="1"/><rect x="13.5" y="13.5" width="7" height="7" rx="1"/>',
+  seal: '<path d="M4 5.5h16"/><path d="M6.5 5.5V15a5.5 5.5 0 0 0 11 0V5.5"/>',
+  sparkles:
+    '<path d="M9 3l1.2 3.3L13.5 7.5 10.2 8.7 9 12 7.8 8.7 4.5 7.5 7.8 6.3 9 3Z"/><path d="M17 12l.9 2.4 2.4.9-2.4.9-.9 2.4-.9-2.4-2.4-.9 2.4-.9.9-2.4Z"/>',
+  globe:
+    '<circle cx="12" cy="12" r="9"/><path d="M3 12h18"/><path d="M12 3c2.6 2.6 3.9 5.6 3.9 9s-1.3 6.4-3.9 9c-2.6-2.6-3.9-5.6-3.9-9S9.4 5.6 12 3Z"/>',
+  arrowRight: '<path d="M5 12h14"/><path d="m13 6 6 6-6 6"/>',
+};
+
+const content = icons[name] ?? icons.plusCircle;
+---
+
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width={strokeWidth}
+  stroke-linecap="round"
+  stroke-linejoin="round"
+  class={className}
+  aria-hidden="true"
+  set:html={content}
+/>

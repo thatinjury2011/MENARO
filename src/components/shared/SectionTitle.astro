@@ -1,0 +1,29 @@
+---
+// 跨页公共：区块标题
+// variant="underline"（默认）→ 标题 + 短下划线（产品页 / 解决方案页）
+// variant="highlight"        → 标题 + 米色底块（首页）
+interface Props {
+  title: string;
+  variant?: "underline" | "highlight";
+  class?: string;
+}
+
+const { title, variant = "underline", class: className = "" } = Astro.props;
+---
+
+{
+  variant === "underline" ? (
+    <div class:list={["flex flex-col items-center gap-2", className]}>
+      <h2 class="text-xl font-bold tracking-wide text-neutral-800 sm:text-2xl">
+        {title}
+      </h2>
+      <span class="block h-0.5 w-12 rounded-full bg-amber-700/80" />
+    </div>
+  ) : (
+    <div class:list={["flex justify-center", className]}>
+      <h2 class="bg-[#cbb49c]/70 px-6 py-1.5 text-lg font-bold tracking-wide text-neutral-800 sm:text-xl">
+        {title}
+      </h2>
+    </div>
+  )
+}

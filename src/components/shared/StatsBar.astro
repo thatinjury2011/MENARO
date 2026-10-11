@@ -1,0 +1,32 @@
+---
+// 跨页公共：数据条（标签在上、数值在下）
+interface Stat {
+  label: string;
+  value: string;
+}
+
+interface Props {
+  items: Stat[];
+  class?: string;
+}
+
+const { items, class: className = "" } = Astro.props;
+---
+
+<div
+  class:list={[
+    "grid grid-cols-2 gap-6 rounded-2xl bg-[#e9e3d9] px-6 py-7 sm:grid-cols-4",
+    className,
+  ]}
+>
+  {
+    items.map((item) => (
+      <div class="flex flex-col items-center gap-1 text-center">
+        <span class="text-xs text-neutral-600">{item.label}</span>
+        <span class="text-2xl font-bold text-[#6b5537] sm:text-3xl">
+          {item.value}
+        </span>
+      </div>
+    ))
+  }
+</div>

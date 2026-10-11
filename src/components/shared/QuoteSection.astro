@@ -1,0 +1,44 @@
+---
+// 跨页公共：获取报价区块（首页用；表单 + 联系方式）
+import Icon from "./Icon.astro";
+import QuoteForm from "./QuoteForm.astro";
+
+const contacts = ["+1 400-xxxx-xxxx", "xxxxxxxxxx.com", "www.xxxxxx.com"];
+---
+
+<section
+  class="w-full bg-gradient-to-r from-[#d9c3ae] via-[#e6d5c3] to-[#f2e7dc] px-4 py-14 sm:px-6"
+>
+  <div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.5fr_1fr]">
+    <!-- 左：表单 -->
+    <div class="rounded-2xl bg-white/85 p-6 sm:p-8">
+      <h2 class="text-lg font-bold text-[#6b5537]">获取报价</h2>
+      <QuoteForm class="mt-6" />
+    </div>
+
+    <!-- 右：联系方式 -->
+    <div
+      class="flex flex-col items-center justify-center gap-6 rounded-2xl bg-[#cbb49c]/70 p-6 text-center sm:p-8"
+    >
+      <h2 class="text-lg font-bold text-white">我们随时为您提供帮助</h2>
+
+      <ul class="flex flex-col gap-3 text-sm text-white/90">
+        {
+          contacts.map((contact) => (
+            <li class="flex items-center justify-center gap-2">
+              <Icon name="arrowRight" class="size-3.5" />
+              {contact}
+            </li>
+          ))
+        }
+      </ul>
+
+      <img
+        src="/images/home/quote-qr.png"
+        alt="WhatsApp 二维码"
+        class="size-32 rounded-lg bg-white object-contain p-2"
+      />
+      <p class="text-xs text-white/90">扫描 WhatsApp 二维码添加联系</p>
+    </div>
+  </div>
+</section>

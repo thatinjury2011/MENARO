@@ -1,0 +1,130 @@
+---
+// 跨页公共：页面 Hero（首页 / 产品页 / 解决方案页共用）
+// 图片约定：
+//   bgImage → /images/home/hero.webp | /images/global/hero.webp（暗色空间背景）
+//   image   → /images/global/bucket.png（右侧产品图；传 null 则不显示）
+interface Action {
+  label: string;
+  href: string;
+  variant?: "solid" | "ghost";
+}
+
+interface Props {
+  label?: string;
+  title: string;
+  subtitle?: string;
+  subtitleClass?: string;
+  description?: string;
+  features?: { name: string }[];
+  featuresPlacement?: "below" | "side";
+  actions?: Action[];
+  image?: string | null;
+  bgImage?: string;
+  blurMask?: boolean;
+}
+
+import FeatureBadges from "./FeatureBadges.astro";
+
+const {
+  label = "MENARO",
+  title,
+  subtitle,
+  subtitleClass = "text-amber-500",
+  description,
+  features = [],
+  featuresPlacement = "below",
+  actions = [],
+  image = "/images/global/bucket.png",
+  bgImage = "/images/global/hero.webp",
+  blurMask = true,
+} = Astro.props;
+
+const side = featuresPlacement === "side";
+
+const actionClass = (variant: string) =>
+  variant === "ghost"
+    ? "rounded-lg bg-black/45 px-6 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-black/65"
+    : "rounded-lg bg-[#ece0d5] px-6 py-2.5 text-sm font-semibold text-[#4a3a24] transition-colors hover:bg-white";
+---
+
+<section class="relative w-full overflow-hidden bg-neutral-900">
+  <img
+    src={bgImage}
+    alt=""
+    class="absolute inset-0 h-full w-full object-cover"
+  />
+
+  {
+    blurMask && (
+      <div class="absolute inset-0 z-10 backdrop-blur-md mask-r-from-15% mask-r-to-80%" />
+    )
+  }
+  <div
+    class="absolute inset-0 z-10 bg-gradient-to-r from-black/75 via-black/40 to-transparent"
+  >
+  </div>
+
+  {
+    image && (
+      <img
+        src={image}
+        alt={title}
+        class="pointer-events-none absolute right-8 bottom-0 z-20 hidden h-[86%] w-auto object-contain md:block lg:right-24"
+      />
+    )
+  }
+
+  <div
+    class="relative z-30 mx-auto flex min-h-[24rem] max-w-7xl items-center px-4 py-12 sm:px-6 lg:min-h-[27rem]"
+  >
+    <div
+      class:list={[
+        "flex w-full flex-col",
+        side ? "gap-10 lg:flex-row lg:items-center lg:gap-16" : "",
+      ]}
+    >
+      <div class="flex max-w-xl flex-col items-start gap-2 text-left">
+        <p
+          class="rounded-lg bg-black/50 px-6 py-1.5 text-sm tracking-[0.3em] text-white"
+        >
+          {label}
+        </p>
+        <h1 class="text-4xl font-bold text-white sm:text-5xl">{title}</h1>
+        {subtitle && <p class:list={["text-lg", subtitleClass]}>{subtitle}</p>}
+        {
+          description && (
+            <p class="mt-1 max-w-md text-xs leading-relaxed text-white/90">
+              {description}
+            </p>
+          )
+        }
+        {
+          actions.length > 0 && (
+            <div class="mt-4 flex flex-wrap gap-3">
+              {actions.map((action) => (
+                <a href={action.href} class={actionClass(action.variant ?? "solid")}>
+                  {action.label}
+                </a>
+              ))}
+            </div>
+          )
+        }
+        {
+          !side && features.length > 0 && (
+            <FeatureBadges items={features} tone="light" class="mt-6" />
+          )
+        }
+      </div>
+
+      {
+        side && features.length > 0 && (
+          <FeatureBadges
+            items={features}
+            tone="light"
+            class="w-full max-w-sm lg:mt-0"
+          />
+        )
+      }
+    </div>
+  </div>
+</section>

@@ -1,0 +1,30 @@
+---
+import ApplicationSpaces from "../components/solutions/ApplicationSpaces.astro";
+import BathroomSolution from "../components/solutions/BathroomSolution.astro";
+import ProcessSteps from "../components/solutions/ProcessSteps.astro";
+import RecommendedSystems from "../components/solutions/RecommendedSystems.astro";
+import CtaSection from "../components/shared/CtaSection.astro";
+import PageHero from "../components/shared/PageHero.astro";
+import Layout from "../layouts/Layout.astro";
+
+const heroFeatures = [
+  { name: "高端饰面" },
+  { name: "可靠品质" },
+  { name: "防水" },
+  { name: "环保友好" },
+];
+---
+
+<Layout title="解决方案 | MENARO 美纳罗">
+  <PageHero
+    title="解决方案"
+    subtitle="面向不同空间与专业项目的完整系统方案"
+    description="防水、耐久、环保的系统组合，帮助实现高端饰面效果。"
+    features={heroFeatures}
+  />
+  <RecommendedSystems />
+  <ProcessSteps />
+  <ApplicationSpaces />
+  <BathroomSolution />
+  <CtaSection />
+</Layout>

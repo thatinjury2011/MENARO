@@ -1,0 +1,222 @@
+---
+// 跨页公共：报价表单（首页 QuoteSection 与联系页 MessageCard 共用）
+//
+// 集成方式：Formspree「Vanilla JS (Ajax) → With a bundler (ESM)」
+//   - Astro 用 Vite 打包，<script> 里的裸模块导入会被打包，无需 CDN。
+//   - form 上的 action/method 保留，作为「JS 失效时的原生 POST 降级」。
+//
+// 字段命名策略（重要）：
+//   - 普通字段用**中文 name**，这样 Formspree 通知邮件 / 后台里的标签就是中文。
+//     代价：失去 Formspree 的特殊字段语义（name / company / phone / message），
+//     以后若接 HubSpot、Mailchimp、Zendesk 等插件需要改回英文名。
+//   - Reply-To 必须靠字面量 name="email"，所以额外放一个**隐藏镜像字段**，
+//     由 onSubmit 在 FormData 组装前把「邮箱」输入框的值同步过去。
+const FORM_ID = "xyekjojw";
+const FORM_ENDPOINT = `https://formspree.io/f/${FORM_ID}`;
+
+interface Props {
+  withCompany?: boolean;
+  note?: string;
+  class?: string;
+}
+
+const {
+  withCompany = false,
+  note = "提交即表示您同意我们的隐私政策，我们不会分享您的信息",
+  class: className = "",
+} = Astro.props;
+
+const regions = [
+  "中国",
+  "意大利",
+  "其他欧洲国家",
+  "北美",
+  "中东",
+  "东南亚",
+  "其他",
+];
+
+const fieldClass =
+  "w-full rounded-md border border-neutral-300 bg-white px-3 py-2 text-sm text-neutral-700 outline-none transition-colors focus:border-amber-700";
+const labelClass = "flex flex-col gap-1.5 text-xs text-neutral-600";
+---
+
+<form
+  class:list={["flex flex-col gap-4", className]}
+  action={FORM_ENDPOINT}
+  method="POST"
+  data-formspree={FORM_ID}
+>
+  <!-- 反垃圾蜜罐：正常用户看不到，机器人会填 → Formspree 直接丢弃 -->
+  <input
+    type="text"
+    name="_gotcha"
+    tabindex="-1"
+    autocomplete="off"
+    aria-hidden="true"
+    class="hidden"
+  />
+  <!-- 邮件标题；若发现主题没生效，把 name 改成 "subject" 即可 -->
+  <input type="hidden" name="_subject" value="MENARO 官网新询盘" />
+  <input type="hidden" name="_language" value="zh" />
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <label class={labelClass}>
+      您的姓名
+      <input
+        type="text"
+        name="姓名"
+        autocomplete="name"
+        required
+        data-fs-field
+        class={fieldClass}
+      />
+      <span data-fs-error="姓名">请填写您的姓名</span>
+    </label>
+
+    <label class={labelClass}>
+      邮箱
+      <input
+        type="email"
+        name="邮箱"
+        autocomplete="email"
+        required
+        data-fs-field
+        data-email-input
+        class={fieldClass}
+      />
+      <span data-fs-error="邮箱">请填写正确的邮箱地址</span>
+    </label>
+  </div>
+
+  <div class="grid gap-4 sm:grid-cols-2">
+    <label class:list={[labelClass, !withCompany && "sm:col-span-2"]}>
+      电话
+      <input
+        type="tel"
+        name="电话"
+        autocomplete="tel"
+        data-fs-field
+        class={fieldClass}
+      />
+      <span data-fs-error="电话">电话格式不正确</span>
+    </label>
+
+    {
+      withCompany && (
+        <label class={labelClass}>
+          公司名称
+          <input
+            type="text"
+            name="公司名称"
+            autocomplete="organization"
+            data-fs-field
+            class={fieldClass}
+          />
+          <span data-fs-error="公司名称">公司名称格式不正确</span>
+        </label>
+      )
+    }
+  </div>
+
+  <label class={labelClass}>
+    国家/地区
+    <select name="国家/地区" data-fs-field class={fieldClass}>
+      <option value="">请选择</option>
+      {regions.map((region) => <option value={region}>{region}</option>)}
+    </select>
+    <span data-fs-error="国家/地区">请选择国家/地区</span>
+  </label>
+
+  <label class={labelClass}>
+    项目需求
+    <textarea
+      name="项目需求"
+      rows="4"
+      data-fs-field
+      class={fieldClass}></textarea>
+    <span data-fs-error="项目需求">项目需求格式不正确</span>
+  </label>
+
+  <!-- Reply-To 专用：Formspree 只认字面量 email，故用隐藏字段镜像（放末尾以免排在邮件正文第一行） -->
+  <input type="hidden" name="email" data-email-mirror />
+
+  <div class="mt-1 flex flex-col items-center gap-2">
+    <button
+      type="submit"
+      data-fs-submit-btn
+      class="rounded-md bg-[#6b5537] px-10 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#5a4730] disabled:cursor-not-allowed disabled:opacity-60"
+    >
+      提交表单
+    </button>
+
+    <!-- 成功 / 失败的整表提示（预先写好中文，SDK 直接显示，不注入英文） -->
+    <div data-fs-success>提交成功，我们会尽快与您联系。</div>
+    <div data-fs-error>
+      提交失败，请稍后重试，或通过页面下方的方式直接联系我们。
+    </div>
+
+    <p class="text-[10px] text-neutral-500">
+      {note} <a href="#" class="underline">隐私政策</a>.
+    </p>
+  </div>
+</form>
+
+<script>
+  import { initForm } from "@formspree/ajax";
+
+  // 把「邮箱」输入框的值同步到隐藏的 name="email" 镜像字段，
+  // 让 Formspree 能把通知邮件的 Reply-To 设成客户邮箱。
+  function syncEmailMirror(form: HTMLFormElement) {
+    const source = form.querySelector<HTMLInputElement>("[data-email-input]");
+    const mirror = form.querySelector<HTMLInputElement>("[data-email-mirror]");
+    if (source && mirror) mirror.value = source.value;
+  }
+
+  document
+    .querySelectorAll<HTMLFormElement>("form[data-formspree]")
+    .forEach((form) => {
+      const formId = form.dataset.formspree;
+      if (!formId) return;
+
+      initForm({
+        formElement: form,
+        formId,
+        // onSubmit 在 SDK 组装 FormData 之前触发，正好用来同步镜像字段
+        onSubmit: () => syncEmailMirror(form),
+      });
+    });
+</script>
+
+<style is:global>
+  /* 覆盖 @formspree/ajax 运行时注入的默认红/绿提示样式，改为站点配色 */
+  [data-fs-success][data-fs-active] {
+    background: #e9e3d9 !important;
+    color: #4a3a24 !important;
+    border: 1px solid #cbb49c !important;
+    padding: 10px 16px !important;
+    border-radius: 8px !important;
+    margin-bottom: 0 !important;
+    font-size: 12px !important;
+  }
+
+  [data-fs-error=""][data-fs-active] {
+    background: #fbeaea !important;
+    color: #a1271f !important;
+    border: 1px solid #f0c7c4 !important;
+    padding: 10px 16px !important;
+    border-radius: 8px !important;
+    margin-bottom: 0 !important;
+    font-size: 12px !important;
+  }
+
+  [data-fs-error]:not([data-fs-error=""])[data-fs-active] {
+    color: #a1271f !important;
+    font-size: 11px !important;
+    margin-top: 4px !important;
+  }
+
+  [data-fs-field][aria-invalid="true"] {
+    border-color: #a1271f !important;
+  }
+</style>

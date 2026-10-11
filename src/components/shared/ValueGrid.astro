@@ -1,0 +1,53 @@
+---
+// 跨页公共：2×2 价值点网格（首页 About 右侧 / 关于我们页共用）
+import Icon from "./Icon.astro";
+
+interface Value {
+  name: string;
+  desc: string;
+  icon?: string;
+}
+
+interface Props {
+  items?: Value[];
+  class?: string;
+}
+
+const defaultItems: Value[] = [
+  {
+    name: "意大利技术",
+    desc: "源自意大利的先进配方，并遵循严格质量标准",
+    icon: "sparkles",
+  },
+  {
+    name: "全球市场",
+    desc: "产品服务覆盖 50 多个国家和地区的专业项目",
+    icon: "globe",
+  },
+  {
+    name: "高端品质",
+    desc: "严选原材料，确保稳定可靠的施工表现",
+    icon: "shield",
+  },
+  { name: "专业支持", desc: "从选型到施工，为每一步提供专业服务", icon: "check" },
+];
+
+const { items = defaultItems, class: className = "" } = Astro.props;
+---
+
+<div
+  class:list={[
+    "grid grid-cols-1 gap-px overflow-hidden bg-neutral-200 sm:grid-cols-2",
+    className,
+  ]}
+>
+  {
+    items.map((item) => (
+      <div class="flex flex-col items-center gap-2 bg-white px-4 py-8 text-center">
+        <Icon name={item.icon ?? "check"} class="size-6 text-amber-700/80" />
+        <h3 class="text-sm font-bold text-neutral-800">{item.name}</h3>
+        <p class="text-xs leading-relaxed text-neutral-500">{item.desc}</p>
+      </div>
+    ))
+  }
+</div>

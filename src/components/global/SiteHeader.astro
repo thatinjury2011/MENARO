@@ -1,0 +1,101 @@
+---
+// 全站公共：顶部导航（logo + 主导航 + 获取报价 + 搜索 + 语言切换）
+// 图片约定：/images/global/logo.jpg（后期替换为正式 logo）
+const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
+
+const navItems = [
+  { href: "/", label: "首页" },
+  { href: "/products", label: "产品" },
+  { href: "/solutions", label: "解决方案" },
+  { href: "/cases", label: "项目案例" },
+  { href: "/about", label: "关于我们" },
+  { href: "/contact", label: "联系我们" },
+];
+
+const isActive = (href: string) =>
+  href === "/" ? currentPath === "/" : currentPath === href;
+---
+
+<header class="w-full bg-white">
+  <div
+    class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-2 sm:px-6"
+  >
+    <!-- Logo -->
+    <a href="/" class="shrink-0" aria-label="MENARO 首页">
+      <img
+        src="/images/global/logo.jpg"
+        alt="MENARO 美纳罗"
+        class="h-14 w-auto object-contain"
+      />
+    </a>
+
+    <!-- 主导航 -->
+    <nav class="hidden items-center gap-1 text-amber-900 lg:flex">
+      {
+        navItems.map((item) => (
+          <a
+            href={item.href}
+            aria-current={isActive(item.href) ? "page" : undefined}
+            class:list={[
+              "rounded-xl px-3 py-1.5 text-xs font-bold transition-colors hover:bg-amber-900/10",
+              isActive(item.href) && "bg-amber-900/15",
+            ]}
+          >
+            {item.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <!-- 右侧操作区 -->
+    <div class="flex items-center gap-2 sm:gap-3">
+      <a
+        href="/quote"
+        aria-current={isActive("/quote") ? "page" : undefined}
+        class:list={[
+          "rounded-lg bg-amber-950/90 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-amber-900",
+          isActive("/quote") && "ring-2 ring-amber-400",
+        ]}
+      >
+        获取报价
+      </a>
+
+      <label
+        class="hidden h-9 items-center gap-2 rounded-full bg-neutral-200/80 px-3 md:flex"
+      >
+        <span class="sr-only">搜索</span>
+        <input
+          type="search"
+          placeholder="搜索"
+          class="w-24 bg-transparent text-sm outline-none placeholder:text-neutral-500"
+        />
+        <svg
+          class="size-4 shrink-0 opacity-60"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+        >
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          >
+            <circle cx="11" cy="11" r="8"></circle>
+            <path d="m21 21-4.3-4.3"></path>
+          </g>
+        </svg>
+      </label>
+
+      <div
+        class="hidden items-center gap-2 rounded-full bg-neutral-200/80 px-3 py-1.5 text-xs font-semibold text-neutral-500 md:flex"
+      >
+        <button type="button" class="transition-colors hover:text-amber-900"
+          >EN</button
+        >
+        <span class="text-neutral-400">|</span>
+        <button type="button" class="text-amber-900">中</button>
+      </div>
+    </div>
+  </div>
+</header>

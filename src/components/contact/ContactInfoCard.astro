@@ -1,0 +1,48 @@
+---
+// 联系页：联系信息卡片
+const rows = [
+  [
+    { term: "邮箱", value: "xxxxxxxx.com" },
+    { term: "电话", value: "+86 xxxx-xxxx-xxxx" },
+  ],
+  [
+    { term: "WhatsApp", value: "+86 xxxx xxxx xxxx" },
+    { term: "营业时间", value: "周一至周五: 8:30 – 18:00" },
+  ],
+];
+---
+
+<div class="rounded-2xl bg-[#f8f3ea] p-6 sm:p-8">
+  <h2 class="text-center text-lg font-bold text-[#6b5537]">联系信息</h2>
+  <p class="mt-1 text-center text-xs text-neutral-500">
+    您可以通过以下方式联系我们
+  </p>
+
+  <div class="mt-8 flex flex-col divide-y divide-neutral-200">
+    <!-- 公司 -->
+    <div class="pb-6 text-center">
+      <p class="text-xs font-bold text-neutral-800">MENARO 美纳罗</p>
+      <p class="mt-1 text-xs text-neutral-500">公司名称</p>
+    </div>
+
+    <!-- 邮箱 / 电话 -->
+    {
+      rows.map((row) => (
+        <div class="grid grid-cols-2 gap-4 py-6 text-center">
+          {row.map((cell) => (
+            <div class="flex flex-col gap-1">
+              <p class="text-xs font-bold text-neutral-800">{cell.term}</p>
+              <p class="text-xs text-neutral-500">{cell.value}</p>
+            </div>
+          ))}
+        </div>
+      ))
+    }
+
+    <!-- 总部 -->
+    <div class="pt-6 text-center">
+      <p class="text-xs font-bold text-neutral-800">总部</p>
+      <p class="mt-1 text-xs text-neutral-500">地址地址</p>
+    </div>
+  </div>
+</div>

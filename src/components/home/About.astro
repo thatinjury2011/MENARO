@@ -1,0 +1,54 @@
+---
+// 首页：关于 MENARO（ABOUT 水印 + 品牌卡 + 2×2 价值点）
+import SectionTitle from "../shared/SectionTitle.astro";
+import ValueGrid from "../shared/ValueGrid.astro";
+---
+
+<section class="relative w-full overflow-hidden bg-white px-4 py-16 sm:px-6">
+  <div class="mx-auto max-w-6xl">
+    <!-- 标题 + ABOUT / US 水印 -->
+    <div class="relative flex items-center justify-between">
+      <span
+        class="-ml-4 text-[3.5rem] leading-none font-black tracking-tight text-neutral-200 select-none sm:-ml-8 sm:text-[6rem] lg:text-[7rem]"
+        aria-hidden="true">ABOUT</span
+      >
+      <span
+        class="-mr-4 text-[3.5rem] leading-none font-black tracking-tight text-neutral-200 select-none sm:-mr-8 sm:text-[6rem] lg:text-[7rem]"
+        aria-hidden="true">US</span
+      >
+      <div class="absolute inset-x-0 flex justify-center">
+        <SectionTitle title="关于MENARO" variant="highlight" />
+      </div>
+    </div>
+
+    <!-- 内容卡 -->
+    <div
+      class="mt-10 grid gap-8 rounded-3xl bg-neutral-100 p-6 lg:grid-cols-2 lg:gap-12 lg:p-10"
+    >
+      <!-- 左：品牌 -->
+      <div class="flex flex-col items-center gap-6">
+        <div
+          class="flex w-full items-center justify-center rounded-2xl bg-[#cbb49c] px-12 py-10"
+        >
+          <img
+            src="/images/global/logo.jpg"
+            alt="MENARO 美纳罗"
+            class="h-12 w-auto object-contain"
+          />
+        </div>
+        <p class="max-w-sm text-center text-xs leading-relaxed text-neutral-600">
+          MENARO 是瓷砖铺贴系统解决方案专家，融合意大利技术，提供高端、环保、可靠的产品，服务全球专业项目。
+        </p>
+        <a
+          href="/about"
+          class="rounded-lg bg-[#6b5537] px-6 py-2 text-xs font-semibold text-white transition-colors hover:bg-[#5a4730]"
+        >
+          了解我们
+        </a>
+      </div>
+
+      <!-- 右：价值观 2×2 -->
+      <ValueGrid class="rounded-2xl" />
+    </div>
+  </div>
+</section>

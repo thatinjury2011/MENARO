@@ -1,0 +1,107 @@
+---
+// 项目案例页：筛选标签 + 案例网格（含轻量前端筛选）
+import ProjectCards from "../shared/ProjectCards.astro";
+
+const categories = [
+  { label: "项目案例", value: "all" },
+  { label: "住宅", value: "residence" },
+  { label: "商业", value: "commercial" },
+  { label: "酒店", value: "hotel" },
+  { label: "公共基础设施", value: "public" },
+];
+
+const cases = [
+  {
+    name: "湖畔别墅",
+    location: "意大利科莫",
+    image: "/images/cases/case-1.webp",
+    category: "residence",
+  },
+  {
+    name: "奥瑞利亚酒店",
+    location: "意大利罗马",
+    image: "/images/cases/case-2.webp",
+    category: "hotel",
+  },
+  {
+    name: "绿地商务中心",
+    location: "意大利米兰",
+    image: "/images/cases/case-3.webp",
+    category: "commercial",
+  },
+  {
+    name: "城市地铁站",
+    location: "阿联酋迪拜",
+    image: "/images/cases/case-4.webp",
+    category: "public",
+  },
+  {
+    name: "蔚蓝海湾度假村",
+    location: "泰国普吉岛",
+    image: "/images/cases/case-5.webp",
+    category: "hotel",
+  },
+  {
+    name: "天际企业大厦",
+    location: "新加坡",
+    image: "/images/cases/case-6.webp",
+    category: "commercial",
+  },
+];
+---
+
+<section class="w-full bg-white px-4 py-12 sm:px-6">
+  <div class="mx-auto max-w-7xl">
+    <!-- 筛选标签 -->
+    <div
+      class="flex flex-wrap items-center justify-center gap-2 rounded-2xl bg-neutral-100 p-3"
+    >
+      {
+        categories.map((category, index) => (
+          <button
+            type="button"
+            data-filter={category.value}
+            data-filter-default={index === 0 ? "true" : undefined}
+            class:list={[
+              "flex-1 rounded-xl px-5 py-2.5 text-sm font-semibold whitespace-nowrap transition-colors",
+              index === 0
+                ? "bg-[#6b5537] text-white"
+                : "text-neutral-600 hover:bg-white",
+            ]}
+          >
+            {category.label}
+          </button>
+        ))
+      }
+    </div>
+
+    <!-- 案例网格 -->
+    <div class="mt-6 rounded-3xl bg-[#e9e3d9] p-6 sm:p-8">
+      <ProjectCards items={cases} />
+    </div>
+  </div>
+</section>
+
+<script>
+  const buttons = document.querySelectorAll<HTMLButtonElement>("[data-filter]");
+  const cards = document.querySelectorAll<HTMLElement>("[data-project-card]");
+
+  buttons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const filter = button.dataset.filter ?? "all";
+
+      buttons.forEach((item) => {
+        const active = item === button;
+        item.classList.toggle("bg-[#6b5537]", active);
+        item.classList.toggle("text-white", active);
+        item.classList.toggle("text-neutral-600", !active);
+      });
+
+      cards.forEach((card) => {
+        const visible =
+          filter === "all" || card.dataset.category === filter;
+        card.classList.toggle("hidden", !visible);
+      });
+    });
+  });
+</script>

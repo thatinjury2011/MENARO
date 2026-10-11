@@ -8,11 +8,16 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
+    "stop": "astro dev stop",
     "preview": "astro preview",
     "astro": "astro"
   },
   "dependencies": {
-    "astro": "^7.2.7"
+    "@formspree/ajax": "^1.1.5",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.2.6",
+    "daisyui": "^5.7.22",
+    "tailwindcss": "^4.3.3"
   },
   "allowScripts": {
     "esbuild": true

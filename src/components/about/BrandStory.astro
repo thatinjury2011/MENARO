@@ -1,0 +1,103 @@
+---
+// 关于我们页：品牌故事（MENARO 水印 + 图文卡 + 三大支柱）
+// 图片约定：/images/about/story.webp
+import SectionTitle from "../shared/SectionTitle.astro";
+import Icon from "../shared/Icon.astro";
+
+// 注意：设计稿此处 4 个标签重复写作“专业经验”，暂按语义改写为下列 4 项
+const stats = [
+  { label: "行业经验", value: "20+" },
+  { label: "全球市场", value: "50+" },
+  { label: "合作项目", value: "1000+" },
+  { label: "技术专家", value: "50+" },
+];
+
+const pillars = [
+  {
+    name: "我们的使命",
+    desc: "提供高端、创新、可持续的瓷砖铺贴解决方案，提升每个空间的美观度与耐久性",
+    icon: "sparkles",
+  },
+  {
+    name: "我们的价值观",
+    desc: "质量优先、创新驱动、客户导向、诚信可信",
+    icon: "shield",
+  },
+  {
+    name: "可持续承诺",
+    desc: "低 VOC、水性配方，关注健康与环境保护",
+    icon: "leaf",
+  },
+];
+---
+
+<section class="relative w-full overflow-hidden bg-white px-4 py-16 sm:px-6">
+  <div class="mx-auto max-w-7xl">
+    <!-- 标题 + MENARO 水印 -->
+    <div class="relative flex items-center justify-center">
+      <span
+        class="absolute inset-x-0 text-center text-[4rem] leading-none font-black tracking-tight text-neutral-100 select-none lg:text-[6.5rem]"
+        aria-hidden="true">MENARO</span
+      >
+      <SectionTitle title="品牌故事" variant="highlight" class="relative" />
+    </div>
+
+    <!-- 图文卡 -->
+    <div
+      class="mt-8 grid gap-8 rounded-3xl bg-white p-6 shadow-[0_18px_50px_-24px_rgba(0,0,0,0.3)] lg:grid-cols-2 lg:p-10"
+    >
+      <div class="flex flex-col gap-5">
+        <h3 class="text-xl font-bold text-neutral-800">共同打造更好的空间</h3>
+        <p class="text-xs leading-relaxed text-neutral-500">
+          MENARO 创立于中国，秉持着一个简单信念：空间里的每一个细节都很重要。
+        </p>
+        <p class="text-xs leading-relaxed text-neutral-500">
+          我们研发高性能、环保的瓷砖铺贴解决方案，融合中国技术、高端原材料与严格质量控制。
+        </p>
+
+        <div class="mt-2 grid grid-cols-2 gap-4 sm:grid-cols-4">
+          {
+            stats.map((stat) => (
+              <div class="flex flex-col gap-1">
+                <span class="text-[10px] text-neutral-500">{stat.label}</span>
+                <span class="text-lg font-bold text-neutral-800">
+                  {stat.value}
+                </span>
+              </div>
+            ))
+          }
+        </div>
+
+        <div
+          class="mt-2 w-fit rounded-lg border border-neutral-300 px-5 py-2 text-center"
+        >
+          <p class="text-sm font-semibold text-neutral-800">中国制造</p>
+          <p class="text-[10px] text-neutral-500">以中国专业力与热情打造</p>
+        </div>
+      </div>
+
+      <img
+        src="/images/about/story.webp"
+        alt="品牌故事"
+        class="h-72 w-full rounded-2xl object-cover lg:h-full"
+      />
+    </div>
+
+    <!-- 三大支柱 -->
+    <div
+      class="mt-10 grid grid-cols-1 divide-y divide-neutral-200 rounded-2xl bg-white py-2 text-center sm:grid-cols-3 sm:divide-x sm:divide-y-0"
+    >
+      {
+        pillars.map((pillar) => (
+          <div class="flex flex-col items-center gap-2 px-6 py-8">
+            <Icon name={pillar.icon} class="size-6 text-amber-700/80" />
+            <h3 class="text-sm font-bold text-neutral-800">{pillar.name}</h3>
+            <p class="text-xs leading-relaxed text-neutral-500">
+              {pillar.desc}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

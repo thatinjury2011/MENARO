@@ -1,0 +1,51 @@
+---
+// 跨页公共：项目卡片网格（首页 项目亮点 / 项目案例页共用）
+interface Project {
+  name: string;
+  location: string;
+  image: string;
+  href?: string;
+  category?: string;
+}
+
+interface Props {
+  items: Project[];
+  columns?: 3 | 4;
+  class?: string;
+}
+
+const { items, columns = 3, class: className = "" } = Astro.props;
+---
+
+<div
+  class:list={[
+    "grid grid-cols-1 gap-4 sm:grid-cols-2",
+    columns === 4 ? "lg:grid-cols-4" : "lg:grid-cols-3",
+    className,
+  ]}
+>
+  {
+    items.map((project) => (
+      <a
+        href={project.href ?? "#"}
+        data-project-card
+        data-category={project.category ?? "all"}
+        class="group relative block overflow-hidden rounded-2xl"
+      >
+        <img
+          src={project.image}
+          alt={project.name}
+          class="h-64 w-full object-cover transition-transform duration-300 group-hover:scale-105"
+        />
+        <div class="absolute bottom-5 left-5 flex flex-col gap-0.5">
+          <span class="text-2xl font-bold text-white drop-shadow-lg">
+            {project.name}
+          </span>
+          <span class="text-xs text-white/90 drop-shadow">
+            {project.location}
+          </span>
+        </div>
+      </a>
+    ))
+  }
+</div>

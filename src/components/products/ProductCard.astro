@@ -1,0 +1,37 @@
+---
+// 产品页：单个产品卡片
+interface Props {
+  name: string;
+  description: string;
+  keywords: string[];
+  image: string;
+  href?: string;
+}
+
+const { name, description, keywords, image, href = "#" } = Astro.props;
+---
+
+<article
+  class="flex w-full flex-col rounded-2xl bg-white p-4 shadow-[0_18px_50px_-24px_rgba(0,0,0,0.3)] transition-shadow hover:shadow-[0_24px_60px_-24px_rgba(0,0,0,0.4)]"
+>
+  <figure class="flex h-36 items-center justify-center">
+    <img src={image} alt={name} class="max-h-full w-auto object-contain" />
+  </figure>
+
+  <div class="mt-4 flex flex-1 flex-col items-center gap-2 text-center">
+    <h3 class="text-base font-bold text-neutral-800">{name}</h3>
+    <p class="text-xs leading-relaxed text-neutral-500">{description}</p>
+    <a
+      href={href}
+      class="mt-auto pt-2 text-xs font-medium text-amber-700 transition-colors hover:text-amber-800"
+    >
+      查看详情&gt;&gt;
+    </a>
+  </div>
+
+  <ul
+    class="mt-4 flex flex-wrap items-center justify-center gap-x-2 gap-y-1 rounded-sm bg-amber-700/80 px-3 py-1.5 text-[10px] text-white"
+  >
+    {keywords.map((keyword) => <li>· {keyword}</li>)}
+  </ul>
+</article>

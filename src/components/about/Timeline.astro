@@ -1,0 +1,51 @@
+---
+// 关于我们页：发展历程（横向时间轴，lg 下上下交错）
+import SectionTitle from "../shared/SectionTitle.astro";
+
+const milestones = [
+  { year: "2004", label: "MENARO在中国创立" },
+  { year: "2008", label: "推出首条水性环氧美缝产品线" },
+  { year: "2012", label: "拓展国际市场" },
+  { year: "2016", label: "推出环保型系统方案" },
+  { year: "2020", label: "进一步强化全球布局" },
+  { year: "2024+", label: "持续面向全球创新" },
+];
+---
+
+<section class="w-full bg-white px-4 py-16 sm:px-6">
+  <div class="mx-auto max-w-7xl">
+    <SectionTitle title="发展历程" variant="highlight" />
+
+    <div class="relative mt-12">
+      <!-- 时间轴横线（仅大屏） -->
+      <div
+        class="absolute inset-x-0 top-1/2 hidden h-px -translate-y-1/2 bg-neutral-300 lg:block"
+      >
+      </div>
+
+      <ol class="relative grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6 lg:gap-0">
+        {
+          milestones.map((item, index) => {
+            const above = index % 2 === 1;
+            return (
+              <li class="relative flex flex-col items-center lg:h-40">
+                <span class="absolute top-1/2 hidden size-2.5 -translate-y-1/2 rounded-full bg-[#6b5537] lg:block" />
+                <div
+                  class:list={[
+                    "flex flex-col items-center gap-0.5 text-center lg:absolute lg:inset-x-0",
+                    above ? "lg:bottom-1/2 lg:mb-5" : "lg:top-1/2 lg:mt-5",
+                  ]}
+                >
+                  <p class="text-base font-bold text-neutral-800">{item.year}</p>
+                  <p class="text-[10px] leading-relaxed text-neutral-500">
+                    {item.label}
+                  </p>
+                </div>
+              </li>
+            );
+          })
+        }
+      </ol>
+    </div>
+  </div>
+</section>

@@ -1,0 +1,63 @@
+---
+// 跨页公共：特性徽章组（Hero 内 2×2 / 区块内 2×2）
+// tone=light → 白字（暗底）；tone=dark → 深灰字（浅底）
+// orientation=inline → 图标在左；stacked → 图标在上（居中）
+interface Badge {
+  name: string;
+  desc?: string;
+  icon?: string;
+}
+
+interface Props {
+  items: Badge[];
+  tone?: "light" | "dark";
+  orientation?: "inline" | "stacked";
+  class?: string;
+}
+
+import Icon from "./Icon.astro";
+
+const {
+  items,
+  tone = "light",
+  orientation = "inline",
+  class: className = "",
+} = Astro.props;
+
+const stacked = orientation === "stacked";
+const nameColor = tone === "light" ? "text-white" : "text-neutral-800";
+const descColor = tone === "light" ? "text-white/70" : "text-neutral-500";
+const iconColor = tone === "light" ? "text-amber-700/90" : "text-amber-700";
+---
+
+<ul
+  class:list={[
+    "grid grid-cols-1 sm:grid-cols-2",
+    stacked ? "gap-x-6 gap-y-8" : "gap-x-6 gap-y-4",
+    className,
+  ]}
+>
+  {
+    items.map((item) => (
+      <li
+        class:list={[
+          "flex gap-2",
+          stacked ? "flex-col items-center gap-1 text-center" : "items-center",
+        ]}
+      >
+        <Icon
+          name={item.icon ?? (stacked ? "check" : "plusCircle")}
+          class:list={["shrink-0 size-6", iconColor]}
+        />
+        <div class:list={[stacked && "flex flex-col items-center gap-0.5"]}>
+          <p class:list={["text-sm font-medium", nameColor]}>{item.name}</p>
+          {item.desc && (
+            <p class:list={["text-xs leading-relaxed", descColor]}>
+              {item.desc}
+            </p>
+          )}
+        </div>
+      </li>
+    ))
+  }
+</ul>

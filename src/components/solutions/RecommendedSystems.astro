@@ -1,0 +1,58 @@
+---
+// 解决方案页：推荐系统（5 卡一行 + 竖分隔）
+import SectionTitle from "../shared/SectionTitle.astro";
+
+const systems = [
+  {
+    name: "界面底漆",
+    desc: "增强基层附着力，封闭表面",
+    image: "/images/solutions/sys-primer.png",
+  },
+  {
+    name: "瓷砖胶系统",
+    desc: "提供稳定可靠的瓷砖粘贴系统",
+    image: "/images/solutions/sys-glue.png",
+  },
+  {
+    name: "环氧彩砂",
+    desc: "高端填缝材料，防水、耐污、耐久",
+    image: "/images/solutions/sys-epoxy.png",
+  },
+  {
+    name: "柔性密封胶",
+    desc: "适用于厨房和卫浴缝隙的柔性密封",
+    image: "/images/solutions/sys-sealant.png",
+  },
+  {
+    name: "清洁护理剂",
+    desc: "用于日常清洁与深度护理",
+    image: "/images/solutions/sys-cleaner.png",
+  },
+];
+---
+
+<section class="w-full bg-white px-4 py-16 sm:px-6">
+  <div class="mx-auto max-w-6xl">
+    <SectionTitle title="推荐系统" />
+
+    <div
+      class="mt-10 flex flex-col divide-y divide-neutral-200 rounded-2xl bg-white px-4 py-6 shadow-[0_18px_50px_-24px_rgba(0,0,0,0.25)] sm:flex-row sm:divide-x sm:divide-y-0"
+    >
+      {
+        systems.map((system) => (
+          <div class="flex flex-1 flex-col items-center gap-2 px-4 py-4 text-center">
+            <img
+              src={system.image}
+              alt={system.name}
+              class="h-16 w-auto object-contain"
+            />
+            <h3 class="text-sm font-bold text-neutral-800">{system.name}</h3>
+            <p class="text-xs leading-relaxed text-neutral-500">
+              {system.desc}
+            </p>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

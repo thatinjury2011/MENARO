@@ -1,0 +1,86 @@
+---
+// 产品页：产品网格（背景水印 + 顶部人物图 + 3+2 卡片布局）
+import ProductCard from "./ProductCard.astro";
+
+const products = [
+  {
+    id: 1,
+    name: "水性环氧彩砂",
+    description: "色彩稳定、耐污耐磨，适用于高端瓷砖缝隙美化",
+    keywords: ["低VOC", "耐污", "色彩稳定", "防霉"],
+    image: "/images/products/sealing.png",
+  },
+  {
+    id: 2,
+    name: "高性能瓷砖胶",
+    description: "粘结力强，施工顺滑，适用于多种瓷砖铺贴场景",
+    keywords: ["强粘结", "易施工", "环保配方", "耐久"],
+    image: "/images/products/tile-glue.png",
+  },
+  {
+    id: 3,
+    name: "环氧美缝添加剂",
+    description: "提升美缝材料性能，让整体铺贴系统更耐用",
+    keywords: ["防水", "抗裂", "细腻表面", "长效耐用"],
+    image: "/images/products/epoxy-additive.png",
+  },
+  {
+    id: 4,
+    name: "柔性防水涂料",
+    description: "为卫浴、阳台等潮湿区域提供可靠防水保护",
+    keywords: ["柔韧", "安全", "防护", "稳定"],
+    image: "/images/products/waterproof.png",
+  },
+  {
+    id: 5,
+    name: "瓷砖铺贴工具配件",
+    description: "专业工具与配件，帮助实现更精准的铺贴效果",
+    keywords: ["精准", "完整", "可靠", "专业"],
+    image: "/images/products/tools.png",
+  },
+];
+
+// 3+2 布局：前 3 张铺满一行，后 2 张居中
+const gridClass = (index: number) => {
+  if (index < 3) return "sm:col-span-1 lg:col-span-2";
+  return index === 3
+    ? "sm:col-span-1 lg:col-span-2 lg:col-start-2"
+    : "sm:col-span-1 lg:col-span-2 lg:col-start-4";
+};
+---
+
+<section class="relative w-full overflow-hidden bg-white px-4 py-16 sm:px-6">
+  <!-- 背景水印 -->
+  <span
+    class="pointer-events-none absolute top-1/2 left-0 hidden -translate-y-1/2 -rotate-90 text-[9rem] leading-none font-black tracking-tighter text-neutral-100 select-none lg:block"
+    aria-hidden="true">Product</span
+  >
+
+  <div class="relative mx-auto max-w-7xl">
+    <!-- 顶部人物图：/images/global/lab-expert.webp -->
+    <div class="relative z-10 -mb-16 hidden justify-center md:flex">
+      <img
+        src="/images/global/lab-expert.webp"
+        alt=""
+        class="h-72 w-auto object-contain"
+      />
+    </div>
+
+    <div
+      class="relative z-20 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-6"
+    >
+      {
+        products.map((product, index) => (
+          <div class:list={["flex", gridClass(index)]}>
+            <ProductCard
+              name={product.name}
+              description={product.description}
+              keywords={product.keywords}
+              image={product.image}
+            />
+          </div>
+        ))
+      }
+    </div>
+  </div>
+</section>

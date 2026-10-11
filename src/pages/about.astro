@@ -1,0 +1,23 @@
+---
+import BrandStory from "../components/about/BrandStory.astro";
+import Timeline from "../components/about/Timeline.astro";
+import Values from "../components/about/Values.astro";
+import CtaSection from "../components/shared/CtaSection.astro";
+import PageHero from "../components/shared/PageHero.astro";
+import Layout from "../layouts/Layout.astro";
+---
+
+<Layout title="关于我们 | MENARO 美纳罗">
+  <PageHero
+    label="MENARO"
+    title="关于MENARO"
+    subtitle="源自意大利的高端瓷砖铺贴解决方案"
+    description="诞生于意大利，驱动于创新，深受全球专业人士信赖"
+    bgImage="/images/about/hero.webp"
+  />
+
+  <BrandStory />
+  <Timeline />
+  <Values />
+  <CtaSection />
+</Layout>
