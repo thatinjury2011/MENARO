@@ -5,10 +5,23 @@ import SiteFooter from "../components/global/SiteFooter.astro";
 import SiteHeader from "../components/global/SiteHeader.astro";
 
 interface Props {
+  /** 页面名 → 输出「页面名 | MENARO 美纳罗」 */
   title?: string;
+  /** 首页用：把品牌放前面 → 输出「MENARO 美纳罗 | 页面名」 */
+  brandFirst?: boolean;
 }
 
-const { title = "MENARO 美纳罗 | 高端瓷砖铺贴材料" } = Astro.props;
+// 品牌名全站只在这里出现一次：各页面只传自己的页面名，后缀由布局统一拼。
+// 以后改站名只需改这一行。
+const BRAND = "MENARO 美纳罗";
+
+const { title, brandFirst = false } = Astro.props;
+
+const pageTitle = title
+  ? brandFirst
+    ? `${BRAND} | ${title}`
+    : `${title} | ${BRAND}`
+  : BRAND;
 ---
 
 <!doctype html>
@@ -21,9 +34,9 @@ const { title = "MENARO 美纳罗 | 高端瓷砖铺贴材料" } = Astro.props;
     <meta name="generator" content={Astro.generator} />
     <meta
       name="description"
-      content="MENARO 美纳罗 —— 高端瓷砖铺贴材料与系统解决方案：水性环氧彩砂、瓷砖胶、美缝添加剂、防水涂料与铺贴工具配件。"
+      content="MENARO 美纳罗 —— 美纳罗建筑材料与系统解决方案：水性环氧彩砂、瓷砖胶、美缝添加剂、防水涂料与铺贴工具配件。"
     />
-    <title>{title}</title>
+    <title>{pageTitle}</title>
   </head>
   <body class="min-h-screen bg-white text-neutral-800 antialiased">
     <SiteHeader />

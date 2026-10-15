@@ -1,6 +1,7 @@
 ---
 // 联系页：WhatsApp 二维码 + 数据条
-// 图片约定：/images/contact/qr.png
+// 图片约定：/images/global/whatsapp-qr.png
+//   透明底 + 白色码点，必须配深色底才看得见（不可再用 bg-white）
 import StatsBar from "../shared/StatsBar.astro";
 
 const stats = [
@@ -22,9 +23,9 @@ const stats = [
         扫描二维码添加 WhatsApp<br />便于快速沟通
       </p>
       <img
-        src="/images/contact/qr.png"
+        src="/images/global/whatsapp-qr.png"
         alt="WhatsApp 二维码"
-        class="mt-2 size-28 rounded-lg bg-white object-contain p-2"
+        class="mt-2 size-28 rounded-lg bg-[#4a3a24] object-contain p-2"
       />
     </div>
 
