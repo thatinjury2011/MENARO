@@ -1,6 +1,14 @@
 ---
 // 全站公共：顶部导航（logo + 主导航 + 获取报价 + 搜索 + 语言切换）
 // 图片约定：/images/global/logo.webp（透明底 logo）
+//
+// 响应式：
+//   ≥ lg(1024px)：主导航横排显示；汉堡按钮与移动面板隐藏
+//   < lg        ：主导航隐藏 → 改用汉堡按钮展开下方全宽面板。
+//                 面板里同时补上搜索与语言切换（这两项本身在 < md 时也是隐藏的），
+//                 否则小屏既进不了主导航、也用不到搜索/切语言。
+import Icon from "../shared/Icon.astro";
+
 const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
 
 const navItems = [
@@ -16,21 +24,24 @@ const isActive = (href: string) =>
   href === "/" ? currentPath === "/" : currentPath === href;
 ---
 
-<header class="w-full bg-white">
+<header class="relative z-50 w-full bg-white">
   <div
-    class="mx-auto flex max-w-7xl items-center justify-between gap-6 px-4 py-2 sm:px-6"
+    class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-2 sm:gap-6 sm:px-6"
   >
-    <!-- Logo -->
+    <!-- Logo（小屏收窄，为汉堡按钮让出位置） -->
     <a href="/" class="shrink-0" aria-label="MENARO 首页">
       <img
         src="/images/global/logo.webp"
         alt="MENARO 美纳罗"
-        class="h-14 w-auto object-contain"
+        class="h-10 w-auto object-contain sm:h-14"
       />
     </a>
 
-    <!-- 主导航 -->
-    <nav class="hidden items-center gap-1 text-amber-900 lg:flex">
+    <!-- 主导航（lg 起显示） -->
+    <nav
+      class="hidden items-center gap-1 text-amber-900 lg:flex"
+      aria-label="主导航"
+    >
       {
         navItems.map((item) => (
           <a
@@ -53,7 +64,7 @@ const isActive = (href: string) =>
         href="/quote"
         aria-current={isActive("/quote") ? "page" : undefined}
         class:list={[
-          "rounded-lg bg-amber-950/90 px-4 py-2 text-sm font-bold text-white transition-colors hover:bg-amber-900",
+          "rounded-lg bg-amber-950/90 px-3 py-2 text-sm font-bold text-white transition-colors hover:bg-amber-900 sm:px-4",
           isActive("/quote") && "ring-2 ring-amber-400",
         ]}
       >
@@ -96,6 +107,155 @@ const isActive = (href: string) =>
         <span class="text-neutral-400">|</span>
         <button type="button" class="text-amber-900">中</button>
       </div>
+
+      <!-- 汉堡按钮（< lg）：展开移动端导航面板 -->
+      <button
+        type="button"
+        data-nav-toggle
+        aria-expanded="false"
+        aria-controls="site-mobile-nav"
+        aria-label="打开导航菜单"
+        class="-mr-1 flex size-10 shrink-0 items-center justify-center rounded-lg text-amber-950 transition-colors hover:bg-amber-900/10 lg:hidden"
+      >
+        <svg
+          class="nav-icon-menu size-6"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="M4 7h16"></path>
+          <path d="M4 12h16"></path>
+          <path d="M4 17h16"></path>
+        </svg>
+        <svg
+          class="nav-icon-close size-6"
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          aria-hidden="true"
+        >
+          <path d="m6 6 12 12"></path>
+          <path d="M18 6 6 18"></path>
+        </svg>
+      </button>
     </div>
   </div>
+
+  <!-- 移动端导航面板（< lg）：补上被隐藏的主导航 + 搜索 + 语言切换 -->
+  <div
+    id="site-mobile-nav"
+    data-nav-panel
+    class="absolute inset-x-0 top-full z-50 hidden border-t border-neutral-200 bg-white shadow-[0_22px_45px_-24px_rgba(0,0,0,0.45)] lg:hidden"
+  >
+    <nav class="mx-auto max-w-7xl px-4 pt-1 pb-3 sm:px-6" aria-label="移动端导航">
+      <ul class="flex flex-col divide-y divide-neutral-100">
+        {
+          navItems.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                aria-current={isActive(item.href) ? "page" : undefined}
+                class:list={[
+                  "flex items-center justify-between px-2 py-3 text-sm font-bold transition-colors",
+                  isActive(item.href)
+                    ? "text-amber-900"
+                    : "text-neutral-700 hover:text-amber-900",
+                ]}
+              >
+                {item.label}
+                <Icon name="arrowRight" class="size-4 opacity-25" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+
+      <div
+        class="mt-3 flex flex-col gap-3 border-t border-neutral-100 pt-4 md:hidden"
+      >
+        <label
+          class="flex h-10 items-center gap-2 rounded-full bg-neutral-200/80 px-4"
+        >
+          <span class="sr-only">搜索</span>
+          <input
+            type="search"
+            placeholder="搜索"
+            class="w-full bg-transparent text-sm outline-none placeholder:text-neutral-500"
+          />
+          <Icon name="search" class="size-4 shrink-0 opacity-60" />
+        </label>
+
+        <div
+          class="flex w-fit items-center gap-2 rounded-full bg-neutral-200/80 px-4 py-1.5 text-xs font-semibold text-neutral-500"
+        >
+          <button type="button" class="transition-colors hover:text-amber-900"
+            >EN</button
+          >
+          <span class="text-neutral-400">|</span>
+          <button type="button" class="text-amber-900">中</button>
+        </div>
+      </div>
+    </nav>
+  </div>
 </header>
+
+<style>
+  /* 汉堡图标切换：直接由按钮自身的 aria-expanded 驱动，省掉 JS 改 class */
+  [data-nav-toggle][aria-expanded="false"] .nav-icon-close {
+    display: none;
+  }
+  [data-nav-toggle][aria-expanded="true"] .nav-icon-menu {
+    display: none;
+  }
+</style>
+
+<script>
+  const navToggle = document.querySelector<HTMLButtonElement>("[data-nav-toggle]");
+  const navPanel = document.querySelector<HTMLElement>("[data-nav-panel]");
+
+  if (navToggle && navPanel) {
+    const setOpen = (open: boolean) => {
+      navPanel.classList.toggle("hidden", !open);
+      navToggle.setAttribute("aria-expanded", String(open));
+      navToggle.setAttribute("aria-label", open ? "关闭导航菜单" : "打开导航菜单");
+    };
+
+    navToggle.addEventListener("click", () => {
+      setOpen(navPanel.classList.contains("hidden"));
+    });
+
+    // 点任意链接后收起
+    navPanel.addEventListener("click", (event) => {
+      if ((event.target as HTMLElement).closest("a")) setOpen(false);
+    });
+
+    // 点面板外收起
+    document.addEventListener("click", (event) => {
+      const target = event.target as Node;
+      if (
+        !navPanel.classList.contains("hidden") &&
+        !navPanel.contains(target) &&
+        !navToggle.contains(target)
+      ) {
+        setOpen(false);
+      }
+    });
+
+    // Esc 收起
+    document.addEventListener("keydown", (event) => {
+      if (event.key === "Escape") setOpen(false);
+    });
+
+    // 跨过 lg(64rem) 断点时收起，避免展开状态残留在桌面布局里
+    window
+      .matchMedia("(min-width: 64rem)")
+      .addEventListener("change", () => setOpen(false));
+  }
+</script>
