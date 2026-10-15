@@ -1,46 +1,43 @@
----
+﻿---
 // 全站公共：页脚（品牌 + 社交 + 四列链接 + 版权条）
-const productLinks = [
-  { label: "水性环氧彩砂", href: "/products" },
-  { label: "瓷砖胶", href: "/products" },
-  { label: "美缝添加剂", href: "/products" },
-  { label: "辅贴工具配件", href: "/products" },
-];
+// 文案与链接来自 src/data/site.ts；「产品」列来自 src/data/products.ts 的 show.footer
+import { listBy } from "../../data/products/catalog";
+import {
+  footerCompanyLinks,
+  footerSolutionLinks,
+  footerUi,
+  socials,
+} from "../../data/global/footer";
+import { brandName, contact, contactLabels, legalName } from "../../data/site";
+const t = footerUi.zh;
 
-const solutionLinks = [
-  { label: "住宅空间", href: "/solutions" },
-  { label: "商业空间", href: "/solutions" },
-  { label: "浴室与厨房", href: "/solutions" },
-  { label: "公共基础", href: "/solutions" },
-];
+const productLinks = listBy("footer").map((product) => ({
+  label: product.shortName ?? product.name,
+  href: "/products",
+}));
 
-const companyLinks = [
-  { label: "品牌故事", href: "/about" },
-  { label: "品质保障", href: "/about" },
-  { label: "项目案例", href: "/cases" },
-  { label: "联系我们", href: "/contact" },
-];
+const solutionLinks = footerSolutionLinks.map((link) => ({
+  href: link.href,
+  label: link.zh.label,
+}));
 
-const contactLines = [
-  "+86 133 2600 6020",
-  "wangup@menarobm.com",
-  "WhatsApp: +86 133 2600 6020",
-  "浙江省台州市椒江区洪家街道银河名苑15幢三单元1501室"
-];
-
-// 社交图标（线性图标，内联避免额外依赖）
-const socials = [
-  { name: "Instagram", d: '<rect x="3.5" y="3.5" width="17" height="17" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="16.8" cy="7.2" r="1"/>' },
-  { name: "Facebook", d: '<path d="M14.5 8.5H17V5.5h-2.5A4 4 0 0 0 10.5 9.5V12H8v3h2.5v6h3v-6h2.6l.6-3h-3.2V9.6a1 1 0 0 1 1-1.1Z"/>' },
-  { name: "YouTube", d: '<rect x="3" y="6" width="18" height="12" rx="4"/><path d="m11 9.8 3.3 2.2-3.3 2.2V9.8Z"/>' },
-  { name: "LinkedIn", d: '<rect x="3.5" y="3.5" width="17" height="17" rx="3"/><path d="M7.5 10.5V17"/><path d="M7.5 7.2v.1"/><path d="M11.5 17v-4a2 2 0 0 1 4 0v4"/>' },
-  { name: "X", d: '<path d="M4.5 4.5l15 15"/><path d="M19.5 4.5l-15 15"/>' },
-];
+const companyLinks = footerCompanyLinks.map((link) => ({
+  href: link.href,
+  label: link.zh.label,
+}));
 
 const linkGroups = [
-  { title: "产品", links: productLinks },
-  { title: "解决方案", links: solutionLinks },
-  { title: "公司", links: companyLinks },
+  { title: t.groupProducts, links: productLinks },
+  { title: t.groupSolutions, links: solutionLinks },
+  { title: t.groupCompany, links: companyLinks },
+];
+
+// 联系区从 src/data/site.ts 的 contact 派生，改一次全站生效
+const contactLines = [
+  contact.phone.value,
+  contact.email.value,
+  `${contactLabels.zh.whatsapp}: ${contact.whatsapp.value}`,
+  contact.address.zh.full,
 ];
 ---
 
@@ -53,14 +50,14 @@ const linkGroups = [
       <div class="flex flex-col gap-4">
         <img
           src="/images/global/logo.webp"
-          alt="MENARO 美纳罗"
+          alt={brandName.zh}
           class="h-12 w-auto object-contain"
         />
         <p class="max-w-xs text-xs leading-relaxed">
-          源自意大利技术，结合高端品质，为全球项目提供可靠、环保的瓷砖铺贴系统解决方案。
+          {t.blurb}
         </p>
         <p class="text-[10px] leading-relaxed text-amber-50/45">
-          Legal company name: 台州市东廷科技有限公司
+          {t.legalPrefix}{legalName}
         </p>
       </div>
 
@@ -69,7 +66,7 @@ const linkGroups = [
         {
           socials.map((social) => (
             <a
-              href="#"
+              href={social.href}
               aria-label={social.name}
               class="flex size-8 items-center justify-center rounded-full border border-amber-50/25 text-amber-50/70 transition-colors hover:border-amber-50/60 hover:text-amber-50"
             >
@@ -113,7 +110,7 @@ const linkGroups = [
 
       <!-- 联系我们 -->
       <div class="flex flex-col gap-3">
-        <h3 class="text-sm font-bold text-white">联系我们</h3>
+        <h3 class="text-sm font-bold text-white">{t.contactTitle}</h3>
         <ul class="flex flex-col gap-2 text-xs">
           {contactLines.map((line) => <li>{line}</li>)}
         </ul>
@@ -129,10 +126,10 @@ const linkGroups = [
         alt="MENARO"
         class="h-9 w-auto object-contain"
       />
-      <p>© 2025 MENARO. 保留所有权利.</p>
+      <p>{t.copyright}</p>
       <div class="flex items-center gap-6">
-        <a href="#" class="transition-colors hover:text-white">隐私政策</a>
-        <a href="#" class="transition-colors hover:text-white">使用条款</a>
+        <a href="#" class="transition-colors hover:text-white">{t.privacy}</a>
+        <a href="#" class="transition-colors hover:text-white">{t.terms}</a>
       </div>
     </div>
   </div>

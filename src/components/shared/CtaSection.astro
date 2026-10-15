@@ -1,6 +1,9 @@
 ---
 // 跨页公共：底部行动号召（产品页 / 解决方案页共用）
 // 图片约定：image → /images/global/team-cta.webp（团队图，建议透明底）
+// 默认文案来自 src/data/site.ts 的 ctaDefaults，各页可覆盖
+import { ctaDefaults } from "../../data/shared/ctaSection";
+
 interface Props {
   title?: string;
   description?: string;
@@ -9,10 +12,12 @@ interface Props {
   image?: string;
 }
 
+const t = ctaDefaults.zh;
+
 const {
-  title = "需要定制项目方案？",
-  description = "我们的专家团队可提供专业建议和定制化解决方案",
-  buttonText = "立即获取报价",
+  title = t.title,
+  description = t.description,
+  buttonText = t.buttonText,
   href = "/quote",
   image = "/images/global/team-cta.webp",
 } = Astro.props;

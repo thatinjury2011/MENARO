@@ -7,22 +7,18 @@ import ContactInfoCard from "./ContactInfoCard.astro";
 import HelpOptions from "./HelpOptions.astro";
 import Location from "./Location.astro";
 import MessageCard from "./MessageCard.astro";
+import { contactPageContent } from "../../data/contact/contactPage";
 
-const heroFeatures = [
-  { name: "快速响应" },
-  { name: "专家支持" },
-  { name: "全球服务" },
-  { name: "可靠品质" },
-];
+const t = contactPageContent.zh;
 ---
 
 <PageHero
-  label="MENARO"
-  title="联系 · 获取报价"
-  subtitle="有问题或项目需求？"
+  label={t.hero.label}
+  title={t.hero.title}
+  subtitle={t.hero.subtitle}
   subtitleClass="text-white"
-  description="我们的团队将帮助您找到合适的解决方案"
-  features={heroFeatures}
+  description={t.hero.description}
+  features={t.hero.features}
   bgImage="/images/contact/hero.webp"
 />
 
@@ -37,7 +33,4 @@ const heroFeatures = [
 <Location />
 <HelpOptions />
 <ConnectPanel />
-<CtaSection
-  title="还有其他问题？"
-  description="我们的专家团队可提供专业建议和定制化解决方案"
-/>
+<CtaSection title={t.cta.title} description={t.cta.description} />

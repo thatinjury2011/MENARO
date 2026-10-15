@@ -1,13 +1,9 @@
 ---
 // 产品页：4 个核心卖点条
 import Icon from "../shared/Icon.astro";
+import { featureBar } from "../../data/products/featureBar";
 
-const features = [
-  { name: "低VOC", desc: "环保配方，更适合室内空间使用", icon: "leaf" },
-  { name: "耐污性能", desc: "有效抵抗污渍和灰尘，清洁更轻松", icon: "shield" },
-  { name: "色彩稳定", desc: "长久保持色彩表现，不易褪色", icon: "droplet" },
-  { name: "易于施工", desc: "施工手感顺滑，呈现专业饰面效果", icon: "brush" },
-];
+const t = featureBar.zh;
 ---
 
 <section class="w-full px-4 pt-14 sm:px-6">
@@ -15,7 +11,7 @@ const features = [
     class="mx-auto flex max-w-6xl flex-col divide-y divide-neutral-200 rounded-2xl bg-white px-4 py-8 shadow-[0_18px_50px_-24px_rgba(0,0,0,0.25)] sm:flex-row sm:divide-x sm:divide-y-0"
   >
     {
-      features.map((feature) => (
+      t.features.map((feature) => (
         <div class="flex flex-1 flex-col items-center gap-2 px-6 py-4 text-center">
           <Icon name={feature.icon} class="size-7 text-amber-700" />
           <h3 class="text-sm font-bold text-neutral-800">{feature.name}</h3>

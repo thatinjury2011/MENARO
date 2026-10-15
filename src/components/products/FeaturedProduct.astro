@@ -1,17 +1,14 @@
----
+﻿---
 // 产品页：精选产品（左文右图）
 // 图片约定：/images/products/featured.webp
+// 上这个板块的产品由 src/data/products.ts 里每条记录的 show.featured 决定
 import SectionTitle from "../shared/SectionTitle.astro";
 import Icon from "../shared/Icon.astro";
+import { oneBy } from "../../data/products/catalog";
+import { featuredProduct } from "../../data/products/featuredProduct";
 
-const highlights = [
-  "先进水性环氧技术带来出色强度",
-  "耐污性能和色彩一致性，适用于高端瓷砖铺贴空间",
-  "水性环保，低 VOC，环保友好",
-  "高强度、耐磨，经久耐用",
-  "丰富色彩选择，稳定性出色",
-  "适用于高端住宅和商业项目",
-];
+const product = oneBy("featured");
+const t = featuredProduct.zh;
 ---
 
 <section class="relative w-full overflow-hidden bg-white px-4 py-16 sm:px-6">
@@ -21,29 +18,29 @@ const highlights = [
   >
 
   <div class="relative mx-auto max-w-6xl">
-    <SectionTitle title="精选产品" />
+    <SectionTitle title={t.title} />
 
     <div
       class="mt-8 grid items-stretch gap-8 rounded-3xl bg-white p-6 shadow-[0_18px_50px_-24px_rgba(0,0,0,0.3)] md:grid-cols-2 md:p-8"
     >
       <div class="flex flex-col items-start justify-center gap-4">
-        <h3 class="text-xl font-bold text-neutral-800">水性环氧彩砂</h3>
+        <h3 class="text-xl font-bold text-neutral-800">{product.name}</h3>
         <ul class="flex flex-col gap-1.5 text-xs leading-relaxed text-neutral-500">
-          {highlights.map((item) => <li>{item}</li>)}
+          {product.highlights?.map((item) => <li>{item}</li>)}
         </ul>
         <a
           href="/products"
           class="mt-2 inline-flex items-center gap-2 rounded-lg border border-neutral-300 px-5 py-2 text-xs font-medium text-neutral-700 transition-colors hover:bg-neutral-50"
         >
-          查看产品详情
+          {t.detailLink}
           <Icon name="arrowRight" class="size-4" />
         </a>
       </div>
 
       <div class="overflow-hidden rounded-2xl">
         <img
-          src="/images/products/featured.webp"
-          alt="水性环氧彩砂"
+          src={product.bannerImage ?? product.image}
+          alt={product.name}
           class="h-full min-h-64 w-full object-cover"
         />
       </div>

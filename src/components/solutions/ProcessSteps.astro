@@ -2,26 +2,20 @@
 // 解决方案页：施工流程（6 步 + 竖分隔）
 import SectionTitle from "../shared/SectionTitle.astro";
 import Icon from "../shared/Icon.astro";
+import { processSteps } from "../../data/solutions/processSteps";
 
-const steps = [
-  { name: "基层处理", desc: "清洁并找平基层", icon: "layers" },
-  { name: "底涂处理", desc: "涂刷底漆并等待干燥", icon: "roller" },
-  { name: "瓷砖铺贴", desc: "使用瓷砖胶完成铺贴", icon: "tile" },
-  { name: "填缝美化", desc: "使用环氧彩砂填充缝隙", icon: "brush" },
-  { name: "边角密封", desc: "密封边角和伸缩缝", icon: "seal" },
-  { name: "表面清洁", desc: "清洁表面，呈现最终效果", icon: "sparkles" },
-];
+const t = processSteps.zh;
 ---
 
 <section class="w-full bg-white px-4 py-16 sm:px-6">
   <div class="mx-auto max-w-7xl">
-    <SectionTitle title="施工流程" />
+    <SectionTitle title={t.title} />
 
     <div
       class="mt-10 flex flex-col divide-y divide-neutral-200 rounded-2xl bg-white px-4 py-6 shadow-[0_18px_50px_-24px_rgba(0,0,0,0.25)] sm:flex-row sm:divide-x sm:divide-y-0"
     >
       {
-        steps.map((step) => (
+        t.steps.map((step) => (
           <div class="flex flex-1 flex-col items-center gap-2 px-3 py-4 text-center">
             <Icon name={step.icon} class="size-7 text-amber-700/80" />
             <h3

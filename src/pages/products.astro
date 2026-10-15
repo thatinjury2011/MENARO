@@ -5,21 +5,18 @@ import FeaturedProduct from "../components/products/FeaturedProduct.astro";
 import CtaSection from "../components/shared/CtaSection.astro";
 import PageHero from "../components/shared/PageHero.astro";
 import Layout from "../layouts/Layout.astro";
+import { productsPage } from "../data/pages/products";
 
-const heroFeatures = [
-  { name: "高端饰面" },
-  { name: "可靠品质" },
-  { name: "防水" },
-  { name: "环保友好" },
-];
+const t = productsPage.zh;
 ---
 
-<Layout title="产品">
+<Layout title={t.title}>
   <PageHero
-    title="产品"
-    subtitle="高端瓷砖铺贴材料"
-    description="专业系统解决方案，融合意大利技术，呈现持久美观效果。"
-    features={heroFeatures}
+    label={t.hero.label}
+    title={t.title}
+    subtitle={t.hero.subtitle}
+    description={t.hero.description}
+    features={t.hero.features}
     image={null}
     bgImage="/images/products/hero.webp"
   />

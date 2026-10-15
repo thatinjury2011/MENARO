@@ -5,30 +5,19 @@ import CtaSection from "../components/shared/CtaSection.astro";
 import PageHero from "../components/shared/PageHero.astro";
 import StatsBar from "../components/shared/StatsBar.astro";
 import Layout from "../layouts/Layout.astro";
+import { casesPage } from "../data/pages/cases";
 
-const heroFeatures = [
-  { name: "低VOC" },
-  { name: "意大利品质" },
-  { name: "高端" },
-  { name: "环保友好" },
-];
-
-const stats = [
-  { label: "完成项目", value: "500+" },
-  { label: "服务国家", value: "25+" },
-  { label: "全球铺贴面积", value: "10M+ m2" },
-  { label: "客户满意度", value: "98%" },
-];
+const t = casesPage.zh;
 ---
 
-<Layout title="项目案例">
+<Layout title={t.title}>
   <PageHero
-    label="MENARO"
-    title="项目案例"
-    subtitle="在不同的真实项目案例中验证非凡的可靠性能"
+    label={t.hero.label}
+    title={t.title}
+    subtitle={t.hero.subtitle}
     subtitleClass="text-white"
-    description="从高端住宅到标志性商业空间，MENARO方案兼顾美观、强度与可靠性"
-    features={heroFeatures}
+    description={t.hero.description}
+    features={t.hero.features}
     bgImage="/images/solutions/hero.webp"
   />
 
@@ -37,12 +26,9 @@ const stats = [
 
   <section class="w-full bg-white px-4 pb-4 sm:px-6">
     <div class="mx-auto max-w-7xl">
-      <StatsBar items={stats} />
+      <StatsBar items={t.stats} />
     </div>
   </section>
 
-  <CtaSection
-    title="有项目计划？"
-    description="我们的专家团队可提供专业建议和定制化解决方案"
-  />
+  <CtaSection title={t.cta.title} description={t.cta.description} />
 </Layout>

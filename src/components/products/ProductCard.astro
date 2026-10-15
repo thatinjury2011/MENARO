@@ -1,5 +1,7 @@
 ---
 // 产品页：单个产品卡片
+import { productCard } from "../../data/products/productCard";
+
 interface Props {
   name: string;
   description: string;
@@ -9,6 +11,7 @@ interface Props {
 }
 
 const { name, description, keywords, image, href = "#" } = Astro.props;
+const t = productCard.zh;
 ---
 
 <article
@@ -25,7 +28,7 @@ const { name, description, keywords, image, href = "#" } = Astro.props;
       href={href}
       class="mt-auto pt-2 text-xs font-medium text-amber-700 transition-colors hover:text-amber-800"
     >
-      查看详情&gt;&gt;
+      {t.detailLink}
     </a>
   </div>
 

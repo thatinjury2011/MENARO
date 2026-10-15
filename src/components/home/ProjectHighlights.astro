@@ -2,32 +2,18 @@
 // 首页：项目亮点（3 个项目卡）
 import SectionTitle from "../shared/SectionTitle.astro";
 import ProjectCards from "../shared/ProjectCards.astro";
+import { projectHighlights } from "../../data/home/projectHighlights";
+import { homeProjects } from "../../data/cases/caseList";
 
-const projects = [
-  {
-    name: "湖畔别墅",
-    location: "意大利科莫",
-    image: "/images/home/project-1.webp",
-    href: "/cases",
-  },
-  {
-    name: "奥瑞利亚酒店",
-    location: "意大利罗马",
-    image: "/images/home/project-2.webp",
-    href: "/cases",
-  },
-  {
-    name: "绿地商务中心",
-    location: "意大利米兰",
-    image: "/images/home/project-3.webp",
-    href: "/cases",
-  },
-];
+const t = projectHighlights.zh;
+
+// 项目数据与案例页同源（src/data/cases/caseList.ts），这里只挑 show.home 的
+const projects = homeProjects();
 ---
 
 <section class="w-full bg-white px-4 py-16 sm:px-6">
   <div class="mx-auto max-w-7xl">
-    <SectionTitle title="项目亮点" variant="highlight" />
+    <SectionTitle title={t.title} variant="highlight" />
 
     <div class="mt-8 rounded-3xl bg-[#e9e3d9] p-6 sm:p-8">
       <ProjectCards items={projects} />

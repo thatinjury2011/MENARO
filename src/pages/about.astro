@@ -5,14 +5,17 @@ import Values from "../components/about/Values.astro";
 import CtaSection from "../components/shared/CtaSection.astro";
 import PageHero from "../components/shared/PageHero.astro";
 import Layout from "../layouts/Layout.astro";
+import { aboutPage } from "../data/pages/about";
+
+const t = aboutPage.zh;
 ---
 
-<Layout title="关于我们">
+<Layout title={t.title}>
   <PageHero
-    label="MENARO"
-    title="关于MENARO"
-    subtitle="源自意大利的高端瓷砖铺贴解决方案"
-    description="诞生于意大利，驱动于创新，深受全球专业人士信赖"
+    label={t.hero.label}
+    title={t.hero.title}
+    subtitle={t.hero.subtitle}
+    description={t.hero.description}
     bgImage="/images/about/hero.webp"
   />
 

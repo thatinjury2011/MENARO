@@ -1,10 +1,25 @@
----
+﻿---
 // 项目案例页：精选案例（左信息 / 中图 / 右文案 + 底部引述）
+import { featuredProject } from "../../data/cases/caseList";
+import { featuredCaseUi } from "../../data/cases/featuredCase";
+import { bySlug as productBySlug } from "../../data/products/catalog";
+
+const t = featuredCaseUi.zh;
+const project = featuredProject();
+
+const featured = project.featured;
+if (!featured) {
+  throw new Error("[FeaturedCase] 精选项目缺少 zh.featured 字段");
+}
+
+// 「使用产品」按 slug 引用产品，改产品名这里自动跟着变
+const usedProduct = productBySlug(featured.productSlug);
+
 const meta = [
-  { term: "项目类型", value: "酒店" },
-  { term: "项目面积", value: "18,000 m2" },
-  { term: "使用产品", value: "MENARO水性环氧彩砂" },
-  { term: "完成年份", value: "2023" },
+  { term: t.metaType, value: featured.type },
+  { term: t.metaArea, value: featured.area },
+  { term: t.metaProduct, value: `MENARO${usedProduct.name}` },
+  { term: t.metaYear, value: featured.year },
 ];
 ---
 
@@ -30,18 +45,18 @@ const meta = [
 
         <!-- 中：图片 -->
         <img
-          src="/images/cases/featured.webp"
-          alt="奥瑞利亚酒店"
+          src={project.image}
+          alt={project.name}
           class="h-72 w-full rounded-2xl object-cover lg:h-80"
         />
 
         <!-- 右：文案 -->
         <div class="flex flex-col items-end gap-3 text-right">
-          <span class="text-xs text-neutral-500">精选案例</span>
-          <h3 class="text-2xl font-bold text-neutral-800">奥瑞利亚酒店</h3>
-          <p class="text-xs text-neutral-500">意大利罗马</p>
+          <span class="text-xs text-neutral-500">{t.kicker}</span>
+          <h3 class="text-2xl font-bold text-neutral-800">{project.name}</h3>
+          <p class="text-xs text-neutral-500">{project.location}</p>
           <p class="text-xs leading-relaxed text-neutral-500">
-            这是一个对精致度、耐久性和最终饰面要求极高的高端酒店项目。MENARO提供完整瓷砖铺贴系统，经受长期使用考验
+            {featured.blurb}
           </p>
         </div>
       </div>
@@ -49,10 +64,10 @@ const meta = [
       <!-- 引述 -->
       <figure class="mt-10 text-right">
         <blockquote class="text-xs leading-relaxed text-neutral-600 italic">
-          “MENARO 产品在我们的酒店项目中表现出色。饰面效果、耐久性和服务支持都令人印象深刻”
+          {featured.quote}
         </blockquote>
         <figcaption class="mt-1 text-xs text-neutral-500">
-          Marco Bianchi，项目总监
+          {featured.quoteBy}
         </figcaption>
       </figure>
     </div>

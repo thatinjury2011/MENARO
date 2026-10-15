@@ -6,9 +6,12 @@ import Hero from "../components/home/Hero.astro";
 import ProjectHighlights from "../components/home/ProjectHighlights.astro";
 import QuoteSection from "../components/shared/QuoteSection.astro";
 import Layout from "../layouts/Layout.astro";
+import { homePage } from "../data/pages/index";
+
+const t = homePage.zh;
 ---
 
-<Layout title="建筑材料" brandFirst>
+<Layout title={t.title} brandFirst={homePage.brandFirst}>
   <Hero />
   <About />
   <FeaturedProducts />

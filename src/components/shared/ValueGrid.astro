@@ -1,6 +1,7 @@
 ---
 // 跨页公共：2×2 价值点网格（首页 About 右侧 / 关于我们页共用）
 import Icon from "./Icon.astro";
+import { valueGrid } from "../../data/shared/valueGrid";
 
 interface Value {
   name: string;
@@ -13,26 +14,7 @@ interface Props {
   class?: string;
 }
 
-const defaultItems: Value[] = [
-  {
-    name: "意大利技术",
-    desc: "源自意大利的先进配方，并遵循严格质量标准",
-    icon: "sparkles",
-  },
-  {
-    name: "全球市场",
-    desc: "产品服务覆盖 50 多个国家和地区的专业项目",
-    icon: "globe",
-  },
-  {
-    name: "高端品质",
-    desc: "严选原材料，确保稳定可靠的施工表现",
-    icon: "shield",
-  },
-  { name: "专业支持", desc: "从选型到施工，为每一步提供专业服务", icon: "check" },
-];
-
-const { items = defaultItems, class: className = "" } = Astro.props;
+const { items = valueGrid.zh.items, class: className = "" } = Astro.props;
 ---
 
 <div

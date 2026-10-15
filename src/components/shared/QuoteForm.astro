@@ -11,8 +11,9 @@
 //     以后若接 HubSpot、Mailchimp、Zendesk 等插件需要改回英文名。
 //   - Reply-To 必须靠字面量 name="email"，所以额外放一个**隐藏镜像字段**，
 //     由 onSubmit 在 FormData 组装前把「邮箱」输入框的值同步过去。
-const FORM_ID = "xyekjojw";
-const FORM_ENDPOINT = `https://formspree.io/f/${FORM_ID}`;
+//
+// 文案与字段名来自 src/data/shared/quoteForm.ts
+import { formspree, quoteForm } from "../../data/shared/quoteForm";
 
 interface Props {
   withCompany?: boolean;
@@ -20,21 +21,14 @@ interface Props {
   class?: string;
 }
 
+const t = quoteForm.zh;
+const f = t.fields;
+
 const {
   withCompany = false,
-  note = "提交即表示您同意我们的隐私政策，我们不会分享您的信息",
+  note = t.note,
   class: className = "",
 } = Astro.props;
-
-const regions = [
-  "中国",
-  "意大利",
-  "其他欧洲国家",
-  "北美",
-  "中东",
-  "东南亚",
-  "其他",
-];
 
 const fieldClass =
   "w-full rounded-md border border-black/50   px-3 py-2 text-sm text-neutral-700 outline-none transition-colors focus:border-amber-700";
@@ -43,9 +37,9 @@ const labelClass = "flex flex-col gap-1.5 text-xs text-neutral-600";
 
 <form
   class:list={["flex flex-col gap-4", className]}
-  action={FORM_ENDPOINT}
+  action={formspree.endpoint}
   method="POST"
-  data-formspree={FORM_ID}
+  data-formspree={formspree.id}
 >
   <!-- 反垃圾蜜罐：正常用户看不到，机器人会填 → Formspree 直接丢弃 -->
   <input
@@ -57,85 +51,85 @@ const labelClass = "flex flex-col gap-1.5 text-xs text-neutral-600";
     class="hidden"
   />
   <!-- 邮件标题；若发现主题没生效，把 name 改成 "subject" 即可 -->
-  <input type="hidden" name="_subject" value="MENARO 官网新询盘" />
-  <input type="hidden" name="_language" value="zh" />
+  <input type="hidden" name="_subject" value={t.subject} />
+  <input type="hidden" name="_language" value={t.language} />
 
   <div class="grid gap-4  sm:grid-cols-2">
     <label class={labelClass}>
-      您的姓名
+      {f.name.label}
       <input
         type="text"
-        name="姓名"
+        name={f.name.field}
         autocomplete="name"
         required
         data-fs-field
         class={fieldClass}
       />
-      <span data-fs-error="姓名">请填写您的姓名</span>
+      <span data-fs-error={f.name.field}>{f.name.error}</span>
     </label>
 
     <label class={labelClass}>
-      邮箱
+      {f.email.label}
       <input
         type="email"
-        name="邮箱"
+        name={f.email.field}
         autocomplete="email"
         required
         data-fs-field
         data-email-input
         class={fieldClass}
       />
-      <span data-fs-error="邮箱">请填写正确的邮箱地址</span>
+      <span data-fs-error={f.email.field}>{f.email.error}</span>
     </label>
   </div>
 
   <div class="grid gap-4 sm:grid-cols-2">
     <label class:list={[labelClass, !withCompany && "sm:col-span-2"]}>
-      电话
+      {f.phone.label}
       <input
         type="tel"
-        name="电话"
+        name={f.phone.field}
         autocomplete="tel"
         data-fs-field
         class={fieldClass}
       />
-      <span data-fs-error="电话">电话格式不正确</span>
+      <span data-fs-error={f.phone.field}>{f.phone.error}</span>
     </label>
 
     {
       withCompany && (
         <label class={labelClass}>
-          公司名称
+          {f.company.label}
           <input
             type="text"
-            name="公司名称"
+            name={f.company.field}
             autocomplete="organization"
             data-fs-field
             class={fieldClass}
           />
-          <span data-fs-error="公司名称">公司名称格式不正确</span>
+          <span data-fs-error={f.company.field}>{f.company.error}</span>
         </label>
       )
     }
   </div>
 
   <label class={labelClass}>
-    国家/地区
-    <select name="国家/地区" data-fs-field class={fieldClass}>
-      <option value="">请选择</option>
-      {regions.map((region) => <option value={region}>{region}</option>)}
+    {f.region.label}
+    <select name={f.region.field} data-fs-field class={fieldClass}>
+      <option value="">{f.region.placeholder}</option>
+      {t.regions.map((region) => <option value={region}>{region}</option>)}
     </select>
-    <span data-fs-error="国家/地区">请选择国家/地区</span>
+    <span data-fs-error={f.region.field}>{f.region.error}</span>
   </label>
 
   <label class={labelClass}>
-    项目需求
+    {f.message.label}
     <textarea
-      name="项目需求"
+      name={f.message.field}
       rows="4"
       data-fs-field
       class={fieldClass}></textarea>
-    <span data-fs-error="项目需求">项目需求格式不正确</span>
+    <span data-fs-error={f.message.field}>{f.message.error}</span>
   </label>
 
   <!-- Reply-To 专用：Formspree 只认字面量 email，故用隐藏字段镜像（放末尾以免排在邮件正文第一行） -->
@@ -147,17 +141,17 @@ const labelClass = "flex flex-col gap-1.5 text-xs text-neutral-600";
       data-fs-submit-btn
       class="rounded-md bg-[#6b5537] px-10 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-[#5a4730] disabled:cursor-not-allowed disabled:opacity-60"
     >
-      提交表单
+      {t.submit}
     </button>
 
     <!-- 成功 / 失败的整表提示（预先写好中文，SDK 直接显示，不注入英文） -->
-    <div data-fs-success>提交成功，我们会尽快与您联系。</div>
+    <div data-fs-success>{t.success}</div>
     <div data-fs-error>
-      提交失败，请稍后重试，或通过页面下方的方式直接联系我们。
+      {t.error}
     </div>
 
     <p class="text-[10px] text-neutral-500">
-      {note} <a href="#" class="underline">隐私政策</a>.
+      {note} <a href="#" class="underline">{t.privacyLink}</a>.
     </p>
   </div>
 </form>

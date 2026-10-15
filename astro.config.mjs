@@ -14,6 +14,15 @@ const formspreeEsm = require.resolve('@formspree/ajax/dist/index.mjs');
 // site 用于 canonical URL / sitemap / Astro.site 等绝对地址
 export default defineConfig({
   site: 'https://menarobm.com',
+  // 多语言：中文在根路径（/products/），英文加 /en/ 前缀（/en/products/）。
+  // prefixDefaultLocale: false 表示默认语言（zh）不加前缀 —— 英文站上线不会改动任何现有中文 URL。
+  i18n: {
+    defaultLocale: "zh",
+    locales: ["zh", "en"],
+    routing: {
+      prefixDefaultLocale: false,
+    },
+  },
   server: {
     // Astro 默认端口是 4321，但在本机被 Hyper-V/WSL 的可保留端口段占用了：
     //   netsh int ipv4 show excludedportrange protocol=tcp  ->  4253-4352

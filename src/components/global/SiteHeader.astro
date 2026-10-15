@@ -8,17 +8,11 @@
 //                 面板里同时补上搜索与语言切换（这两项本身在 < md 时也是隐藏的），
 //                 否则小屏既进不了主导航、也用不到搜索/切语言。
 import Icon from "../shared/Icon.astro";
+import { headerUi, navItems } from "../../data/global/header";
+import { brandName } from "../../data/site";
 
+const t = headerUi.zh;
 const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
-
-const navItems = [
-  { href: "/", label: "首页" },
-  { href: "/products", label: "产品" },
-  { href: "/solutions", label: "解决方案" },
-  { href: "/cases", label: "项目案例" },
-  { href: "/about", label: "关于我们" },
-  { href: "/contact", label: "联系我们" },
-];
 
 const isActive = (href: string) =>
   href === "/" ? currentPath === "/" : currentPath === href;
@@ -29,10 +23,10 @@ const isActive = (href: string) =>
     class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-2 sm:gap-6 sm:px-6"
   >
     <!-- Logo（小屏收窄，为汉堡按钮让出位置） -->
-    <a href="/" class="shrink-0" aria-label="MENARO 首页">
+    <a href="/" class="shrink-0" aria-label={t.homeAria}>
       <img
         src="/images/global/logo.webp"
-        alt="MENARO 美纳罗"
+        alt={brandName.zh}
         class="h-10 w-auto object-contain sm:h-14"
       />
     </a>
@@ -40,7 +34,7 @@ const isActive = (href: string) =>
     <!-- 主导航（lg 起显示） -->
     <nav
       class="hidden items-center gap-1 text-amber-900 lg:flex"
-      aria-label="主导航"
+      aria-label={t.mainNavAria}
     >
       {
         navItems.map((item) => (
@@ -52,7 +46,7 @@ const isActive = (href: string) =>
               isActive(item.href) && "bg-amber-900/15",
             ]}
           >
-            {item.label}
+            {item.zh.label}
           </a>
         ))
       }
@@ -68,16 +62,15 @@ const isActive = (href: string) =>
           isActive("/quote") && "ring-2 ring-amber-400",
         ]}
       >
-        获取报价
+        {t.quote}
       </a>
-
       <label
         class="hidden h-9 items-center gap-2 rounded-full bg-neutral-200/80 px-3 md:flex"
       >
-        <span class="sr-only">搜索</span>
+        <span class="sr-only">{t.searchLabel}</span>
         <input
           type="search"
-          placeholder="搜索"
+          placeholder={t.searchPlaceholder}
           class="w-24 bg-transparent text-sm outline-none placeholder:text-neutral-500"
         />
         <svg
@@ -102,19 +95,21 @@ const isActive = (href: string) =>
         class="hidden items-center gap-2 rounded-full bg-neutral-200/80 px-3 py-1.5 text-xs font-semibold text-neutral-500 md:flex"
       >
         <button type="button" class="transition-colors hover:text-amber-900"
-          >EN</button
+          >{t.langOther}</button
         >
         <span class="text-neutral-400">|</span>
-        <button type="button" class="text-amber-900">中</button>
+        <button type="button" class="text-amber-900">{t.langCurrent}</button>
       </div>
 
       <!-- 汉堡按钮（< lg）：展开移动端导航面板 -->
       <button
         type="button"
         data-nav-toggle
+        data-label-open={t.openMenu}
+        data-label-close={t.closeMenu}
         aria-expanded="false"
         aria-controls="site-mobile-nav"
-        aria-label="打开导航菜单"
+        aria-label={t.openMenu}
         class="-mr-1 flex size-10 shrink-0 items-center justify-center rounded-lg text-amber-950 transition-colors hover:bg-amber-900/10 lg:hidden"
       >
         <svg
@@ -154,7 +149,7 @@ const isActive = (href: string) =>
     data-nav-panel
     class="absolute inset-x-0 top-full z-50 hidden border-t border-neutral-200 bg-white shadow-[0_22px_45px_-24px_rgba(0,0,0,0.45)] lg:hidden"
   >
-    <nav class="mx-auto max-w-7xl px-4 pt-1 pb-3 sm:px-6" aria-label="移动端导航">
+    <nav class="mx-auto max-w-7xl px-4 pt-1 pb-3 sm:px-6" aria-label={t.mobileNavAria}>
       <ul class="flex flex-col divide-y divide-neutral-100">
         {
           navItems.map((item) => (
@@ -169,7 +164,7 @@ const isActive = (href: string) =>
                     : "text-neutral-700 hover:text-amber-900",
                 ]}
               >
-                {item.label}
+                {item.zh.label}
                 <Icon name="arrowRight" class="size-4 opacity-25" />
               </a>
             </li>
@@ -183,10 +178,10 @@ const isActive = (href: string) =>
         <label
           class="flex h-10 items-center gap-2 rounded-full bg-neutral-200/80 px-4"
         >
-          <span class="sr-only">搜索</span>
+          <span class="sr-only">{t.searchLabel}</span>
           <input
             type="search"
-            placeholder="搜索"
+            placeholder={t.searchPlaceholder}
             class="w-full bg-transparent text-sm outline-none placeholder:text-neutral-500"
           />
           <Icon name="search" class="size-4 shrink-0 opacity-60" />
@@ -196,10 +191,10 @@ const isActive = (href: string) =>
           class="flex w-fit items-center gap-2 rounded-full bg-neutral-200/80 px-4 py-1.5 text-xs font-semibold text-neutral-500"
         >
           <button type="button" class="transition-colors hover:text-amber-900"
-            >EN</button
+            >{t.langOther}</button
           >
           <span class="text-neutral-400">|</span>
-          <button type="button" class="text-amber-900">中</button>
+          <button type="button" class="text-amber-900">{t.langCurrent}</button>
         </div>
       </div>
     </nav>
@@ -224,7 +219,10 @@ const isActive = (href: string) =>
     const setOpen = (open: boolean) => {
       navPanel.classList.toggle("hidden", !open);
       navToggle.setAttribute("aria-expanded", String(open));
-      navToggle.setAttribute("aria-label", open ? "关闭导航菜单" : "打开导航菜单");
+      navToggle.setAttribute(
+        "aria-label",
+        open ? navToggle.dataset.labelClose! : navToggle.dataset.labelOpen!,
+      );
     };
 
     navToggle.addEventListener("click", () => {

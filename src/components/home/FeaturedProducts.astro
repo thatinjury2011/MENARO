@@ -1,40 +1,19 @@
----
+﻿---
 // 首页：精选产品（Product 水印 + 人物图 + 4 卡一行）
 // 图片约定：产品图复用 /images/products/*，人物图 /images/global/lab-expert.webp
+// 上这个板块的产品由 src/data/products.ts 里每条记录的 show.home 决定
 import SectionTitle from "../shared/SectionTitle.astro";
+import { listBy } from "../../data/products/catalog";
+import { featuredProducts } from "../../data/home/featuredProducts";
 
-const products = [
-  {
-    name: "水性环氧彩砂",
-    desc: "色彩稳定、耐污耐磨，适用于高端瓷砖缝隙美化",
-    href: "/products",
-    image: "/images/products/sealing.png",
-  },
-  {
-    name: "高性能瓷砖胶",
-    desc: "粘结力强，施工顺滑，适用于多种瓷砖铺贴场景",
-    href: "/products",
-    image: "/images/products/tile-glue.png",
-  },
-  {
-    name: "环氧美缝添加剂",
-    desc: "提升美缝材料性能，让整体铺贴系统更耐用",
-    href: "/products",
-    image: "/images/products/epoxy-additive.png",
-  },
-  {
-    name: "柔性防水涂料",
-    desc: "为卫浴、阳台等潮湿区域提供可靠防水保护",
-    href: "/products",
-    image: "/images/products/waterproof.png",
-  },
-];
+const t = featuredProducts.zh;
+const products = listBy("home");
 ---
 
 <section class="relative w-full overflow-hidden bg-white px-4 py-16 sm:px-6">
   <span
     class="pointer-events-none absolute z-30 top-1/2 left-0 hidden rotate-90 text-[7rem] leading-none  tracking-tighter text-neutral-100 select-none lg:block"
-    aria-hidden="true">Product</span
+    aria-hidden="true">{t.watermark}</span
   >
 
   <!--
@@ -65,7 +44,7 @@ const products = [
   </div>
 
   <div class="relative mx-auto max-w-7xl">
-    <SectionTitle title="精选产品" variant="highlight" />
+    <SectionTitle title={t.title} variant="highlight" />
 
     <!-- 人物图：/images/global/lab-expert.webp -->
     <div class="relative z-10 -mb-16 hidden justify-end pr-16 lg:flex">
@@ -93,13 +72,13 @@ const products = [
                   {product.name}
                 </h3>
                 <p class="text-xs leading-relaxed text-neutral-500">
-                  {product.desc}
+                  {product.description}
                 </p>
                 <a
-                  href={product.href}
+                  href="/products"
                   class="mt-auto pt-1 text-xs text-amber-700 transition-colors hover:text-amber-800"
                 >
-                  查看详情›
+                  {t.cardLink}
                 </a>
               </div>
             </article>
