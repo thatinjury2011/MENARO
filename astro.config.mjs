@@ -11,7 +11,17 @@ const require = createRequire(import.meta.url);
 const formspreeEsm = require.resolve('@formspree/ajax/dist/index.mjs');
 
 // https://astro.build/config
+// site 用于 canonical URL / sitemap / Astro.site 等绝对地址
 export default defineConfig({
+  site: 'https://menarobm.com',
+  server: {
+    // Astro 默认端口是 4321，但在本机被 Hyper-V/WSL 的可保留端口段占用了：
+    //   netsh int ipv4 show excludedportrange protocol=tcp  ->  4253-4352
+    // 因此 4321 会报 `EACCES: permission denied ::1:4321`（端口被系统禁止绑定，
+    // 与是否有进程占用无关）。这里改用 15200 —— 它在动态端口段（本机为 1024-15000）
+    // 之外，不会被 Hyper-V/WSL 再次保留，换机也能用。
+    port: 15200,
+  },
   vite: {
     plugins: [tailwindcss()],
     resolve: {

@@ -1,8 +1,14 @@
 ---
 // 跨页公共：页面 Hero（首页 / 产品页 / 解决方案页共用）
 // 图片约定：
-//   bgImage → /images/home/hero.webp | /images/global/hero.webp（暗色空间背景）
-//   image   → /images/global/bucket.png（右侧产品图；传 null 则不显示）
+//   bgImage → /images/home/hero.webp | /images/products/hero.webp | /images/solutions/hero.webp 等
+//             （各页 Hero 背景图，产品/解决方案页的桶已合成在背景图内）
+//   image   → 右侧叠加产品图（透明底 PNG）；默认 null，因为背景图已含产品
+//
+// 高度：所有 Hero 背景图都是 1921×840（比例 2.2869，即 1920 设计稿的 43.75vw）。
+//   若高度不足，object-cover 会按宽度铺满后裁掉上下——原来 lg 用的是 min-h-27rem(432px)，
+//   在 1920 屏上只显示背景图中间 51.9%，桶被裁掉近一半。故 lg 起改用 min-h-[43.75vw]，
+//   让区块高度始终等于背景图比例，背景图 100% 显示、不再裁切；内容更高时区块仍可撑高。
 interface Action {
   label: string;
   href: string;
@@ -34,7 +40,7 @@ const {
   features = [],
   featuresPlacement = "below",
   actions = [],
-  image = "/images/global/bucket.png",
+  image = null,
   bgImage = "/images/global/hero.webp",
   blurMask = true,
 } = Astro.props;
@@ -75,7 +81,7 @@ const actionClass = (variant: string) =>
   }
 
   <div
-    class="relative z-30 mx-auto flex min-h-[24rem] max-w-7xl items-center px-4 py-12 sm:px-6 lg:min-h-[27rem]"
+    class="relative z-30 mx-auto flex min-h-[24rem] max-w-7xl items-center px-4 py-12 sm:px-6 lg:min-h-[43.75vw]"
   >
     <div
       class:list={[

@@ -1,6 +1,6 @@
 ---
 // 全站公共：顶部导航（logo + 主导航 + 获取报价 + 搜索 + 语言切换）
-// 图片约定：/images/global/logo.jpg（后期替换为正式 logo）
+// 图片约定：/images/global/logo.webp（透明底 logo）
 const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
 
 const navItems = [
@@ -23,7 +23,7 @@ const isActive = (href: string) =>
     <!-- Logo -->
     <a href="/" class="shrink-0" aria-label="MENARO 首页">
       <img
-        src="/images/global/logo.jpg"
+        src="/images/global/logo.webp"
         alt="MENARO 美纳罗"
         class="h-14 w-auto object-contain"
       />

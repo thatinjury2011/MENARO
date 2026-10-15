@@ -3,22 +3,63 @@
 import Icon from "./Icon.astro";
 import QuoteForm from "./QuoteForm.astro";
 
-const contacts = ["+1 400-xxxx-xxxx", "xxxxxxxxxx.com", "www.xxxxxx.com"];
+const contacts: string[] = [];
 ---
 
 <section
-  class="w-full bg-gradient-to-r from-[#d9c3ae] via-[#e6d5c3] to-[#f2e7dc] px-4 py-14 sm:px-6"
+  class="relative w-full bg-gradient-to-r from-[#d9c3ae]/50 via-[#e6d5c3]/50 to-[#f2e7dc]/50 px-4 py-0 sm:px-6"
 >
-  <div class="mx-auto grid max-w-7xl gap-8 lg:grid-cols-[1.5fr_1fr]">
-    <!-- 左：表单 -->
-    <div class="rounded-2xl bg-white/85 p-6 sm:p-8">
+  <!--
+    右侧咖色半圆弧背景：对应设计稿 1首页/14.png（1920×525），实测只有 3 个纯色：
+      #fcf4ef 底 / #b29c8c 外描边 / #d4c4ba 主色
+    形状很简单 —— 右边与下边贴齐区块、左侧与上方留白、**左上角一个大圆弧**的矩形，
+    所以直接用 Tailwind 画，不需要图片填充。
+
+    设计稿量得的几何（分母统一为设计稿区块高 525），全部换算成 cqh：
+      外描边：自 y=0 起，圆角 313/525 = 59.62cqh
+      主色  ：自 y=15 起（15/525 = 2.86cqh）、左侧内缩 28（28/525 = 5.33cqh），圆角 285/525 = 54.29cqh
+
+    ⚠️ 这里必须用 cqh（容器查询高度单位）而不是 px 或 %：
+      · 用 % 会按宽、高分别解析成椭圆，而设计稿是正圆 → 形状就错了；
+      · 用 px 会把比例写死 —— 区块高度由表单内容决定，表单内容一改比例就跑偏
+        （实测区块从 657px 变到 545px 时，写死的 357px 圆角让比例从 54.3% 漂到 65.5%）。
+      cqh 让四个值都跟着区块高度走，任何高度下都恒等于设计稿的比例。
+      注意 cqh 要求容器是 container-type: size（inline-size 量不到高度）。
+  -->
+  <div
+    class="pointer-events-none absolute inset-y-0 right-0 hidden w-[49%] [container-type:size] lg:block"
+    aria-hidden="true"
+  >
+    <div class="absolute inset-0 rounded-tl-[59.62cqh] bg-[#b29c8c]"></div>
+    <div
+      class="absolute top-[2.86cqh] right-0 bottom-0 left-[5.33cqh] rounded-tl-[54.29cqh] bg-[#d4c4ba]"
+    >
+    </div>
+  </div>
+
+  <!--
+    容器宽度与栅格比例按设计稿对齐：
+      设计稿 1920 下内容区为 x=120..1800（宽 1680），表单 x=120..825、咖色区 x=978..1920。
+      原来的 max-w-7xl(1280) 居中只覆盖 x=312..1592，导致表单被整体右推到 x=344..1029，
+      右边就会压到咖色圆弧的描边上。改成 max-w-[105rem](1680) + [0.9fr_1fr] 后，
+      表单回到 x≈144..861，与设计稿基本重合，且各宽度下都不再与咖色区重叠。
+  -->
+  <div
+    class="relative mx-auto grid max-w-[105rem] gap-8 lg:grid-cols-[0.9fr_1fr]"
+  >
+    <!--
+      左：表单（直接放在区块的咖色底上，不再套白色卡片）。
+      QuoteForm 是联系页共用的，那边的 MessageCard 仍是白底，所以标签/注释的字色
+      只在**本区块内**用后代选择器覆写成深咖，避免影响联系页。
+    -->
+    <div class="p-6 sm:p-8 [&_label]:text-[#4a3a24] [&_p]:text-[#4a3a24] left-0">
       <h2 class="text-lg font-bold text-[#6b5537]">获取报价</h2>
       <QuoteForm class="mt-6" />
     </div>
 
-    <!-- 右：联系方式 -->
+    <!-- 右：联系方式（lg 起咖色底由上面的装饰层提供，小屏仍是独立卡片以保证白字可读） -->
     <div
-      class="flex flex-col items-center justify-center gap-6 rounded-2xl bg-[#cbb49c]/70 p-6 text-center sm:p-8"
+      class="flex flex-col items-center justify-center gap-6 rounded-2xl bg-[#cbb49c]/70 p-6 text-center sm:p-8 lg:rounded-none lg:bg-transparent"
     >
       <h2 class="text-lg font-bold text-white">我们随时为您提供帮助</h2>
 

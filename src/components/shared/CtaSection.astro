@@ -18,9 +18,9 @@ const {
 } = Astro.props;
 ---
 
-<section class="w-full bg-white px-4 py-16">
-  <div class="mx-auto flex max-w-3xl flex-col items-center text-center">
-    <img src={image} alt="" class="h-40 w-auto object-contain" />
+<section class="w-full bg-white px-4 py-16 mt-24">
+  <div class="relative mx-auto flex max-w-3xl flex-col items-center text-center">
+    <img src={image} alt="" class="absolute transform  translate-y-[-48%] h-60 object-contain" />
     <h2 class="mt-2 text-2xl font-bold text-neutral-800 sm:text-3xl">
       {title}
     </h2>
