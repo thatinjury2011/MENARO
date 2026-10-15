@@ -9,4 +9,14 @@ export const aboutPage = {
       description: "诞生于意大利，驱动于创新，深受全球专业人士信赖",
     },
   },
+  en: {
+    title: "About Us",
+    hero: {
+      label: "MENARO",
+      title: "About MENARO",
+      subtitle: "Premium tile installation solutions with Italian origins",
+      description:
+        "Born in Italy, driven by innovation, trusted by professionals worldwide",
+    },
+  },
 };

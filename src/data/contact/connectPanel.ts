@@ -14,4 +14,22 @@ export const connectPanel = {
     statsHeading: "让我们一起打造优秀项目",
     statsDescription: "无论您有问题、需要支持，还是想讨论项目，我们都将帮助您推进成功",
   },
+  en: {
+    title: "Contact Us",
+    /** 分两行展示，中间用 <br /> 连接 */
+    qrHintLines: [
+      "Scan the QR code to add us on WhatsApp",
+      "For quick enquiries",
+    ],
+    qrAlt: "WhatsApp QR code",
+    stats: [
+      { label: "Countries Served", value: "100+" },
+      { label: "Years of Experience", value: "10+" },
+      { label: "Projects Completed", value: "5000+" },
+      { label: "Technical Experts", value: "50+" },
+    ],
+    statsHeading: "Let's build outstanding projects together",
+    statsDescription:
+      "Whether you have a question, need support or want to discuss a project, we're here to help you move forward",
+  },
 };

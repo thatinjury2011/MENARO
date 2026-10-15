@@ -14,4 +14,19 @@ export const solutionsPage = {
       ],
     },
   },
+  en: {
+    title: "Solutions",
+    hero: {
+      label: "MENARO",
+      subtitle: "Complete system solutions for different spaces and projects",
+      description:
+        "Waterproof, durable and environmentally responsible system combinations for a premium finish.",
+      features: [
+        { name: "Premium Finish" },
+        { name: "Reliable Quality" },
+        { name: "Waterproof" },
+        { name: "Eco-friendly" },
+      ],
+    },
+  },
 };

@@ -8,4 +8,11 @@ export const featuredCaseUi = {
     metaProduct: "使用产品",
     metaYear: "完成年份",
   },
+  en: {
+    kicker: "Featured Project",
+    metaType: "Project Type",
+    metaArea: "Project Area",
+    metaProduct: "Products Used",
+    metaYear: "Completion Year",
+  },
 };

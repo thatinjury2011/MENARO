@@ -6,6 +6,8 @@
 //   · homeImage  → 首页「项目亮点」用（/images/home/*）
 //   · show 开关  → 决定上哪个板块
 
+import type { Locale } from "../../i18n/locales";
+
 export interface ProjectText {
   name: string;
   location: string;
@@ -41,7 +43,9 @@ export interface Project {
     /** 案例页「精选案例」大卡片 */
     featured?: boolean;
   };
+  /** 各语言文案；新增语言时在这里补一个字段，漏翻的条目会直接报错 */
   zh: ProjectText;
+  en: ProjectText;
 }
 
 export const projects: Project[] = [
@@ -52,6 +56,7 @@ export const projects: Project[] = [
     category: "residence",
     show: { home: true },
     zh: { name: "湖畔别墅", location: "意大利科莫" },
+    en: { name: "Lakeside Villa", location: "Como, Italy" },
   },
   {
     slug: "aurelia-hotel",
@@ -75,6 +80,21 @@ export const projects: Project[] = [
         quoteBy: "Marco Bianchi，项目总监",
       },
     },
+    en: {
+      name: "Aurelia Hotel",
+      location: "Rome, Italy",
+      featured: {
+        type: "Hotel",
+        area: "18,000 m2",
+        year: "2023",
+        productSlug: "epoxy-grout",
+        blurb:
+          "A premium hotel project with exacting demands on finish, durability and final appearance. MENARO supplied the complete tile installation system, proven under sustained use.",
+        quote:
+          "“MENARO products performed exceptionally on our hotel project. The finish, durability and support were all impressive.”",
+        quoteBy: "Marco Bianchi, Project Director",
+      },
+    },
   },
   {
     slug: "greenland-tower",
@@ -83,6 +103,7 @@ export const projects: Project[] = [
     category: "commercial",
     show: { home: true },
     zh: { name: "绿地商务中心", location: "意大利米兰" },
+    en: { name: "Greenland Business Center", location: "Milan, Italy" },
   },
   {
     slug: "metro-station",
@@ -90,6 +111,7 @@ export const projects: Project[] = [
     category: "public",
     show: {},
     zh: { name: "城市地铁站", location: "阿联酋迪拜" },
+    en: { name: "City Metro Station", location: "Dubai, UAE" },
   },
   {
     slug: "azure-bay-resort",
@@ -97,6 +119,7 @@ export const projects: Project[] = [
     category: "hotel",
     show: {},
     zh: { name: "蔚蓝海湾度假村", location: "泰国普吉岛" },
+    en: { name: "Azure Bay Resort", location: "Phuket, Thailand" },
   },
   {
     slug: "skyline-tower",
@@ -104,22 +127,27 @@ export const projects: Project[] = [
     category: "commercial",
     show: {},
     zh: { name: "天际企业大厦", location: "新加坡" },
+    en: { name: "Skyline Enterprise Tower", location: "Singapore" },
   },
 ];
 
 /** 案例页筛选标签（value 对应 Project.category） */
 export const caseCategories = [
-  { value: "all", zh: { label: "项目案例" } },
-  { value: "residence", zh: { label: "住宅" } },
-  { value: "commercial", zh: { label: "商业" } },
-  { value: "hotel", zh: { label: "酒店" } },
-  { value: "public", zh: { label: "公共基础设施" } },
+  { value: "all", zh: { label: "项目案例" }, en: { label: "All Projects" } },
+  { value: "residence", zh: { label: "住宅" }, en: { label: "Residential" } },
+  { value: "commercial", zh: { label: "商业" }, en: { label: "Commercial" } },
+  { value: "hotel", zh: { label: "酒店" }, en: { label: "Hotel" } },
+  {
+    value: "public",
+    zh: { label: "公共基础设施" },
+    en: { label: "Public Infrastructure" },
+  },
 ];
 
 // ---------------- 取值辅助 ----------------
 
 /** 全部项目（案例页网格用） */
-export const caseList = (locale: "zh" = "zh") =>
+export const caseList = (locale: Locale) =>
   projects.map((project) => ({
     slug: project.slug,
     image: project.image,
@@ -129,7 +157,7 @@ export const caseList = (locale: "zh" = "zh") =>
   }));
 
 /** 首页「项目亮点」：用 homeImage */
-export const homeProjects = (locale: "zh" = "zh") =>
+export const homeProjects = (locale: Locale) =>
   projects
     .filter((project) => project.show.home)
     .map((project) => ({
@@ -140,7 +168,7 @@ export const homeProjects = (locale: "zh" = "zh") =>
     }));
 
 /** 案例页「精选案例」大卡片 */
-export const featuredProject = (locale: "zh" = "zh") => {
+export const featuredProject = (locale: Locale) => {
   const hit = projects.find((project) => project.show.featured);
   if (!hit) throw new Error("[data/cases/caseList] 没有项目标记 show.featured");
   return {

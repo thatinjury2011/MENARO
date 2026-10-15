@@ -14,6 +14,9 @@
 //
 // 文案与字段名来自 src/data/shared/quoteForm.ts
 import { formspree, quoteForm } from "../../data/shared/quoteForm";
+import { localeOf } from "../../i18n/locales";
+
+const locale = localeOf(Astro.currentLocale);
 
 interface Props {
   withCompany?: boolean;
@@ -21,7 +24,7 @@ interface Props {
   class?: string;
 }
 
-const t = quoteForm.zh;
+const t = quoteForm[locale];
 const f = t.fields;
 
 const {

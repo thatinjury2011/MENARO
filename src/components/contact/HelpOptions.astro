@@ -3,8 +3,11 @@
 // 图片约定：/images/global/team-cta.webp
 import SectionTitle from "../shared/SectionTitle.astro";
 import { helpOptions } from "../../data/contact/helpOptions";
+import { localeOf } from "../../i18n/locales";
 
-const t = helpOptions.zh;
+const locale = localeOf(Astro.currentLocale);
+
+const t = helpOptions[locale];
 ---
 
 <section class="w-full bg-white px-4 py-16 sm:px-6">

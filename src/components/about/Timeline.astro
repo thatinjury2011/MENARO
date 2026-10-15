@@ -2,8 +2,11 @@
 // 关于我们页：发展历程（横向时间轴，lg 下上下交错）
 import SectionTitle from "../shared/SectionTitle.astro";
 import { timeline } from "../../data/about/timeline";
+import { localeOf } from "../../i18n/locales";
 
-const t = timeline.zh;
+const locale = localeOf(Astro.currentLocale);
+
+const t = timeline[locale];
 ---
 
 <section class="w-full bg-white px-4 py-16 sm:px-6">

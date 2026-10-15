@@ -30,6 +30,10 @@ interface Props {
 }
 
 import FeatureBadges from "./FeatureBadges.astro";
+import { localeOf } from "../../i18n/locales";
+import { localeHref } from "../../i18n/links";
+
+const locale = localeOf(Astro.currentLocale);
 
 const {
   label = "MENARO",
@@ -108,7 +112,7 @@ const actionClass = (variant: string) =>
           actions.length > 0 && (
             <div class="mt-4 flex flex-wrap gap-3">
               {actions.map((action) => (
-                <a href={action.href} class={actionClass(action.variant ?? "solid")}>
+                <a href={localeHref(locale, action.href)} class={actionClass(action.variant ?? "solid")}>
                   {action.label}
                 </a>
               ))}

@@ -4,6 +4,13 @@ import "../assets/app.css";
 import SiteFooter from "../components/global/SiteFooter.astro";
 import SiteHeader from "../components/global/SiteHeader.astro";
 import { BRAND, titleSeparator, metaDescription } from "../data/layouts/layout";
+import {
+  defaultLocale,
+  htmlLang,
+  localeOf,
+  locales,
+} from "../i18n/locales";
+import { localeHref } from "../i18n/links";
 
 interface Props {
   /** 页面名 → 输出「页面名 | MENARO 美纳罗」 */
@@ -14,25 +21,57 @@ interface Props {
 
 const { title, brandFirst = false } = Astro.props;
 
+const locale = localeOf(Astro.currentLocale);
+const brand = BRAND[locale];
+
 const pageTitle = title
   ? brandFirst
-    ? `${BRAND}${titleSeparator}${title}`
-    : `${title}${titleSeparator}${BRAND}`
-  : BRAND;
+    ? `${brand}${titleSeparator}${title}`
+    : `${title}${titleSeparator}${brand}`
+  : brand;
+
+// 去掉语言前缀，得到「语言无关」的路径，用来生成各语言版本自身的 URL。
+// 首页会得到 "/"；/en/products/ 会得到 "/products/"。
+const prefix = locale === defaultLocale ? "" : `/${locale}`;
+const pathWithoutLocale =
+  (prefix && Astro.url.pathname.startsWith(prefix)
+    ? Astro.url.pathname.slice(prefix.length)
+    : Astro.url.pathname) || "/";
+
+const absolute = (path: string) =>
+  Astro.site ? new URL(path, Astro.site).href : path;
 ---
 
 <!doctype html>
-<html lang="zh-CN">
+<html lang={htmlLang[locale]}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="generator" content={Astro.generator} />
-    <meta
-      name="description"
-      content={metaDescription()}
+    <meta name="description" content={metaDescription(locale)} />
+
+    <!-- 多语言 SEO：canonical 指向本语言版本；alternate 列出另一个语言版本 -->
+    <link
+      rel="canonical"
+      href={absolute(localeHref(locale, pathWithoutLocale))}
     />
+    {
+      locales.map((l) => (
+        <link
+          rel="alternate"
+          hreflang={htmlLang[l]}
+          href={absolute(localeHref(l, pathWithoutLocale))}
+        />
+      ))
+    }
+    <link
+      rel="alternate"
+      hreflang="x-default"
+      href={absolute(localeHref(defaultLocale, pathWithoutLocale))}
+    />
+
     <title>{pageTitle}</title>
   </head>
   <body class="min-h-screen bg-white text-neutral-800 antialiased">

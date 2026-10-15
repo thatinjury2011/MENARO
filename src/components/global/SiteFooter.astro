@@ -9,21 +9,25 @@ import {
   socials,
 } from "../../data/global/footer";
 import { brandName, contact, contactLabels, legalName } from "../../data/site";
-const t = footerUi.zh;
+import { localeOf } from "../../i18n/locales";
+import { localeHref } from "../../i18n/links";
 
-const productLinks = listBy("footer").map((product) => ({
+const locale = localeOf(Astro.currentLocale);
+const t = footerUi[locale];
+
+const productLinks = listBy("footer", locale).map((product) => ({
   label: product.shortName ?? product.name,
   href: "/products",
 }));
 
 const solutionLinks = footerSolutionLinks.map((link) => ({
   href: link.href,
-  label: link.zh.label,
+  label: link[locale].label,
 }));
 
 const companyLinks = footerCompanyLinks.map((link) => ({
   href: link.href,
-  label: link.zh.label,
+  label: link[locale].label,
 }));
 
 const linkGroups = [
@@ -36,8 +40,8 @@ const linkGroups = [
 const contactLines = [
   contact.phone.value,
   contact.email.value,
-  `${contactLabels.zh.whatsapp}: ${contact.whatsapp.value}`,
-  contact.address.zh.full,
+  `${contactLabels[locale].whatsapp}: ${contact.whatsapp.value}`,
+  contact.address[locale].full,
 ];
 ---
 
@@ -50,7 +54,7 @@ const contactLines = [
       <div class="flex flex-col gap-4">
         <img
           src="/images/global/logo.webp"
-          alt={brandName.zh}
+          alt={brandName[locale]}
           class="h-12 w-auto object-contain"
         />
         <p class="max-w-xs text-xs leading-relaxed">
@@ -96,7 +100,7 @@ const contactLines = [
               {group.links.map((link) => (
                 <li>
                   <a
-                    href={link.href}
+                    href={localeHref(locale, link.href)}
                     class="transition-colors hover:text-white"
                   >
                     {link.label}

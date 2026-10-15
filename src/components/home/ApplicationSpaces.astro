@@ -3,8 +3,11 @@
 // 图片约定：复用 /images/solutions/space-1..4.webp
 import SectionTitle from "../shared/SectionTitle.astro";
 import { applicationSpaces } from "../../data/home/applicationSpaces";
+import { localeOf } from "../../i18n/locales";
 
-const t = applicationSpaces.zh;
+const locale = localeOf(Astro.currentLocale);
+
+const t = applicationSpaces[locale];
 ---
 
 <section class="w-full bg-white px-4 py-16 sm:px-6">

@@ -19,9 +19,33 @@ export const casesPage = {
       { label: "全球铺贴面积", value: "10M+ m2" },
       { label: "客户满意度", value: "98%" },
     ],
+    /** 描述沿用 CtaSection 的默认文案（src/data/shared/ctaSection.ts），不重复写 */
     cta: {
       title: "有项目计划？",
-      description: "我们的专家团队可提供专业建议和定制化解决方案",
+    },
+  },
+  en: {
+    title: "Projects",
+    hero: {
+      label: "MENARO",
+      subtitle: "Exceptional reliability, proven across real projects",
+      description:
+        "From premium residences to landmark commercial spaces, MENARO balances appearance, strength and reliability",
+      features: [
+        { name: "Low VOC" },
+        { name: "Italian Quality" },
+        { name: "Premium" },
+        { name: "Eco-friendly" },
+      ],
+    },
+    stats: [
+      { label: "Projects Completed", value: "500+" },
+      { label: "Countries Served", value: "25+" },
+      { label: "Global Tiling Area", value: "10M+ m2" },
+      { label: "Client Satisfaction", value: "98%" },
+    ],
+    cta: {
+      title: "Planning a project?",
     },
   },
 };

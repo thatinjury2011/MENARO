@@ -1,6 +1,9 @@
 ---
 // 产品页：单个产品卡片
 import { productCard } from "../../data/products/productCard";
+import { localeOf } from "../../i18n/locales";
+
+const locale = localeOf(Astro.currentLocale);
 
 interface Props {
   name: string;
@@ -11,7 +14,7 @@ interface Props {
 }
 
 const { name, description, keywords, image, href = "#" } = Astro.props;
-const t = productCard.zh;
+const t = productCard[locale];
 ---
 
 <article

@@ -11,4 +11,15 @@ export const processSteps = {
       { name: "表面清洁", desc: "清洁表面，呈现最终效果", icon: "sparkles" },
     ],
   },
+  en: {
+    title: "Application Process",
+    steps: [
+      { name: "Substrate Preparation", desc: "Clean and level the substrate", icon: "layers" },
+      { name: "Priming", desc: "Apply primer and allow it to dry", icon: "roller" },
+      { name: "Tile Installation", desc: "Fix tiles using tile adhesive", icon: "tile" },
+      { name: "Grouting & Finishing", desc: "Fill the joints with epoxy grout", icon: "brush" },
+      { name: "Edge Sealing", desc: "Seal edges and expansion joints", icon: "seal" },
+      { name: "Surface Cleaning", desc: "Clean the surface for the final finish", icon: "sparkles" },
+    ],
+  },
 };

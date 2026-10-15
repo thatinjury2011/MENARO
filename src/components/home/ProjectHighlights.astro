@@ -4,11 +4,14 @@ import SectionTitle from "../shared/SectionTitle.astro";
 import ProjectCards from "../shared/ProjectCards.astro";
 import { projectHighlights } from "../../data/home/projectHighlights";
 import { homeProjects } from "../../data/cases/caseList";
+import { localeOf } from "../../i18n/locales";
 
-const t = projectHighlights.zh;
+const locale = localeOf(Astro.currentLocale);
+
+const t = projectHighlights[locale];
 
 // 项目数据与案例页同源（src/data/cases/caseList.ts），这里只挑 show.home 的
-const projects = homeProjects();
+const projects = homeProjects(locale);
 ---
 
 <section class="w-full bg-white px-4 py-16 sm:px-6">

@@ -20,4 +20,24 @@ export const helpOptions = {
       },
     ],
   },
+  en: {
+    title: "How can we help you?",
+    options: [
+      {
+        name: "Technical Advice",
+        desc: "Get expert guidance on product selection, application and system design",
+        link: "Request Advice",
+      },
+      {
+        name: "Sample Request",
+        desc: "Request product samples to evaluate quality and performance",
+        link: "Request Samples",
+      },
+      {
+        name: "Business Partnership",
+        desc: "Explore partnership opportunities and grow your business with MENARO",
+        link: "Learn More",
+      },
+    ],
+  },
 };

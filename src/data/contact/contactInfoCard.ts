@@ -9,4 +9,11 @@ export const contactInfoCard = {
     hoursLabel: "营业时间",
     hours: "周一至周五: 8:30 – 18:00",
   },
+  en: {
+    title: "Contact Information",
+    description: "You can reach us in any of the following ways",
+    hqLabel: "Headquarters",
+    hoursLabel: "Business Hours",
+    hours: "Mon – Fri: 8:30 – 18:00",
+  },
 };

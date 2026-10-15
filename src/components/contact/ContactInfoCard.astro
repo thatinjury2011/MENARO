@@ -3,9 +3,12 @@
 // 邮箱 / 电话 / WhatsApp 的值与标签来自 src/data/site.ts 的 contact、contactLabels
 import { brandName, contact, contactLabels, legalName } from "../../data/site";
 import { contactInfoCard } from "../../data/contact/contactInfoCard";
+import { localeOf } from "../../i18n/locales";
 
-const t = contactInfoCard.zh;
-const labels = contactLabels.zh;
+const locale = localeOf(Astro.currentLocale);
+
+const t = contactInfoCard[locale];
+const labels = contactLabels[locale];
 
 const rows = [
   [
@@ -28,7 +31,7 @@ const rows = [
   <div class="mt-8 flex flex-col divide-y divide-neutral-200">
     <!-- 公司 -->
     <div class="pb-6 text-center">
-      <p class="text-xs font-bold text-neutral-800">{brandName.zh}</p>
+      <p class="text-xs font-bold text-neutral-800">{brandName[locale]}</p>
       <p class="mt-1 text-xs text-neutral-500">{legalName}</p>
     </div>
 
@@ -50,7 +53,7 @@ const rows = [
     <div class="pt-6 text-center">
       <p class="text-xs font-bold text-neutral-800">{t.hqLabel}</p>
       <p class="mt-1 text-xs leading-relaxed text-neutral-500">
-        {contact.address.zh.full}
+        {contact.address[locale].full}
       </p>
     </div>
   </div>

@@ -2,8 +2,11 @@
 // 产品页：4 个核心卖点条
 import Icon from "../shared/Icon.astro";
 import { featureBar } from "../../data/products/featureBar";
+import { localeOf } from "../../i18n/locales";
 
-const t = featureBar.zh;
+const locale = localeOf(Astro.currentLocale);
+
+const t = featureBar[locale];
 ---
 
 <section class="w-full px-4 pt-14 sm:px-6">

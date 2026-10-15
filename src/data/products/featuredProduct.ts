@@ -5,4 +5,8 @@ export const featuredProduct = {
     title: "精选产品",
     detailLink: "查看产品详情",
   },
+  en: {
+    title: "Featured Product",
+    detailLink: "View product details",
+  },
 };

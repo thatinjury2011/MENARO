@@ -6,4 +6,9 @@ export const location = {
     cta: "获取路线",
     imageAlt: "MENARO 位置地图",
   },
+  en: {
+    heading: "Our Location",
+    cta: "Get Directions",
+    imageAlt: "MENARO location map",
+  },
 };

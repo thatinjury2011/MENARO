@@ -1,0 +1,32 @@
+---
+import BrandStory from "../../components/about/BrandStory.astro";
+import Timeline from "../../components/about/Timeline.astro";
+import Values from "../../components/about/Values.astro";
+import CtaSection from "../../components/shared/CtaSection.astro";
+import PageHero from "../../components/shared/PageHero.astro";
+import Layout from "../../layouts/Layout.astro";
+import { aboutPage } from "../../data/pages/about";
+import { localeStaticPaths, localeOf } from "../../i18n/locales";
+
+// 一个页面文件同时产出两种语言的路由：/xxx/ 与 /en/xxx/
+export const getStaticPaths = localeStaticPaths;
+
+const locale = localeOf(Astro.currentLocale);
+
+const t = aboutPage[locale];
+---
+
+<Layout title={t.title}>
+  <PageHero
+    label={t.hero.label}
+    title={t.hero.title}
+    subtitle={t.hero.subtitle}
+    description={t.hero.description}
+    bgImage="/images/about/hero.webp"
+  />
+
+  <BrandStory />
+  <Timeline />
+  <Values />
+  <CtaSection />
+</Layout>

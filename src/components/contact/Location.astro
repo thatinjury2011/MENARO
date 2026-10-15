@@ -4,8 +4,11 @@
 // 城市与地址来自 src/data/site.ts 的 contact.address
 import { contact } from "../../data/site";
 import { location } from "../../data/contact/location";
+import { localeOf } from "../../i18n/locales";
 
-const t = location.zh;
+const locale = localeOf(Astro.currentLocale);
+
+const t = location[locale];
 ---
 
 <section class="w-full bg-white px-4 py-16 sm:px-6">
@@ -20,9 +23,9 @@ const t = location.zh;
 
     <div class="flex flex-col items-end gap-3 text-right">
       <h2 class="text-2xl font-bold text-[#6b5537]">{t.heading}</h2>
-      <p class="text-base font-bold text-neutral-800">{contact.address.zh.city}</p>
+      <p class="text-base font-bold text-neutral-800">{contact.address[locale].city}</p>
       <p class="text-xs leading-relaxed text-neutral-500">
-        {contact.address.zh.line1}<br />{contact.address.zh.line2}
+        {contact.address[locale].line1}<br />{contact.address[locale].line2}
       </p>
       <a
         href="#"

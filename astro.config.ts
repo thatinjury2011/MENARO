@@ -1,7 +1,7 @@
-// @ts-check
 import { defineConfig } from 'astro/config';
 import tailwindcss from "@tailwindcss/vite";
 import { createRequire } from 'node:module';
+import { defaultLocale, locales } from './src/i18n/locales';
 
 const require = createRequire(import.meta.url);
 
@@ -14,11 +14,12 @@ const formspreeEsm = require.resolve('@formspree/ajax/dist/index.mjs');
 // site 用于 canonical URL / sitemap / Astro.site 等绝对地址
 export default defineConfig({
   site: 'https://menarobm.com',
-  // 多语言：中文在根路径（/products/），英文加 /en/ 前缀（/en/products/）。
-  // prefixDefaultLocale: false 表示默认语言（zh）不加前缀 —— 英文站上线不会改动任何现有中文 URL。
+  // 多语言：中文在根路径（/products/），英文加前缀（/en/products/）。
+  // prefixDefaultLocale: false 表示默认语言（zh）不加前缀 —— 加英文站不会改动任何现有中文 URL。
+  // 语言清单的唯一来源是 src/i18n/locales.ts，页面路由与组件也读同一份，不在这里另写一遍。
   i18n: {
-    defaultLocale: "zh",
-    locales: ["zh", "en"],
+    defaultLocale,
+    locales: [...locales],
     routing: {
       prefixDefaultLocale: false,
     },

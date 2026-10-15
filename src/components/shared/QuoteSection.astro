@@ -3,11 +3,14 @@
 import Icon from "./Icon.astro";
 import QuoteForm from "./QuoteForm.astro";
 import { quoteContacts, quoteSection } from "../../data/shared/quoteSection";
+import { localeOf } from "../../i18n/locales";
 
-const t = quoteSection.zh;
+const locale = localeOf(Astro.currentLocale);
+
+const t = quoteSection[locale];
 
 // 右侧栏联系方式：值与标签的唯一来源在 src/data/site.ts
-const contacts = quoteContacts;
+const contacts = quoteContacts(locale);
 ---
 
 <section

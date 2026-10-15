@@ -25,4 +25,28 @@ export const valueGrid = {
       },
     ],
   },
+  en: {
+    items: [
+      {
+        name: "Italian Technology",
+        desc: "Advanced formulations of Italian origin, held to strict quality standards",
+        icon: "sparkles",
+      },
+      {
+        name: "Global Reach",
+        desc: "Serving professional projects in more than 50 countries and regions",
+        icon: "globe",
+      },
+      {
+        name: "Premium Quality",
+        desc: "Carefully selected raw materials for consistent, reliable performance",
+        icon: "shield",
+      },
+      {
+        name: "Expert Support",
+        desc: "Professional guidance at every step, from product selection to application",
+        icon: "check",
+      },
+    ],
+  },
 };

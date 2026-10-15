@@ -1,5 +1,10 @@
 ---
 // 跨页公共：项目卡片网格（首页 项目亮点 / 项目案例页共用）
+import { localeOf } from "../../i18n/locales";
+import { localeHref } from "../../i18n/links";
+
+const locale = localeOf(Astro.currentLocale);
+
 interface Project {
   name: string;
   location: string;
@@ -27,7 +32,7 @@ const { items, columns = 3, class: className = "" } = Astro.props;
   {
     items.map((project) => (
       <a
-        href={project.href ?? "#"}
+        href={localeHref(locale, project.href ?? "#")}
         data-project-card
         data-category={project.category ?? "all"}
         class="group relative block overflow-hidden rounded-2xl"

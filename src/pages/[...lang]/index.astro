@@ -1,0 +1,27 @@
+---
+import About from "../../components/home/About.astro";
+import ApplicationSpaces from "../../components/home/ApplicationSpaces.astro";
+import FeaturedProducts from "../../components/home/FeaturedProducts.astro";
+import Hero from "../../components/home/Hero.astro";
+import ProjectHighlights from "../../components/home/ProjectHighlights.astro";
+import QuoteSection from "../../components/shared/QuoteSection.astro";
+import Layout from "../../layouts/Layout.astro";
+import { homePage } from "../../data/pages/index";
+import { localeStaticPaths, localeOf } from "../../i18n/locales";
+
+// 一个页面文件同时产出两种语言的路由：/xxx/ 与 /en/xxx/
+export const getStaticPaths = localeStaticPaths;
+
+const locale = localeOf(Astro.currentLocale);
+
+const t = homePage[locale];
+---
+
+<Layout title={t.title} brandFirst={homePage.brandFirst}>
+  <Hero />
+  <About />
+  <FeaturedProducts />
+  <ApplicationSpaces />
+  <ProjectHighlights />
+  <QuoteSection />
+</Layout>

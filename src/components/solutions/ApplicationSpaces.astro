@@ -2,8 +2,11 @@
 // 解决方案页：应用空间（米色面板内 3×2 图片网格）
 import SectionTitle from "../shared/SectionTitle.astro";
 import { applicationSpaces } from "../../data/solutions/applicationSpaces";
+import { localeOf } from "../../i18n/locales";
 
-const t = applicationSpaces.zh;
+const locale = localeOf(Astro.currentLocale);
+
+const t = applicationSpaces[locale];
 ---
 
 <section class="w-full bg-white px-4 py-16 sm:px-6">

@@ -3,10 +3,21 @@
 import PageHero from "../shared/PageHero.astro";
 import { oneBy } from "../../data/products/catalog";
 import { hero as heroText, heroActions } from "../../data/home/hero";
+import { localeOf } from "../../i18n/locales";
+
+const locale = localeOf(Astro.currentLocale);
 
 // 大标题 = 主推产品名（src/data/products/catalog.ts 里 show.hero），其余文案在 data/home/hero.ts
-const heroProduct = oneBy("hero");
-const t = heroText.zh;
+const heroProduct = oneBy("hero", locale);
+const t = heroText[locale];
+
+// PageHero 是跨页共用的，只认扁平的 { label, href, variant }；
+// 语言在数据owner这一层解析掉，共用组件保持与语言无关。
+const actions = heroActions.map((action) => ({
+  label: action[locale].label,
+  href: action.href,
+  variant: action.variant,
+}));
 ---
 
 <PageHero
@@ -16,7 +27,7 @@ const t = heroText.zh;
   description={t.description}
   features={t.features}
   featuresPlacement="side"
-  actions={heroActions}
+  actions={actions}
   image={null}
   bgImage="/images/home/hero.webp"
   blurMask={false}

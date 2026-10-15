@@ -6,4 +6,10 @@ export const ctaDefaults = {
     description: "我们的专家团队可提供专业建议和定制化解决方案",
     buttonText: "立即获取报价",
   },
+  en: {
+    title: "Need a tailored project solution?",
+    description:
+      "Our specialists provide expert advice and customized system solutions.",
+    buttonText: "Get a Quote Now",
+  },
 };

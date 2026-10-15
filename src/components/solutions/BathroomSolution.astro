@@ -3,8 +3,11 @@
 // 图片约定：/images/solutions/bathroom-solution.webp
 import FeatureBadges from "../shared/FeatureBadges.astro";
 import { bathroomSolution } from "../../data/solutions/bathroomSolution";
+import { localeOf } from "../../i18n/locales";
 
-const t = bathroomSolution.zh;
+const locale = localeOf(Astro.currentLocale);
+
+const t = bathroomSolution[locale];
 ---
 
 <section class="w-full bg-white px-4 py-16 sm:px-6">

@@ -15,4 +15,20 @@ export const productsPage = {
       ],
     },
   },
+  en: {
+    /** Layout 的页面名，会拼成「Products | MENARO」 */
+    title: "Products",
+    hero: {
+      label: "MENARO",
+      subtitle: "Premium tile installation materials",
+      description:
+        "Professional system solutions that combine Italian technology for a finish that lasts.",
+      features: [
+        { name: "Premium Finish" },
+        { name: "Reliable Quality" },
+        { name: "Waterproof" },
+        { name: "Eco-friendly" },
+      ],
+    },
+  },
 };

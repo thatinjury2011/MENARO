@@ -11,4 +11,15 @@ export const timeline = {
       { year: "2024+", label: "持续面向全球创新" },
     ],
   },
+  en: {
+    title: "Our Journey",
+    milestones: [
+      { year: "2004", label: "MENARO founded in China" },
+      { year: "2008", label: "Launched our first water-based epoxy grout line" },
+      { year: "2012", label: "Expanded into international markets" },
+      { year: "2016", label: "Introduced environmentally responsible systems" },
+      { year: "2020", label: "Strengthened our global footprint" },
+      { year: "2024+", label: "Continuing to innovate for the world" },
+    ],
+  },
 };

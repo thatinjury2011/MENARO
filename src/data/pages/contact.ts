@@ -2,4 +2,5 @@
 // 页面主体文案在同级的 src/data/contact/contactPage.ts
 export const contactPage = {
   zh: { title: "联系我们" },
+  en: { title: "Contact Us" },
 };

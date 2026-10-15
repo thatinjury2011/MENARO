@@ -1,0 +1,40 @@
+---
+import CaseList from "../../components/cases/CaseList.astro";
+import FeaturedCase from "../../components/cases/FeaturedCase.astro";
+import CtaSection from "../../components/shared/CtaSection.astro";
+import PageHero from "../../components/shared/PageHero.astro";
+import StatsBar from "../../components/shared/StatsBar.astro";
+import Layout from "../../layouts/Layout.astro";
+import { casesPage } from "../../data/pages/cases";
+import { localeStaticPaths, localeOf } from "../../i18n/locales";
+
+// 一个页面文件同时产出两种语言的路由：/xxx/ 与 /en/xxx/
+export const getStaticPaths = localeStaticPaths;
+
+const locale = localeOf(Astro.currentLocale);
+
+const t = casesPage[locale];
+---
+
+<Layout title={t.title}>
+  <PageHero
+    label={t.hero.label}
+    title={t.title}
+    subtitle={t.hero.subtitle}
+    subtitleClass="text-white"
+    description={t.hero.description}
+    features={t.hero.features}
+    bgImage="/images/solutions/hero.webp"
+  />
+
+  <CaseList />
+  <FeaturedCase />
+
+  <section class="w-full bg-white px-4 pb-4 sm:px-6">
+    <div class="mx-auto max-w-7xl">
+      <StatsBar items={t.stats} />
+    </div>
+  </section>
+
+  <CtaSection title={t.cta.title} />
+</Layout>

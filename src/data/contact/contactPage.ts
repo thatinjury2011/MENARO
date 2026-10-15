@@ -14,9 +14,26 @@ export const contactPageContent = {
         { name: "可靠品质" },
       ],
     },
+    /** 描述沿用 CtaSection 的默认文案（src/data/shared/ctaSection.ts），不重复写 */
     cta: {
       title: "还有其他问题？",
-      description: "我们的专家团队可提供专业建议和定制化解决方案",
+    },
+  },
+  en: {
+    hero: {
+      label: "MENARO",
+      title: "Contact · Request a Quote",
+      subtitle: "Have a question or a project in mind?",
+      description: "Our team will help you find the right solution",
+      features: [
+        { name: "Fast Response" },
+        { name: "Expert Support" },
+        { name: "Global Service" },
+        { name: "Reliable Quality" },
+      ],
+    },
+    cta: {
+      title: "Still have questions?",
     },
   },
 };

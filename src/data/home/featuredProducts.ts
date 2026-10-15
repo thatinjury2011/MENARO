@@ -5,7 +5,13 @@ export const featuredProducts = {
     title: "精选产品",
     /** 卡片底部链接 */
     cardLink: "查看详情›",
-    /** 装饰水印（不翻译） */
-    watermark: "Product",
+  },
+  en: {
+    title: "Featured Products",
+    /** 卡片底部链接 */
+    cardLink: "View details ›",
   },
 };
+
+/** 标题背后的装饰水印：纯装饰、不随语言变 */
+export const featuredProductsWatermark = "Product";

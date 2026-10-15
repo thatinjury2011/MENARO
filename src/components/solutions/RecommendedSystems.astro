@@ -2,8 +2,11 @@
 // 解决方案页：推荐系统（5 卡一行 + 竖分隔）
 import SectionTitle from "../shared/SectionTitle.astro";
 import { recommendedSystems } from "../../data/solutions/recommendedSystems";
+import { localeOf } from "../../i18n/locales";
 
-const t = recommendedSystems.zh;
+const locale = localeOf(Astro.currentLocale);
+
+const t = recommendedSystems[locale];
 ---
 
 <section class="w-full bg-white px-4 py-16 sm:px-6">

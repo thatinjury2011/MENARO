@@ -3,9 +3,12 @@
 import { featuredProject } from "../../data/cases/caseList";
 import { featuredCaseUi } from "../../data/cases/featuredCase";
 import { bySlug as productBySlug } from "../../data/products/catalog";
+import { localeOf } from "../../i18n/locales";
 
-const t = featuredCaseUi.zh;
-const project = featuredProject();
+const locale = localeOf(Astro.currentLocale);
+
+const t = featuredCaseUi[locale];
+const project = featuredProject(locale);
 
 const featured = project.featured;
 if (!featured) {
@@ -13,7 +16,7 @@ if (!featured) {
 }
 
 // 「使用产品」按 slug 引用产品，改产品名这里自动跟着变
-const usedProduct = productBySlug(featured.productSlug);
+const usedProduct = productBySlug(featured.productSlug, locale);
 
 const meta = [
   { term: t.metaType, value: featured.type },

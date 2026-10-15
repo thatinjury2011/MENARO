@@ -45,4 +45,59 @@ export const quoteForm = {
     note: "提交即表示您同意我们的隐私政策，我们不会分享您的信息",
     privacyLink: "隐私政策",
   },
+  en: {
+    /** 邮件标题（Formspree 的 _subject 字段） */
+    subject: "MENARO Website — New Enquiry",
+    /** 表单语言（Formspree 的 _language 字段） */
+    language: "en",
+    /**
+     * field 仍用中文：它是 Formspree 的表单字段名（通知邮件 / 后台的列名），
+     * 属于「对外契约」而不是页面文案 —— 中英文提交要保持同一套字段，
+     * 否则后台会多出一组列。页面显示的字文案（label / error / placeholder）才翻译。
+     */
+    fields: {
+      name: { field: "姓名", label: "Your name", error: "Please enter your name" },
+      email: {
+        field: "邮箱",
+        label: "Email",
+        error: "Please enter a valid email address",
+      },
+      phone: {
+        field: "电话",
+        label: "Phone",
+        error: "Please enter a valid phone number",
+      },
+      company: {
+        field: "公司名称",
+        label: "Company",
+        error: "Please check the company name",
+      },
+      region: {
+        field: "国家/地区",
+        label: "Country / Region",
+        error: "Please select a country / region",
+        placeholder: "Please select",
+      },
+      message: {
+        field: "项目需求",
+        label: "Project requirements",
+        error: "Please check the project requirements",
+      },
+    },
+    regions: [
+      "China",
+      "Italy",
+      "Other European Countries",
+      "North America",
+      "Middle East",
+      "Southeast Asia",
+      "Other",
+    ],
+    submit: "Submit",
+    success: "Thank you — we'll be in touch shortly.",
+    error:
+      "Submission failed. Please try again later, or reach us using the details below.",
+    note: "By submitting, you agree to our Privacy Policy. We never share your information.",
+    privacyLink: "Privacy Policy",
+  },
 };

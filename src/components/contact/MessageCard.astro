@@ -2,8 +2,11 @@
 // 联系页：发送消息卡片（含公司名称）
 import QuoteForm from "../shared/QuoteForm.astro";
 import { messageCard } from "../../data/contact/messageCard";
+import { localeOf } from "../../i18n/locales";
 
-const t = messageCard.zh;
+const locale = localeOf(Astro.currentLocale);
+
+const t = messageCard[locale];
 ---
 
 <div class="rounded-2xl bg-white p-6 shadow-[0_18px_50px_-24px_rgba(0,0,0,0.3)] sm:p-8">

@@ -6,9 +6,13 @@ import SectionTitle from "../shared/SectionTitle.astro";
 import Icon from "../shared/Icon.astro";
 import { oneBy } from "../../data/products/catalog";
 import { featuredProduct } from "../../data/products/featuredProduct";
+import { localeOf } from "../../i18n/locales";
+import { localeHref } from "../../i18n/links";
 
-const product = oneBy("featured");
-const t = featuredProduct.zh;
+const locale = localeOf(Astro.currentLocale);
+
+const product = oneBy("featured", locale);
+const t = featuredProduct[locale];
 ---
 
 <section class="relative w-full overflow-hidden bg-white px-4 py-16 sm:px-6">
@@ -29,7 +33,7 @@ const t = featuredProduct.zh;
           {product.highlights?.map((item) => <li>{item}</li>)}
         </ul>
         <a
-          href="/products"
+          href={localeHref(locale, "/products")}
           class="mt-2 inline-flex items-center gap-2 rounded-lg border border-neutral-300 px-5 py-2 text-xs font-medium text-neutral-700 transition-colors hover:bg-neutral-50"
         >
           {t.detailLink}

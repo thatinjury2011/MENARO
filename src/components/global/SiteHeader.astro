@@ -8,10 +8,20 @@
 //                 面板里同时补上搜索与语言切换（这两项本身在 < md 时也是隐藏的），
 //                 否则小屏既进不了主导航、也用不到搜索/切语言。
 import Icon from "../shared/Icon.astro";
-import { headerUi, navItems } from "../../data/global/header";
+import { headerUi, langLabels, navItems } from "../../data/global/header";
 import { brandName } from "../../data/site";
+import { htmlLang, localeOf, locales } from "../../i18n/locales";
+import { localeHref, pathWithoutLocale } from "../../i18n/links";
 
-const t = headerUi.zh;
+const locale = localeOf(Astro.currentLocale);
+const t = headerUi[locale];
+
+// 切换语言时停留在同一页：先算出去掉前缀的路径，再按目标语言重新加前缀
+const pagePath = pathWithoutLocale(locale, Astro.url.pathname);
+
+// 切换器的排列：其他语言在前、当前语言在后 —— 与原有「EN | 中」的视觉顺序保持一致
+const orderedLocales = [...locales.filter((l) => l !== locale), locale];
+
 const currentPath = Astro.url.pathname.replace(/\/+$/, "") || "/";
 
 const isActive = (href: string) =>
@@ -23,10 +33,10 @@ const isActive = (href: string) =>
     class="mx-auto flex max-w-7xl items-center justify-between gap-3 px-4 py-2 sm:gap-6 sm:px-6"
   >
     <!-- Logo（小屏收窄，为汉堡按钮让出位置） -->
-    <a href="/" class="shrink-0" aria-label={t.homeAria}>
+    <a href={localeHref(locale, "/")} class="shrink-0" aria-label={t.homeAria}>
       <img
         src="/images/global/logo.webp"
-        alt={brandName.zh}
+        alt={brandName[locale]}
         class="h-10 w-auto object-contain sm:h-14"
       />
     </a>
@@ -39,14 +49,14 @@ const isActive = (href: string) =>
       {
         navItems.map((item) => (
           <a
-            href={item.href}
+            href={localeHref(locale, item.href)}
             aria-current={isActive(item.href) ? "page" : undefined}
             class:list={[
               "rounded-xl px-3 py-1.5 text-xs font-bold transition-colors hover:bg-amber-900/10",
               isActive(item.href) && "bg-amber-900/15",
             ]}
           >
-            {item.zh.label}
+            {item[locale].label}
           </a>
         ))
       }
@@ -55,7 +65,7 @@ const isActive = (href: string) =>
     <!-- 右侧操作区 -->
     <div class="flex items-center gap-2 sm:gap-3">
       <a
-        href="/quote"
+        href={localeHref(locale, "/quote")}
         aria-current={isActive("/quote") ? "page" : undefined}
         class:list={[
           "rounded-lg bg-amber-950/90 px-3 py-2 text-sm font-bold text-white transition-colors hover:bg-amber-900 sm:px-4",
@@ -94,11 +104,26 @@ const isActive = (href: string) =>
       <div
         class="hidden items-center gap-2 rounded-full bg-neutral-200/80 px-3 py-1.5 text-xs font-semibold text-neutral-500 md:flex"
       >
-        <button type="button" class="transition-colors hover:text-amber-900"
-          >{t.langOther}</button
-        >
-        <span class="text-neutral-400">|</span>
-        <button type="button" class="text-amber-900">{t.langCurrent}</button>
+        {
+          orderedLocales.map((l, i) => (
+            <>
+              {i > 0 && <span class="text-neutral-400">|</span>}
+              {l === locale ? (
+                <span class="text-amber-900" aria-current="true">
+                  {langLabels[l]}
+                </span>
+              ) : (
+                <a
+                  href={localeHref(l, pagePath)}
+                  hreflang={htmlLang[l]}
+                  class="transition-colors hover:text-amber-900"
+                >
+                  {langLabels[l]}
+                </a>
+              )}
+            </>
+          ))
+        }
       </div>
 
       <!-- 汉堡按钮（< lg）：展开移动端导航面板 -->
@@ -155,7 +180,7 @@ const isActive = (href: string) =>
           navItems.map((item) => (
             <li>
               <a
-                href={item.href}
+                href={localeHref(locale, item.href)}
                 aria-current={isActive(item.href) ? "page" : undefined}
                 class:list={[
                   "flex items-center justify-between px-2 py-3 text-sm font-bold transition-colors",
@@ -164,7 +189,7 @@ const isActive = (href: string) =>
                     : "text-neutral-700 hover:text-amber-900",
                 ]}
               >
-                {item.zh.label}
+                {item[locale].label}
                 <Icon name="arrowRight" class="size-4 opacity-25" />
               </a>
             </li>
@@ -190,11 +215,26 @@ const isActive = (href: string) =>
         <div
           class="flex w-fit items-center gap-2 rounded-full bg-neutral-200/80 px-4 py-1.5 text-xs font-semibold text-neutral-500"
         >
-          <button type="button" class="transition-colors hover:text-amber-900"
-            >{t.langOther}</button
-          >
-          <span class="text-neutral-400">|</span>
-          <button type="button" class="text-amber-900">{t.langCurrent}</button>
+          {
+            orderedLocales.map((l, i) => (
+              <>
+                {i > 0 && <span class="text-neutral-400">|</span>}
+                {l === locale ? (
+                  <span class="text-amber-900" aria-current="true">
+                    {langLabels[l]}
+                  </span>
+                ) : (
+                  <a
+                    href={localeHref(l, pagePath)}
+                    hreflang={htmlLang[l]}
+                    class="transition-colors hover:text-amber-900"
+                  >
+                    {langLabels[l]}
+                  </a>
+                )}
+              </>
+            ))
+          }
         </div>
       </div>
     </nav>

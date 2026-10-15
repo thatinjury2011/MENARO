@@ -4,8 +4,11 @@
 //   透明底 + 白色码点，必须配深色底才看得见（不可再用 bg-white）
 import StatsBar from "../shared/StatsBar.astro";
 import { connectPanel } from "../../data/contact/connectPanel";
+import { localeOf } from "../../i18n/locales";
 
-const t = connectPanel.zh;
+const locale = localeOf(Astro.currentLocale);
+
+const t = connectPanel[locale];
 ---
 
 <section class="w-full bg-white px-4 pb-16 sm:px-6">

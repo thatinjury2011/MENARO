@@ -2,13 +2,16 @@
 // 项目案例页：筛选标签 + 案例网格（含轻量前端筛选）
 import ProjectCards from "../shared/ProjectCards.astro";
 import { caseCategories, caseList } from "../../data/cases/caseList";
+import { localeOf } from "../../i18n/locales";
+
+const locale = localeOf(Astro.currentLocale);
 
 const categories = caseCategories.map((category) => ({
   value: category.value,
-  label: category.zh.label,
+  label: category[locale].label,
 }));
 
-const cases = caseList();
+const cases = caseList(locale);
 ---
 
 <section class="w-full bg-white px-4 py-12 sm:px-6">

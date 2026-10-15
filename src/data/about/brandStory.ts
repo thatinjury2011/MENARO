@@ -2,8 +2,6 @@
 export const brandStory = {
   zh: {
     title: "品牌故事",
-    /** 标题背后的装饰水印（不翻译） */
-    watermark: "MENARO",
     heading: "共同打造更好的空间",
     paragraphs: [
       "MENARO 创立于中国，秉持着一个简单信念：空间里的每一个细节都很重要。",
@@ -38,4 +36,43 @@ export const brandStory = {
       },
     ],
   },
+  en: {
+    title: "Brand Story",
+    heading: "Building better spaces together",
+    paragraphs: [
+      "MENARO was founded in China on a simple belief: every detail in a space matters.",
+      "We develop high-performance, environmentally responsible tile installation solutions, combining Chinese engineering, premium raw materials and strict quality control.",
+    ],
+    stats: [
+      { label: "Years of Experience", value: "20+" },
+      { label: "Global Markets", value: "50+" },
+      { label: "Projects Delivered", value: "1000+" },
+      { label: "Technical Experts", value: "50+" },
+    ],
+    originBadge: {
+      title: "Made in China",
+      desc: "Crafted with Chinese expertise and dedication",
+    },
+    imageAlt: "Brand story",
+    pillars: [
+      {
+        name: "Our Mission",
+        desc: "To provide premium, innovative and sustainable tile installation solutions that improve the appearance and durability of every space",
+        icon: "sparkles",
+      },
+      {
+        name: "Our Values",
+        desc: "Quality first, innovation-driven, customer-focused, honest and trustworthy",
+        icon: "shield",
+      },
+      {
+        name: "Our Sustainability Commitment",
+        desc: "Low-VOC, water-based formulations that care for health and the environment",
+        icon: "leaf",
+      },
+    ],
+  },
 };
+
+/** 标题背后的装饰水印：纯装饰、不随语言变 */
+export const brandStoryWatermark = "MENARO";

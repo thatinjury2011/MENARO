@@ -30,4 +30,34 @@ export const recommendedSystems = {
       },
     ],
   },
+  en: {
+    title: "Recommended Systems",
+    systems: [
+      {
+        name: "Primer",
+        desc: "Improves adhesion to the substrate and seals the surface",
+        image: "/images/solutions/sys-primer.png",
+      },
+      {
+        name: "Tile Adhesive System",
+        desc: "A stable, reliable system for bonding tiles",
+        image: "/images/solutions/sys-glue.png",
+      },
+      {
+        name: "Epoxy Grout",
+        desc: "Premium jointing material that is waterproof, stain resistant and durable",
+        image: "/images/solutions/sys-epoxy.png",
+      },
+      {
+        name: "Flexible Sealant",
+        desc: "Flexible sealing for joints in kitchens and bathrooms",
+        image: "/images/solutions/sys-sealant.png",
+      },
+      {
+        name: "Cleaner & Care",
+        desc: "For routine cleaning and deep maintenance",
+        image: "/images/solutions/sys-cleaner.png",
+      },
+    ],
+  },
 };

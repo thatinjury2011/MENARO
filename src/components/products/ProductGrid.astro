@@ -3,8 +3,11 @@
 import ProductCard from "./ProductCard.astro";
 // 产品数据唯一来源：src/data/products.ts（加/删产品只改那里）
 import { productList } from "../../data/products/catalog";
+import { localeOf } from "../../i18n/locales";
 
-const products = productList();
+const locale = localeOf(Astro.currentLocale);
+
+const products = productList(locale);
 
 // 3+2 布局：前 3 张铺满一行，后 2 张居中
 const gridClass = (index: number) => {

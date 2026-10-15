@@ -3,9 +3,12 @@
 // 图片约定：/images/about/story.webp
 import SectionTitle from "../shared/SectionTitle.astro";
 import Icon from "../shared/Icon.astro";
-import { brandStory } from "../../data/about/brandStory";
+import { brandStory, brandStoryWatermark } from "../../data/about/brandStory";
+import { localeOf } from "../../i18n/locales";
 
-const t = brandStory.zh;
+const locale = localeOf(Astro.currentLocale);
+
+const t = brandStory[locale];
 ---
 
 <section class="relative w-full overflow-hidden bg-white px-4 py-16 sm:px-6">
@@ -14,7 +17,7 @@ const t = brandStory.zh;
     <div class="relative flex items-center justify-center">
       <span
         class="absolute inset-x-0 text-center text-[4rem] leading-none font-black tracking-tight text-neutral-100 select-none lg:text-[6.5rem]"
-        aria-hidden="true">{t.watermark}</span
+        aria-hidden="true">{brandStoryWatermark}</span
       >
       <SectionTitle title={t.title} variant="highlight" class="relative" />
     </div>

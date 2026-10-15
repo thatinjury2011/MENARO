@@ -7,17 +7,35 @@
 //   src/pages/products.astro（页面级 props）  →  src/data/pages/products.ts
 //   一个组件一个数据文件，不合并成「大杂烩」。
 //
-// 【两种数据形状】
-//   · 「列表」类 —— 结构字段（href、图片…）只写一次，文案放在每一条的 zh 键下：
-//         { href: "/products", zh: { label: "产品" } }
-//     这样将来加英文只补 zh 旁边的 en，不会把 href 复制成两份。
-//   · 「扁平文案」类 —— 一个 { zh: { ... } } 字典，组件里 const t = xxxUi.zh;
-//   · 不随语言变的内容（法务主体名、社交平台名、图标路径）不进 locale 结构。
+// 【多语言】
+//   · 「列表」类 —— 结构字段（href、图片…）只写一次，文案按语言收在 zh / en 下：
+//         { href: "/products", zh: { label: "产品" }, en: { label: "Products" } }
+//     href 不复制成两份，各语言共用同一份结构。
+//   · 「扁平文案」类 —— 一个 { zh: { ... }, en: { ... } } 字典。
+//     组件里统一写法：
+//         const locale = localeOf(Astro.currentLocale);
+//         const t = xxxUi[locale];
+//     TypeScript 会检查每种语言都写全，漏一个键就报错。
+//   · 新增语言：只在 src/i18n/locales.ts 的 locales 里加一项，
+//     再给每个 zh / en 旁边补上同名键即可。
+//   · 不随语言变的内容（法务主体名、社交平台名、图标路径、图片路径）不进 locale 结构。
+//
+// 【多语言的实现位置】
+//   src/i18n/locales.ts       语言清单（唯一来源，astro.config.ts 也读它）
+//   src/i18n/links.ts         localeHref() 给站内链接加/不加语言前缀；pathWithoutLocale()
+//   src/pages/[...lang]/      一个页面文件同时产出 /xxx/ 与 /en/xxx/ 两套路由
+//   src/layouts/Layout.astro  <html lang>、canonical、hreflang
+//   src/components/global/SiteHeader.astro  语言切换器（切到同一页的另一种语言）
 //
 // 【本文件只放】多个区块都要引用、又不属于任何单个区块的常量。
 
-/** logo alt、品牌署名；英文站会是 "MENARO" */
-export const brandName = { zh: "MENARO 美纳罗" };
+import type { Locale } from "../i18n/locales";
+
+/** logo alt、品牌署名 */
+export const brandName: Record<Locale, string> = {
+  zh: "MENARO 美纳罗",
+  en: "MENARO",
+};
 
 /** 页脚法务主体（营业执照名，不翻译） */
 export const legalName = "台州市东廷科技有限公司";
@@ -41,16 +59,38 @@ export const contact = {
       line1: "浙江省台州市椒江区洪家街道",
       line2: "银河名苑15幢三单元1501室",
     },
+    en: {
+      full: "Room 1501, Unit 3, Building 15, Yinhe Mingyuan, Hongjia Street, Jiaojiang District, Taizhou, Zhejiang, China",
+      city: "Taizhou, Zhejiang, China",
+      line1: "Room 1501, Unit 3, Building 15, Yinhe Mingyuan",
+      line2: "Hongjia Street, Jiaojiang District, Taizhou, Zhejiang, China",
+    },
   },
 };
 
 /** 联系方式的展示标签（首页报价区 / 联系页信息卡共用） */
-export const contactLabels = {
+export const contactLabels: Record<
+  Locale,
+  {
+    phone: string;
+    whatsapp: string;
+    wechat: string;
+    email: string;
+    address: string;
+  }
+> = {
   zh: {
     phone: "电话",
     whatsapp: "WhatsApp",
     wechat: "微信",
     email: "邮箱",
     address: "地址",
+  },
+  en: {
+    phone: "Phone",
+    whatsapp: "WhatsApp",
+    wechat: "WeChat",
+    email: "Email",
+    address: "Address",
   },
 };

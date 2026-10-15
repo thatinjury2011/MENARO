@@ -14,22 +14,42 @@ export const footerUi = {
     privacy: "隐私政策",
     terms: "使用条款",
   },
+  en: {
+    blurb:
+      "Italian-derived technology and premium quality, delivering reliable and environmentally responsible tile installation systems for projects worldwide.",
+    legalPrefix: "Legal company name: ",
+    groupProducts: "Products",
+    groupSolutions: "Solutions",
+    groupCompany: "Company",
+    contactTitle: "Contact us",
+    copyright: "© 2025 MENARO. All rights reserved.",
+    privacy: "Privacy Policy",
+    terms: "Terms of Use",
+  },
 };
 
 /** 页脚「解决方案」列 */
 export const footerSolutionLinks = [
-  { href: "/solutions", zh: { label: "住宅空间" } },
-  { href: "/solutions", zh: { label: "商业空间" } },
-  { href: "/solutions", zh: { label: "浴室与厨房" } },
-  { href: "/solutions", zh: { label: "公共基础" } },
+  { href: "/solutions", zh: { label: "住宅空间" }, en: { label: "Residential" } },
+  { href: "/solutions", zh: { label: "商业空间" }, en: { label: "Commercial" } },
+  {
+    href: "/solutions",
+    zh: { label: "浴室与厨房" },
+    en: { label: "Bathroom & Kitchen" },
+  },
+  {
+    href: "/solutions",
+    zh: { label: "公共基础" },
+    en: { label: "Public Infrastructure" },
+  },
 ];
 
 /** 页脚「公司」列 */
 export const footerCompanyLinks = [
-  { href: "/about", zh: { label: "品牌故事" } },
-  { href: "/about", zh: { label: "品质保障" } },
-  { href: "/cases", zh: { label: "项目案例" } },
-  { href: "/contact", zh: { label: "联系我们" } },
+  { href: "/about", zh: { label: "品牌故事" }, en: { label: "Brand Story" } },
+  { href: "/about", zh: { label: "品质保障" }, en: { label: "Quality Assurance" } },
+  { href: "/cases", zh: { label: "项目案例" }, en: { label: "Projects" } },
+  { href: "/contact", zh: { label: "联系我们" }, en: { label: "Contact Us" } },
 ];
 
 /** 页脚联系区的文案在组件里由 src/data/site.ts 的 contact 派生，这里不再重复定义 */

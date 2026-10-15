@@ -13,10 +13,32 @@ export const hero = {
       { name: "防霉保护" },
     ],
   },
+  en: {
+    label: "MENARO",
+    subtitle: "Premium tile joint finishing solutions",
+    description:
+      "High-performance, low-VOC systems with stable color that protect every detail and elevate the space",
+    features: [
+      { name: "Low-VOC Formula" },
+      { name: "Color Stability" },
+      { name: "Stain Resistance" },
+      { name: "Mold Protection" },
+    ],
+  },
 };
 
 /** 按钮：variant 决定描边风格（solid / ghost） */
 export const heroActions = [
-  { label: "浏览产品", href: "/products", variant: "solid" as const },
-  { label: "查看解决方案", href: "/solutions", variant: "ghost" as const },
+  {
+    href: "/products",
+    variant: "solid" as const,
+    zh: { label: "浏览产品" },
+    en: { label: "Browse Products" },
+  },
+  {
+    href: "/solutions",
+    variant: "ghost" as const,
+    zh: { label: "查看解决方案" },
+    en: { label: "Explore Solutions" },
+  },
 ];

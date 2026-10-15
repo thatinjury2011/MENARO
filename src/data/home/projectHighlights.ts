@@ -4,4 +4,7 @@ export const projectHighlights = {
   zh: {
     title: "项目亮点",
   },
+  en: {
+    title: "Project Highlights",
+  },
 };
