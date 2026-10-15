@@ -3,7 +3,21 @@
 import Icon from "./Icon.astro";
 import QuoteForm from "./QuoteForm.astro";
 
-const contacts: string[] = [];
+// 右侧栏展示的联系方式：统一成「标签 + 值」，能点的加上链接
+const contacts = [
+  { label: "电话", value: "+86 133 2600 6020", href: "tel:+8613326006020" },
+  {
+    label: "WhatsApp",
+    value: "+86 133 2600 6020",
+    href: "https://wa.me/8613326006020",
+  },
+  { label: "微信", value: "WangUP7777" },
+  { label: "邮箱", value: "wangup@menarobm.com", href: "mailto:wangup@menarobm.com" },
+  {
+    label: "地址",
+    value: "浙江省台州市椒江区洪家街道银河名苑15幢三单元1501室",
+  },
+];
 ---
 
 <section
@@ -52,34 +66,63 @@ const contacts: string[] = [];
       QuoteForm 是联系页共用的，那边的 MessageCard 仍是白底，所以标签/注释的字色
       只在**本区块内**用后代选择器覆写成深咖，避免影响联系页。
     -->
-    <div class="p-6 sm:p-8 [&_label]:text-[#4a3a24] [&_p]:text-[#4a3a24] left-0">
+    <div
+      class="p-6 sm:p-8 [&_label]:text-[#4a3a24] [&_p]:text-[#4a3a24] left-0"
+    >
       <h2 class="text-lg font-bold text-[#6b5537]">获取报价</h2>
       <QuoteForm class="mt-6" />
     </div>
 
-    <!-- 右：联系方式（lg 起咖色底由上面的装饰层提供，小屏仍是独立卡片以保证白字可读） -->
+    <!-- 右：联系方式（lg 起咖色底由上面的装饰层提供，小屏仍是独立卡片以区分区块）
+         文字用深咖而非白色：底色是浅咖 #d4c4ba，白字对比度仅 1.69:1（几乎看不清）；
+         改成 #4a3a24 是 6.39:1、#6b5537 是 4.17:1，达到可读标准。 -->
     <div
-      class="flex flex-col items-center justify-center gap-6 rounded-2xl bg-[#cbb49c]/70 p-6 text-center sm:p-8 lg:rounded-none lg:bg-transparent"
+      class="flex flex-col justify-center items-end gap-6 rounded-2xl bg-[#cbb49c]/70 p-6 sm:p-8 lg:rounded-none lg:bg-transparent"
     >
-      <h2 class="text-lg font-bold text-white">我们随时为您提供帮助</h2>
+      <h2 class="text-lg font-bold text-[#4a3a24]">我们随时为您提供帮助</h2>
 
-      <ul class="flex flex-col gap-3 text-sm text-white/90">
-        {
-          contacts.map((contact) => (
-            <li class="flex items-center justify-center gap-2">
-              <Icon name="arrowRight" class="size-3.5" />
-              {contact}
-            </li>
-          ))
-        }
-      </ul>
+      <!-- 左：联系方式（图标 + 标签 + 值，可点的带链接）；右：二维码。
+           justify-between 让二维码贴右边缘，列表仍然从左边开始。 -->
+      <div
+        class="flex flex-wrap items-center justify-between gap-x-8 gap-y-6"
+      >
+        <ul class="flex max-w-sm flex-col gap-3 text-sm text-[#4a3a24]">
+          {
+            contacts.map((contact) => (
+              <li class="flex items-start gap-3">
+                {/* 图标与标签都占满 20px 行高，首行基线才和值对齐（地址换行时不会错位） */}
+                <span class="flex h-5 items-center text-[#6b5537]">
+                  <Icon name="arrowRight" class="size-3.5" />
+                </span>
+                <span class="w-[4.5rem] shrink-0 text-xs leading-5 text-[#6b5537]">
+                  {contact.label}
+                </span>
+                {contact.href ? (
+                  <a
+                    href={contact.href}
+                    class="underline-offset-2 transition-colors hover:underline"
+                  >
+                    {contact.value}
+                  </a>
+                ) : (
+                  <span>{contact.value}</span>
+                )}
+              </li>
+            ))
+          }
+        </ul>
 
-      <img
-        src="/images/global/whatsapp-qr.png"
-        alt="WhatsApp 二维码"
-        class="size-32 rounded-lg bg-[#4a3a24] object-contain p-2"
-      />
-      <p class="text-xs text-white/90">扫描 WhatsApp 二维码添加联系</p>
+        <div class="flex w-32 shrink-0 flex-col gap-2">
+          <img
+            src="/images/global/whatsapp-qr.png"
+            alt="WhatsApp 二维码"
+            class="size-32 rounded-lg bg-[#4a3a24] object-contain p-2"
+          />
+          <p class="text-xs leading-relaxed text-[#4a3a24]">
+            扫描 WhatsApp 二维码添加联系
+          </p>
+        </div>
+      </div>
     </div>
   </div>
 </section>
