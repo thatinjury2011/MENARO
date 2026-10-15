@@ -1,0 +1,88 @@
+---
+// 全站公共：按浏览器语言自动跳转。
+//
+// 本站是纯静态站（没有 SSR / adapter），服务端拿不到请求头里的 Accept-Language，
+// 所以只能在浏览器端判断。这么做还有个额外好处：爬虫不执行 JS，
+// 中文默认页照旧被抓取，两版之间的关系由 Layout 里的 hreflang 正确声明。
+//
+// 跳转规则：
+//   1. 有效首选语言 = localStorage 里用户手动选过的语言；没选过（或值不合法）就按浏览器偏好探测
+//   2. 浏览器偏好里取第一个能对应到本站语言的标签；一个都对不上就按英文走
+//      （英文是面向国际访客的默认）
+//   3. 首选语言与当前页语言相同 → 不跳转
+//   4. 只在构建产物里生效：`astro dev` 下不跳转，免得开发时被反复弹走
+import { langStorageKey, localeOf, locales } from "../../i18n/locales";
+import { localeHref } from "../../i18n/links";
+
+interface Props {
+  /** 当前页语言 */
+  locale: string;
+  /** 去掉语言前缀的路径，用来生成另一语言版本的地址 */
+  path: string;
+}
+
+const current = localeOf(Astro.props.locale);
+
+/** 同一页面在各语言下的地址 */
+const targets = Object.fromEntries(
+  locales.map((l) => [l, localeHref(l, Astro.props.path)]),
+);
+---
+
+<script
+  is:inline
+  define:vars={{
+    localeDetect: {
+      current,
+      targets,
+      storageKey: langStorageKey,
+      enabled: !import.meta.env.DEV,
+    },
+  }}
+>
+  (() => {
+    const cfg = localeDetect;
+    if (!cfg.enabled) return;
+
+    const isSupported = (value) =>
+      !!value && Object.prototype.hasOwnProperty.call(cfg.targets, value);
+
+    // 1. 用户手动选过就用他的选择
+    let preferred = "";
+    try {
+      preferred = localStorage.getItem(cfg.storageKey) || "";
+    } catch {
+      // 隐私模式等场景下 localStorage 不可用，退回按浏览器语言探测
+    }
+
+    // 2. 没选过（或存的值不合法）→ 按浏览器偏好语言探测
+    if (!isSupported(preferred)) {
+      preferred = "";
+      const tags =
+        navigator.languages && navigator.languages.length
+          ? navigator.languages
+          : [navigator.language || ""];
+
+      for (const tag of tags) {
+        const t = String(tag).toLowerCase();
+        if (isSupported("zh") && t.startsWith("zh")) {
+          preferred = "zh";
+          break;
+        }
+        if (isSupported("en") && t.startsWith("en")) {
+          preferred = "en";
+          break;
+        }
+      }
+      // 一个都对不上就按英文走
+      if (!preferred) preferred = "en";
+    }
+
+    // 3. 已经是首选语言就不动
+    if (preferred === cfg.current) return;
+
+    // 4. 跳转（replace：不往历史里塞一条，避免用户按返回又被弹回来）
+    const target = cfg.targets[preferred];
+    if (target && target !== location.pathname) location.replace(target);
+  })();
+</script>

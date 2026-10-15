@@ -17,6 +17,12 @@ export const htmlLang: Record<Locale, string> = {
   en: "en",
 };
 
+/**
+ * 用户手动点过语言切换器后，把选择写进 localStorage 的键名。
+ * 一旦有记录，LocaleRedirect 就不再按浏览器语言自动跳转 —— 用户的选择优先。
+ */
+export const langStorageKey = "menaro-lang";
+
 /** 把 Astro.currentLocale 或路由参数收敛成受支持的语言；缺失时回退到默认语言 */
 export function localeOf(current: string | undefined | null): Locale {
   return locales.includes(current as Locale) ? (current as Locale) : defaultLocale;

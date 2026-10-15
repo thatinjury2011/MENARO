@@ -116,6 +116,7 @@ const isActive = (href: string) =>
                 <a
                   href={localeHref(l, pagePath)}
                   hreflang={htmlLang[l]}
+                  data-lang-switch={l}
                   class="transition-colors hover:text-amber-900"
                 >
                   {langLabels[l]}
@@ -227,6 +228,7 @@ const isActive = (href: string) =>
                   <a
                     href={localeHref(l, pagePath)}
                     hreflang={htmlLang[l]}
+                    data-lang-switch={l}
                     class="transition-colors hover:text-amber-900"
                   >
                     {langLabels[l]}
@@ -252,6 +254,8 @@ const isActive = (href: string) =>
 </style>
 
 <script>
+  import { langStorageKey } from "../../i18n/locales";
+
   const navToggle = document.querySelector<HTMLButtonElement>("[data-nav-toggle]");
   const navPanel = document.querySelector<HTMLElement>("[data-nav-panel]");
 
@@ -296,4 +300,18 @@ const isActive = (href: string) =>
       .matchMedia("(min-width: 64rem)")
       .addEventListener("change", () => setOpen(false));
   }
+
+  // 语言切换器：记住用户的选择，之后按这个选择跳转，不再看浏览器语言
+  document.addEventListener("click", (event) => {
+    const link = (event.target as HTMLElement | null)?.closest?.(
+      "[data-lang-switch]",
+    );
+    const lang = link instanceof HTMLElement ? link.dataset.langSwitch : null;
+    if (!lang) return;
+    try {
+      localStorage.setItem(langStorageKey, lang);
+    } catch {
+      // localStorage 不可用时忽略：读不到记录时跳转逻辑会按语言探测走
+    }
+  });
 </script>

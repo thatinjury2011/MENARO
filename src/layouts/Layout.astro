@@ -2,6 +2,7 @@
 import "../assets/app.css";
 
 import SiteFooter from "../components/global/SiteFooter.astro";
+import LocaleRedirect from "../components/global/LocaleRedirect.astro";
 import SiteHeader from "../components/global/SiteHeader.astro";
 import { BRAND, titleSeparator, metaDescription } from "../data/layouts/layout";
 import {
@@ -71,6 +72,9 @@ const absolute = (path: string) =>
       hreflang="x-default"
       href={absolute(localeHref(defaultLocale, pathWithoutLocale))}
     />
+
+    <!-- 首次到访时按浏览器语言自动跳转（详见组件内注释） -->
+    <LocaleRedirect locale={locale} path={pathWithoutLocale} />
 
     <title>{pageTitle}</title>
   </head>
