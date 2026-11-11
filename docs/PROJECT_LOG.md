@@ -1,6 +1,6 @@
 # Menaro 项目全局日志（滚动版）
 
-> **文档版本**：v1.1.0 ｜ **最后更新**：2026-11-11 ｜ **维护者**：bo li
+> **文档版本**：v1.2.0 ｜ **最后更新**：2026-11-11 ｜ **维护者**：bo li
 >
 > **用途**：任何新会话 / 新协作者读这一份，就能掌握项目现状与历史决策。
 > **规则**：每完成一个任务，在 §5 追加一行记录（版本号自增），并在 §6 看板更新状态。
@@ -16,7 +16,7 @@
 | 本地路径 | `D:\独立站\menaro` |
 | 代码仓库 | `https://github.com/thatinjury2011/MENARO`（公开，默认分支 `main`） |
 | 当前阶段 | 起步期 —— 仅有工具链配置，无业务代码 |
-| 技术栈 | 待定（候选：Astro + Tailwind + daisyUI，见 §4 ADR-001） |
+| 技术栈 | **Astro + Tailwind CSS + daisyUI**（已定稿，见 ADR-001） |
 
 ---
 
@@ -55,9 +55,10 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 | ID | 决策 | 理由 | 日期 |
 | --- | --- | --- | --- |
-| ADR-001 | 技术栈倾向 Astro + Tailwind + daisyUI | 已装对应 MCP / 扩展；独立站以内容 + 转化页面为主，Astro 静态输出成本低 | 2026-11-11（待确认） |
+| ADR-001 | 技术栈定为 **Astro + Tailwind CSS + daisyUI** | 独立站以内容 + 转化页为主，Astro 零 JS 静态输出成本低；Tailwind v4 `@theme` 可 1:1 承接设计令牌；daisyUI 提供 btn/card/collapse/drawer 等现成组件，减少自研 | 2026-11-11（已确认） |
 | ADR-002 | Figma 接入方式采用**官方插件**而非手写 `mcp.json` | 插件自带 45 个工具的 `_meta` 与 skills，出码质量更高；手写配置每次重启需重新 OAuth | 2026-11-11 |
 | ADR-003 | 修补插件 `mcp.json` 使其符合 Agent Plugins 1.0.0 schema | 官方发布版本不合规，Agent Host 会静默忽略整个配置 | 2026-11-11 |
+| ADR-004 | 产品中心**不单独建页**，用「全部产品右侧抽屉」承载（待最终确认） | 设计稿中 `83:1142` 产品中心页已隐藏，同时提供了完整的抽屉交互稿 | 2026-11-11（待确认） |
 
 ---
 
@@ -70,8 +71,20 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 | 版本 | 日期 | 类型 | 摘要 | 相关文档 |
 | --- | --- | --- | --- | --- |
+| v1.2.0 | 2026-11-11 | 次 | 技术栈定稿（Astro+Tailwind+daisyUI）；完成 Figma 设计稿全面分析，输出页面清单/令牌/组件/交互/风险与实施路线 | [design-analysis.md](design-analysis.md) |
 | v1.1.0 | 2026-11-11 | 次 | 仓库重置：本地项目接管 `thatinjury2011/MENARO`，旧内容与历史全部丢弃（orphan 强推）；新增 `.gitignore` | 本文档 §5.1 |
-| v1.0.0 | 2026-11-11 | 里程碑 | 建立项目文档体系（AGENTS.md + PROJECT_LOG + troubleshooting）；打通 Figma MCP 并完成真机验证 | [figma-mcp.md](troubleshooting/figma-mcp.md) |
+
+### v1.2.0 详细内容（2026-11-11）
+
+1. **技术栈定稿**：Astro + Tailwind CSS + daisyUI（ADR-001 转为「已确认」）。
+2. **设计稿分析**（详见 [design-analysis.md](design-analysis.md)）
+   - 文件 `KcSWkCBWn8kjsP42NVVlci`，2 个页面、5 个 section、约 1 万图层
+   - 有效画板：桌面 18 个 + 移动 20 个，覆盖 8 类页面
+   - 设计令牌 9 个颜色（`#083c30` 主色），CSS 类名体系 `mn-*`（BEM）
+   - 组件库：桌面 15 类 + 移动 6 类，含 Header/Footer/Card/Input/弹窗/抽屉
+   - 交互规范：8 入口全局导航、全部产品抽屉（含 5 分类 + 手风琴）、报价表单校验
+   - 素材：146 处引用 / 69 个唯一图片
+3. **提出 9 项风险**，其中 4 处隐藏画板 + 3 处宽度基准不一致需业务确认。| v1.0.0 | 2026-11-11 | 里程碑 | 建立项目文档体系（AGENTS.md + PROJECT_LOG + troubleshooting）；打通 Figma MCP 并完成真机验证 | [figma-mcp.md](troubleshooting/figma-mcp.md) |
 
 ### v1.1.0 详细内容（2026-11-11）
 
@@ -106,18 +119,21 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | 打通 Figma MCP | 2026-11-11 | 见 v1.0.0 |
 | 建立项目文档体系 | 2026-11-11 | 见 v1.0.0 |
 | `git init` 并覆盖远端仓库 | 2026-11-11 | 见 v1.1.0，旧内容已丢弃 |
+| 技术栈定稿（ADR-001） | 2026-11-11 | Astro + Tailwind + daisyUI |
+| Figma 设计稿分析 | 2026-11-11 | 见 v1.2.0 / [design-analysis.md](design-analysis.md) |
 
 ### 进行中
 
 | 任务 | 状态 | 下一步 |
 | --- | --- | --- |
-| —— | —— | —— |
+| 设计稿隐藏画板确认 | 待业务方确认 | 4 处隐藏 + 3 处宽度基准，见 design-analysis §7 |
 
 ### 待办 / 候选
 
 | 任务 | 优先级 | 备注 |
 | --- | --- | --- |
-| 技术栈定稿（ADR-001） | 高 | 确认 Astro + Tailwind + daisyUI 是否采用 |
+| P0 脚手架：Astro + Tailwind v4 + daisyUI + 令牌 + Base 布局 | 高 | 见 design-analysis §8.4 |
+| 批量导出 69 个设计素材 | 高 | 用 Figma MCP `download_assets` |
 | 配置 Vercel 项目（当前构建会失败） | 中 | 待有业务代码后再接 |
 | 完成 `vercel` MCP 授权 | 中 | 后续部署需要 |
 | 确认后可删除旧仓库备份 `D:\独立站\_backup_MENARO_20261111` | 低 | 3.4 MB，纯安全网 |

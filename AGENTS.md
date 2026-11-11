@@ -7,7 +7,8 @@
 按顺序读这两份文档即可快速掌握项目：
 
 1. [docs/PROJECT_LOG.md](docs/PROJECT_LOG.md) — 项目全局状态与**滚动版本日志**（每次任务完成后必须追加一条）
-2. [docs/troubleshooting/](docs/troubleshooting/) — 环境/工具链的踩坑与修复手册
+2. [docs/design-analysis.md](docs/design-analysis.md) — Figma 设计稿分析（页面清单、令牌、组件、交互、实施路线）
+3. [docs/troubleshooting/](docs/troubleshooting/) — 环境/工具链的踩坑与修复手册
 
 ## 强制约定
 
@@ -18,6 +19,10 @@
 ## 环境
 
 Windows 11 ｜ Node v22.20.0 ｜ npm 11.6.2 ｜ git 2.49.0 ｜ Python 3.13.7 ｜ VS Code 1.145.3
+
+## 技术栈（已定稿）
+
+**Astro + Tailwind CSS + daisyUI**。设计令牌前缀 `mn-`（主色 `#083c30`），详见 design-analysis §8。
 
 ## Figma MCP（易踩坑，先看这里）
 
