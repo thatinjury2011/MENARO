@@ -1,6 +1,6 @@
 # Menaro 项目全局日志（滚动版）
 
-> **文档版本**：v1.0.0 ｜ **最后更新**：2026-11-11 ｜ **维护者**：bo li
+> **文档版本**：v1.1.0 ｜ **最后更新**：2026-11-11 ｜ **维护者**：bo li
 >
 > **用途**：任何新会话 / 新协作者读这一份，就能掌握项目现状与历史决策。
 > **规则**：每完成一个任务，在 §5 追加一行记录（版本号自增），并在 §6 看板更新状态。
@@ -14,7 +14,7 @@
 | 项目名 | Menaro |
 | 类型 | 跨境电商独立站（DTC） |
 | 本地路径 | `D:\独立站\menaro` |
-| 代码仓库 | 尚未 `git init`（非 Git 仓库） |
+| 代码仓库 | `https://github.com/thatinjury2011/MENARO`（公开，默认分支 `main`） |
 | 当前阶段 | 起步期 —— 仅有工具链配置，无业务代码 |
 | 技术栈 | 待定（候选：Astro + Tailwind + daisyUI，见 §4 ADR-001） |
 
@@ -70,7 +70,22 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 | 版本 | 日期 | 类型 | 摘要 | 相关文档 |
 | --- | --- | --- | --- | --- |
+| v1.1.0 | 2026-11-11 | 次 | 仓库重置：本地项目接管 `thatinjury2011/MENARO`，旧内容与历史全部丢弃（orphan 强推）；新增 `.gitignore` | 本文档 §5.1 |
 | v1.0.0 | 2026-11-11 | 里程碑 | 建立项目文档体系（AGENTS.md + PROJECT_LOG + troubleshooting）；打通 Figma MCP 并完成真机验证 | [figma-mcp.md](troubleshooting/figma-mcp.md) |
+
+### v1.1.0 详细内容（2026-11-11）
+
+1. **备份旧仓库**（安全网，确认无误后可删）
+   - `git clone --mirror` → `D:\独立站\_backup_MENARO_20261111`（3.4 MB，含全部 refs）
+2. **本地初始化**
+   - `git init -b main`，新增 `.gitignore`（Node/Astro/env/Vercel 全覆盖）
+   - 首个提交 `38766d9 chore: initialize Menaro project`
+3. **orphan 强推覆盖远端**
+   - `git remote add origin https://github.com/thatinjury2011/MENARO.git`
+   - `git push -f -u origin main` → `dadcbb3...38766d9 (forced update)`
+   - 远端 `main` 现仅含 `.gitignore` / `AGENTS.md` / `docs/`，旧 Astro 代码与历史已移除
+4. **注意**：`main` 未被保护，强推无需额外操作；该仓库接了 Vercel（`menaro-jade.vercel.app`），本次推送会触发一次部署，纯文档仓库会导致构建失败属预期。
+
 
 ### v1.0.0 详细内容（2026-11-11）
 
@@ -90,6 +105,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | --- | --- | --- |
 | 打通 Figma MCP | 2026-11-11 | 见 v1.0.0 |
 | 建立项目文档体系 | 2026-11-11 | 见 v1.0.0 |
+| `git init` 并覆盖远端仓库 | 2026-11-11 | 见 v1.1.0，旧内容已丢弃 |
 
 ### 进行中
 
@@ -102,8 +118,9 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | 任务 | 优先级 | 备注 |
 | --- | --- | --- |
 | 技术栈定稿（ADR-001） | 高 | 确认 Astro + Tailwind + daisyUI 是否采用 |
-| `git init` 并建立首次提交 | 高 | 当前目录非 Git 仓库，无法回溯 |
+| 配置 Vercel 项目（当前构建会失败） | 中 | 待有业务代码后再接 |
 | 完成 `vercel` MCP 授权 | 中 | 后续部署需要 |
+| 确认后可删除旧仓库备份 `D:\独立站\_backup_MENARO_20261111` | 低 | 3.4 MB，纯安全网 |
 | 排查 `tdx-finance` MCP 不可用 | 低 | OAuth 元数据探测失败 |
 | Figma 插件自动更新后重新打 schema 补丁 | 按需 | 见 troubleshooting 文档「复发处理」 |
 
