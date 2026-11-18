@@ -18,11 +18,14 @@
 
 ## 环境
 
-Windows 11 ｜ Node v22.20.0 ｜ npm 11.6.2 ｜ git 2.49.0 ｜ Python 3.13.7 ｜ VS Code 1.145.3
+Windows 11 ｜ **Node v26.13.1（fnm 管理）** ｜ npm 11.20.0 ｜ git 2.49.0 ｜ Python 3.13.7 ｜ VS Code 1.145.3
+
+> Node 由 fnm 切换，项目根目录 `.node-version` 锁定 `26.13.1`。
+> 输入 `node -v` 若仍是 v22.20.0，说明当前 shell 没加载 fnm（profile 见 `docs/troubleshooting/astro-toolchain-versions.md`）。
 
 ## 技术栈（已定稿）
 
-**Astro + Tailwind CSS + daisyUI**。设计令牌前缀 `mn-`（主色 `#083c30`），详见 design-analysis §8。
+**Astro 7 + Tailwind CSS v4 + daisyUI 5**。设计令牌前缀 `mn-`（主色 `#083c30`），详见 design-analysis §8。
 
 ## 常用命令
 
@@ -47,8 +50,9 @@ public/brand/                  # 品牌 Logo（绿/白两版）
 
 ## 版本约束（重要）
 
-Astro 锁 **6.4.8**、Vite 锁 **7.x**，因为本机 Node v22.20.0 低于 Astro 7 要求的 `>=22.23.4`。
-不要随手 `npm i astro@latest`；升级路径见 [docs/troubleshooting/astro-toolchain-versions.md](docs/troubleshooting/astro-toolchain-versions.md)。
+- **Node ≥ 22.23.4**（Astro 7 硬要求），当前统一用 **26.13.1**；`package.json` 已声明 `engines`。
+- **不要单独安装 vite**：Astro 7 自带 `vite@8`，`@tailwindcss/vite` 共用同一份。多装一份 vite 会重演编译期崩溃。
+- 升级/排障细节见 [docs/troubleshooting/astro-toolchain-versions.md](docs/troubleshooting/astro-toolchain-versions.md)。
 
 ## Figma MCP（易踩坑，先看这里）
 

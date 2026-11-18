@@ -1,6 +1,6 @@
 # Menaro 项目全局日志（滚动版）
 
-> **文档版本**：v1.3.0 ｜ **最后更新**：2026-11-18 ｜ **维护者**：bo li
+> **文档版本**：v1.4.0 ｜ **最后更新**：2026-11-18 ｜ **维护者**：bo li
 >
 > **用途**：任何新会话 / 新协作者读这一份，就能掌握项目现状与历史决策。
 > **规则**：每完成一个任务，在 §5 追加一行记录（版本号自增），并在 §6 看板更新状态。
@@ -16,7 +16,7 @@
 | 本地路径 | `D:\独立站\menaro` |
 | 代码仓库 | `https://github.com/thatinjury2011/MENARO`（公开，默认分支 `main`） |
 | 当前阶段 | 脚手架阶段 —— Astro 骨架可跑（Header/Footer/令牌就绪），业务页面待 P1 起实现 |
-| 技术栈 | **Astro + Tailwind CSS + daisyUI**（已定稿，见 ADR-001） |
+| 技术栈 | **Astro 7 + Tailwind CSS v4 + daisyUI 5**（已定稿，见 ADR-001） |
 
 ---
 
@@ -26,12 +26,12 @@
 | --- | --- |
 | OS | Windows 11 (x64) |
 | VS Code | 1.145.3 |
-| Node.js | v22.20.0 |
-| npm | 11.6.2 |
+| Node.js | v26.13.1（fnm 管理，项目 `.node-version` 锁定） |
+| npm | 11.20.0 |
 | git | 2.49.0.windows.1 |
 | Python | 3.13.7 |
 
-> ⚠️ **Node 版本约束**：当前 Astro 锁在 **6.4.8**、Vite 锁在 **7.x**，因为本机 Node v22.20.0 不满足 Astro 7 要求的 `>=22.23.4`。升级 Node 后可解锁 Astro 7，步骤见 [troubleshooting/astro-toolchain-versions.md](troubleshooting/astro-toolchain-versions.md)。
+> ⚠️ **Node 版本约束**：Astro 7 要求 Node `>=22.23.4`。当前用 fnm 提供 26.13.1，系统级 `C:\Program Files\nodejs` 仍是 22.20.0，**只有加载了 fnm 的 shell 才是 26**。详见 [troubleshooting/astro-toolchain-versions.md](troubleshooting/astro-toolchain-versions.md)。
 
 VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、Figma (`figma.figma-vscode-extension` 0.4.8)。
 
@@ -73,10 +73,18 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 | 版本 | 日期 | 类型 | 摘要 | 相关文档 |
 | --- | --- | --- | --- | --- |
+| v1.4.0 | 2026-11-18 | 次 | **切换 Node 26 + 升级 Astro 7**：fnm 接管版本（`.node-version` + shell 集成），移除 vite pin，依赖树收敛为单一 vite 8，构建与双端渲染复验通过 | [troubleshooting/astro-toolchain-versions.md](troubleshooting/astro-toolchain-versions.md) |
 | v1.3.0 | 2026-11-18 | 次 | **P0 脚手架落地**：Astro 6 + Tailwind v4 + daisyUI 5 可跑；`--mn-*` 令牌与 `menaro` 主题接入；Base 布局 + 响应式 Header/Footer + 404 占位；记录 Astro/Vite 版本坑 | [troubleshooting/astro-toolchain-versions.md](troubleshooting/astro-toolchain-versions.md) |
 | v1.2.0 | 2026-11-11 | 次 | 技术栈定稿（Astro+Tailwind+daisyUI）；完成 Figma 设计稿全面分析，输出页面清单/令牌/组件/交互/风险与实施路线 | [design-analysis.md](design-analysis.md) |
 | v1.1.0 | 2026-11-11 | 次 | 仓库重置：本地项目接管 `thatinjury2011/MENARO`，旧内容与历史全部丢弃（orphan 强推）；新增 `.gitignore` | 本文档 §5.1 |
 | v1.0.0 | 2026-11-11 | 里程碑 | 建立项目文档体系（AGENTS.md + PROJECT_LOG + troubleshooting）；打通 Figma MCP 并完成真机验证 | [figma-mcp.md](troubleshooting/figma-mcp.md) |
+
+### v1.4.0 详细内容（2026-11-18）
+
+1. **Node 切换**：fnm 1.39.0 提供 v26.13.1（`default` 别名），新增 `.node-version` 锁定项目版本；`Documents\WindowsPowerShell\profile.ps1` 写入 `fnm env --use-on-cd`，新终端自动生效。
+2. **升级 Astro 7**：`astro@7.4.12`，删除 Astro 6 时期的 `vite@^7` 手动 pin，`package.json` 增加 `engines.node: ">=22.23.4"`；`npm ls vite` 只剩 Astro 自带的 `vite@8.3.8`。
+3. **复验**：`npm run build` 通过（2 页、零警告），`npm run dev` 下桌面 1440 / 移动 390 渲染与升级前一致，产物 CSS 66.1 KB、令牌与 `data-theme=menaro` 均在。
+4. **遗留**：系统级 Node 22 未卸载，cmd / Git Bash / 未加载 profile 的进程仍拿到 22.20.0，跑 Astro 7 会报错。
 
 ### v1.3.0 详细内容（2026-11-18）
 
@@ -142,6 +150,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | 技术栈定稿（ADR-001） | 2026-11-11 | Astro + Tailwind + daisyUI |
 | Figma 设计稿分析 | 2026-11-11 | 见 v1.2.0 / [design-analysis.md](design-analysis.md) |
 | P0 脚手架：Astro + Tailwind v4 + daisyUI + 令牌 + Base 布局 + Header/Footer | 2026-11-18 | 见 v1.3.0 |
+| 切换 Node 26 + 升级 Astro 7 | 2026-11-18 | 见 v1.4.0 |
 
 ### 进行中
 
@@ -166,7 +175,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 ## 7. 已知风险 / 注意事项
 
 - **Figma 插件升级会覆盖 `mcp.json`**，需要重新打 schema 补丁（文档里有一步步命令）。
-- **Node 22.20.0 卡住 Astro 7**：Astro 需 `>=22.23.4`，当前锁 Astro 6 + Vite 7；升级 Node 后方可解锁，见 [troubleshooting/astro-toolchain-versions.md](troubleshooting/astro-toolchain-versions.md)。
+- **Node 双版本并存**：fnm 已在 PowerShell 终端生效（26.13.1），但系统级 `C:\Program Files\nodejs` 仍是 22.20.0；cmd / Git Bash / 未加载 profile 的进程跑 Astro 7 会直接报错。彻底规避需卸载 Node 22，见 [troubleshooting/astro-toolchain-versions.md](troubleshooting/astro-toolchain-versions.md)。
 - **`Pc图片及图标/` 132 MB 素材未纳入版本控制**，含大量以 `2.png`、`Group 44.png` 命名的原始导出与整页截图，直接提交会让仓库膨胀。
 - 项目尚未纳入版本控制，任何破坏性操作无法回滚。
 - 用户级 MCP 配置含 `.install-staging` 下的旧路径条目（vercel 插件），若清理需同步修改 `chat.pluginLocations`。
