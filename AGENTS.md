@@ -34,6 +34,7 @@ Windows 11 ｜ **Node v26.13.1（fnm 管理）** ｜ npm 11.20.0 ｜ git 2.49.0 
 3. **通用 UI 字形用内联 SVG**（箭头、chevron、关闭、对勾、时钟），不要导出成图片。
 4. 资源由 `node scripts/build-assets.mjs` 生成，映射表就是文档；重复导出/hover 变体不入库。
 5. 整页参考图在 `design/reference/pages/`（已 gitignore），用于还原比对。
+6. **hero/banner 图必须按图层从 Figma 导出**（`node scripts/build-heroes.mjs`，节点表见 PROJECT_LOG v1.6.0），不要从整页截图裁切——那样会把标题文字一起烘焙进图片。
 
 ## 常用命令
 

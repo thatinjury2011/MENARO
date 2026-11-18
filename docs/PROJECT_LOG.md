@@ -75,12 +75,33 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 | 版本 | 日期 | 类型 | 摘要 | 相关文档 |
 | --- | --- | --- | --- | --- |
-| v1.5.0 | 2026-11-18 | 次 | **素材整理完成（待确认）**：266 张原始导出 → 159 个规范命名 WebP + 17 张整页参考图，58.7 MB 压到 4.4 MB；脚本化可重跑 | `scripts/build-assets.mjs` |
+| v1.6.0 | 2026-11-18 | 次 | **hero 图改为 Figma 图层导出（无文字底图）**：定位 16 个 banner 图片节点并 2x 导出 → WebP，34 MB → 3.4 MB；页面标题改由 HTML 排版，SEO/多语言打通 | `scripts/build-heroes.mjs` |
+| v1.5.0 | 2026-11-18 | 次 | **素材整理完成**：266 张原始导出 → 159 个规范命名 WebP + 17 张整页参考图，58.7 MB 压到 4.4 MB；脚本化可重跑 | `scripts/build-assets.mjs` |
 | v1.4.0 | 2026-11-18 | 次 | **切换 Node 26 + 升级 Astro 7**：fnm 接管版本（`.node-version` + shell 集成），移除 vite pin，依赖树收敛为单一 vite 8，构建与双端渲染复验通过 | [troubleshooting/astro-toolchain-versions.md](troubleshooting/astro-toolchain-versions.md) |
 | v1.3.0 | 2026-11-18 | 次 | **P0 脚手架落地**：Astro 6 + Tailwind v4 + daisyUI 5 可跑；`--mn-*` 令牌与 `menaro` 主题接入；Base 布局 + 响应式 Header/Footer + 404 占位；记录 Astro/Vite 版本坑 | [troubleshooting/astro-toolchain-versions.md](troubleshooting/astro-toolchain-versions.md) |
 | v1.2.0 | 2026-11-11 | 次 | 技术栈定稿（Astro+Tailwind+daisyUI）；完成 Figma 设计稿全面分析，输出页面清单/令牌/组件/交互/风险与实施路线 | [design-analysis.md](design-analysis.md) |
 | v1.1.0 | 2026-11-11 | 次 | 仓库重置：本地项目接管 `thatinjury2011/MENARO`，旧内容与历史全部丢弃（orphan 强推）；新增 `.gitignore` | 本文档 §5.1 |
 | v1.0.0 | 2026-11-11 | 里程碑 | 建立项目文档体系（AGENTS.md + PROJECT_LOG + troubleshooting）；打通 Figma MCP 并完成真机验证 | [figma-mcp.md](troubleshooting/figma-mcp.md) |
+
+### v1.6.0 详细内容（2026-11-18）
+
+1. **根因纠正**：设计稿里 banner = 照片图层 + 渐隐遮罩 + 独立 `text` 节点，**文字从未烘焙进图片**；此前看到的文字来自「整页截图」而非分图层导出。因此无需向设计索要底图，可直接从 Figma 导出。
+2. **16 个 hero 图片节点**（`download_assets` 2x，2880 画板按 1.333x 对齐 3840 宽）：
+
+   | 资源 | 节点 | 资源 | 节点 |
+   | --- | --- | --- | --- |
+   | home | `413:3438` | products/tile-grout | `8:100` |
+   | cases | `83:1266` | products/tile-adhesive | `249:3202` |
+   | solutions/index | `83:1364` | products/sealant | `45:765` |
+   | solutions/industrial-floor | `206:2576` | products/floor | `45:959` |
+   | about | `83:1567` | products/detail-tile-grout | `45:652` |
+   | about/manufacturing | `45:1326` | products/detail-sealant | `45:867` |
+   | global | `83:1467` | products/detail-floor | `45:1062` |
+   | contact | `85:2294` | quote | `83:1819` |
+
+3. **版式要点**：1920 宽页面是「全宽照片 + 左侧 18% 渐隐」；2880 系列/详情页照片只占右半边（1900 或 874 宽），左侧为背景色 + 渐隐，实现时用 CSS 渐变叠加，文字全部走 HTML。
+4. **异常处理**：`8:100`、`45:652` 节点导出为空白（149 B），回退使用 `rawImages` 原始上传图；其中 `45:652` 原图 1900×932 与设计框 1900×712 不符，按 `fit: cover` 居中裁切。
+5. **结果**：34.0 MB → 3.38 MB，16 张全部校验为合法 WebP；脚本 `scripts/build-heroes.mjs`，源图在 `design/figma-hero/`（gitignored）。
 
 ### v1.5.0 详细内容（2026-11-18）
 
@@ -163,7 +184,8 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | Figma 设计稿分析 | 2026-11-11 | 见 v1.2.0 / [design-analysis.md](design-analysis.md) |
 | P0 脚手架：Astro + Tailwind v4 + daisyUI + 令牌 + Base 布局 + Header/Footer | 2026-11-18 | 见 v1.3.0 |
 | 切换 Node 26 + 升级 Astro 7 | 2026-11-18 | 见 v1.4.0 |
-| 设计素材整理与 WebP 化 | 2026-11-18 | 见 v1.5.0，待确认命名与目录 |
+| 设计素材整理与 WebP 化 | 2026-11-18 | 见 v1.5.0 |
+| 从 Figma 导出无文字 hero 图 | 2026-11-18 | 见 v1.6.0 |
 
 ### 进行中
 
@@ -189,7 +211,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 - **Figma 插件升级会覆盖 `mcp.json`**，需要重新打 schema 补丁（文档里有一步步命令）。
 - **Node 双版本并存**：fnm 已在 PowerShell 终端生效（26.13.1），但系统级 `C:\Program Files\nodejs` 仍是 22.20.0；cmd / Git Bash / 未加载 profile 的进程跑 Astro 7 会直接报错。彻底规避需卸载 Node 22，见 [troubleshooting/astro-toolchain-versions.md](troubleshooting/astro-toolchain-versions.md)。
-- **Banner 文案烘焙进图**：`home/hero.webp`、`solutions/index/hero.webp` 等图片里已含标题/副标题/标签文字，直接使用会失去可编辑性与 SEO 价值，需设计提供无文字底图（见 v1.5.0）。
+- **Banner 文案**（已解决）：原以为文字烘焙进图，实为整页截图导致；v1.6.0 已改为按图层导出无文字底图，文案走 HTML。
 - **`Pc图片及图标/` 132 MB 素材未纳入版本控制**，含大量以 `2.png`、`Group 44.png` 命名的原始导出与整页截图，直接提交会让仓库膨胀。
 - 项目尚未纳入版本控制，任何破坏性操作无法回滚。
 - 用户级 MCP 配置含 `.install-staging` 下的旧路径条目（vercel 插件），若清理需同步修改 `chat.pluginLocations`。

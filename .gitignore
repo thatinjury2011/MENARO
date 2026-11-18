@@ -45,3 +45,6 @@ desktop.ini
 .cache/
 .astro/
 .eslintcache
+
+# Figma 导出的 hero 源图（34 MB，可重新导出）
+design/figma-hero/
