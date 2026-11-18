@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+import Container from '../../ui/Container.astro';
+import SectionHeading from '../../ui/SectionHeading.astro';
+import ArrowLink from '../../ui/ArrowLink.astro';
+import ArrowIcon from '../../ui/ArrowIcon.astro';
+
+import grout from '../../../assets/home/collection-tile-grout.webp';
+import adhesive from '../../../assets/home/collection-tile-adhesive.webp';
+import sealant from '../../../assets/home/collection-sealant.webp';
+import floor from '../../../assets/home/collection-floor.webp';
+
+const products = [
+  { title: '美缝与填缝材料', desc: '美缝剂·填缝材料·美缝辅材', image: grout, href: '/products/tile-grout' },
+  { title: '瓷砖胶与铺贴材料', desc: '瓷砖胶·铺贴材料', image: adhesive, href: '/products/tile-adhesive' },
+  { title: '建筑密封胶与结构胶', desc: '建筑密封胶·结构胶', image: sealant, href: '/products/sealant' },
+  { title: '环氧地坪与自流平', desc: '环氧彩砂自流平·地坪漆', image: floor, href: '/products/floor' },
+];
+---
+
+<section class="bg-base-100 py-14 lg:py-24">
+  <Container>
+    <div class="flex items-end justify-between gap-6">
+      <SectionHeading title="产品系列" subtitle="PRODUCT COLLECTION · 产品体系" />
+      <ArrowLink href="/products" class="shrink-0">查看全部产品</ArrowLink>
+    </div>
+
+    <ul class="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-box border border-mn-border bg-mn-border sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">
+      {
+        products.map((item) => (
+          <li class="bg-base-100">
+            <a href={item.href} class="group flex h-full flex-col">
+              <Image
+                src={item.image}
+                alt={item.title}
+                widths={[408, 816]}
+                sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                class="aspect-[408/250] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                loading="lazy"
+              />
+              <div class="flex flex-1 flex-col gap-2 p-6">
+                <h3 class="text-lg font-semibold text-mn-ink">{item.title}</h3>
+                <p class="text-[13px] text-mn-muted">{item.desc}</p>
+                <div class="mt-auto flex items-center justify-between pt-6">
+                  <span class="text-[13px] text-mn-ink">了解系列</span>
+                  <span class="grid size-8 place-items-center rounded-full border border-mn-border text-mn-ink transition-colors group-hover:border-mn-green group-hover:bg-mn-green group-hover:text-white">
+                    <ArrowIcon className="size-4" />
+                  </span>
+                </div>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</section>

@@ -1,0 +1,17 @@
+---
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  class?: string;
+}
+
+const { eyebrow, title, subtitle, class: className = '' } = Astro.props;
+---
+
+<div class:list={['flex flex-col gap-2', className]}>
+  {eyebrow && <p class="text-sm font-medium text-mn-muted">{eyebrow}</p>}
+  <h2 class="text-[32px] leading-[1.15] font-bold tracking-tight text-mn-ink lg:text-[44px]">{title}</h2>
+  {subtitle && <p class="text-sm text-mn-muted lg:text-base">{subtitle}</p>}
+  <slot />
+</div>

@@ -1,46 +1,70 @@
 ---
-import { navItems, quoteCta } from '../../data/site';
+import Container from '../ui/Container.astro';
+import { navItems, quoteCta, legalLinks } from '../../data/site';
+
+import linkedin from '../../assets/icons/social-linkedin.webp';
+import youtube from '../../assets/icons/social-youtube.webp';
+import wechat from '../../assets/icons/social-wechat.webp';
+import whatsapp from '../../assets/icons/social-whatsapp.webp';
 
 const year = new Date().getFullYear();
+
+const socials = [
+  { label: 'LinkedIn', href: '#', icon: linkedin },
+  { label: 'YouTube', href: '#', icon: youtube },
+  { label: '微信', href: '#', icon: wechat },
+  { label: 'WhatsApp', href: '#', icon: whatsapp },
+];
 ---
 
-<footer class="bg-primary text-primary-content">
-  <div
-    class="mx-auto flex w-full max-w-[90rem] flex-col gap-10 px-5 py-12 lg:px-10 lg:py-16"
-  >
-    <div class="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
-      <a href="/" class="flex shrink-0 items-center" aria-label="MENARO 首页">
-        <img
-          src="/brand/logo-white.png"
-          alt="MENARO"
-          width="270"
-          height="55"
-          class="h-7 w-auto lg:h-8"
-        />
-      </a>
+<footer class="border-t border-mn-border bg-base-100">
+  <Container>
+    <div class="flex flex-col gap-8 py-10 lg:flex-row lg:items-center lg:justify-between lg:py-9">
+      <div class="flex flex-col gap-2">
+        <a href="/" class="inline-flex items-center" aria-label="MENARO 首页">
+          <img src="/brand/logo.png" alt="MENARO" width="237" height="82" class="h-10 w-auto" />
+        </a>
+        <p class="text-xs text-mn-muted">建筑材料制造与全球供应</p>
+      </div>
 
-      <nav
-        aria-label="页脚导航"
-        class="grid grid-cols-2 gap-x-8 gap-y-3 text-sm sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-12"
-      >
+      <nav aria-label="页脚导航" class="flex flex-wrap items-center gap-x-7 gap-y-2">
         {
           [...navItems, quoteCta].map((item) => (
-            <a
-              href={item.href}
-              class="text-primary-content/75 transition-colors duration-200 hover:text-primary-content"
-            >
+            <a href={item.href} class="text-[13px] text-mn-ink transition-colors hover:text-mn-green">
               {item.label}
             </a>
           ))
         }
       </nav>
+
+      <ul class="flex items-center gap-4">
+        {
+          socials.map((s) => (
+            <li>
+              <a href={s.href} aria-label={s.label} class="block opacity-80 transition-opacity hover:opacity-100">
+                <img src={s.icon.src} alt="" width="34" height="34" class="size-6" loading="lazy" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </div>
 
     <div
-      class="flex flex-col gap-2 border-t border-primary-content/15 pt-6 text-xs text-primary-content/60 sm:flex-row sm:items-center sm:justify-between"
+      class="flex flex-col gap-3 border-t border-mn-border py-5 text-xs text-mn-muted sm:flex-row sm:items-center sm:justify-between"
     >
-      <p>© {year} MENARO. 保留所有权利。</p>
-      <p>建筑材料与系统解决方案</p>
+      <p>© {year} MENARO. All Rights Reserved.</p>
+      <ul class="flex flex-wrap items-center gap-x-5 gap-y-2">
+        {
+          legalLinks.map((item) => (
+            <li>
+              <a href={item.href} class="transition-colors hover:text-mn-green">
+                {item.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
     </div>
-  </div>
+  </Container>
 </footer>

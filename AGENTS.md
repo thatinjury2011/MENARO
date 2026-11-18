@@ -50,12 +50,17 @@ npm run preview
 ```
 src/
 ├─ layouts/Base.astro          # SEO meta + Header/Footer 包裹
-├─ components/site/            # Header / Footer
+├─ components/
+│  ├─ ui/                      # 原子件：Container / Button / ArrowLink / ArrowIcon / SectionHeading
+│  ├─ site/                    # 全站结构：Header / Footer
+│  └─ pages/<page>/            # 单页私有区块，如 pages/home/*
 ├─ data/site.ts                # 导航与站点元信息（单一数据源）
-├─ pages/                      # index 占位、404
+├─ pages/                      # index 首页、404
 └─ styles/global.css           # @theme --mn-* 令牌 + daisyUI 主题 menaro
 public/brand/                  # 品牌 Logo（绿/白两版）
 ```
+
+**组件分层约定**：`ui/` 无业务语义；跨页复用的业务区块放 `components/sections/`（尚未开始）；单页私有放 `components/pages/<page>/`。
 
 ## 版本约束（重要）
 

@@ -1,0 +1,56 @@
+---
+import { Image } from 'astro:assets';
+import Container from '../../ui/Container.astro';
+import SectionHeading from '../../ui/SectionHeading.astro';
+import ArrowLink from '../../ui/ArrowLink.astro';
+
+import app01 from '../../../assets/home/application-01.webp';
+import app02 from '../../../assets/home/application-02.webp';
+import app03 from '../../../assets/home/application-03.webp';
+import app04 from '../../../assets/home/application-04.webp';
+
+const scenes = [
+  { title: '住宅空间', sub: '家居空间', image: app01 },
+  { title: '商业建筑', sub: '商业场景空间', image: app02 },
+  { title: '室外与建筑外立面', sub: '建筑与空间应用', image: app03 },
+  { title: '公共建筑与空间', sub: '公共建筑空间', image: app04 },
+];
+---
+
+<section class="bg-base-100 py-14 lg:py-24">
+  <Container>
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <SectionHeading title="建筑应用方案" subtitle="多场景应用解决方案" />
+      <div class="flex flex-col gap-4 lg:items-end">
+        <p class="max-w-[560px] text-[13px] leading-6 text-mn-muted lg:text-right">
+          从住宅到商业空间、从室内配套到室外建筑应用，为不同采购项目匹配适宜的材料方案。
+        </p>
+        <ArrowLink href="/solutions">了解应用场景</ArrowLink>
+      </div>
+    </div>
+
+    <ul class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">
+      {
+        scenes.map((scene) => (
+          <li>
+            <a href="/solutions" class="group relative block overflow-hidden rounded-box">
+              <Image
+                src={scene.image}
+                alt={scene.title}
+                widths={[409, 818]}
+                sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                class="aspect-[409/335] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                loading="lazy"
+              />
+              <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent"></div>
+              <div class="absolute inset-x-0 bottom-0 flex flex-col gap-1 p-5">
+                <p class="text-lg font-semibold text-white">{scene.title}</p>
+                <p class="text-[12px] text-white/75">{scene.sub}</p>
+              </div>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</section>

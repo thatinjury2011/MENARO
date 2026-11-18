@@ -1,0 +1,21 @@
+---
+import Container from '../../ui/Container.astro';
+import Button from '../../ui/Button.astro';
+---
+
+<section class="bg-[#f7f3ea] py-14 lg:py-20">
+  <Container>
+    <div
+      class="flex flex-col gap-8 rounded-box bg-base-100 px-7 py-10 lg:flex-row lg:items-center lg:justify-between lg:px-12 lg:py-12"
+    >
+      <div class="flex flex-col gap-3">
+        <p class="text-[13px] text-mn-muted">携手共创更好建筑</p>
+        <h2 class="text-2xl font-bold tracking-tight text-mn-ink lg:text-[34px]">
+          寻找可靠的建筑材料合作伙伴？
+        </h2>
+        <p class="text-[13px] text-mn-muted">欢迎咨询产品参数、采购数量、贴牌定制需求与长期合作方案。</p>
+      </div>
+      <Button href="/contact" withArrow class="shrink-0 min-w-[188px] justify-between">洽谈商务合作</Button>
+    </div>
+  </Container>
+</section>

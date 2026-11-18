@@ -1,0 +1,45 @@
+---
+import ArrowIcon from './ArrowIcon.astro';
+
+interface Props {
+  href?: string;
+  type?: 'button' | 'submit';
+  variant?: 'primary' | 'outline' | 'white';
+  withArrow?: boolean;
+  size?: 'md' | 'lg';
+  class?: string;
+}
+
+const {
+  href,
+  type = 'button',
+  variant = 'primary',
+  withArrow = false,
+  size = 'md',
+  class: className = '',
+} = Astro.props;
+
+const classes = [
+  'btn h-auto min-h-0 gap-3 rounded-field font-medium shadow-none',
+  size === 'lg' ? 'px-8 py-4 text-base' : 'px-6 py-3.5 text-[15px]',
+  variant === 'primary' && 'btn-primary hover:bg-mn-green-hover active:bg-mn-green-pressed',
+  variant === 'outline' &&
+    'btn-outline border-mn-border text-mn-ink hover:border-mn-green hover:bg-mn-green hover:text-white',
+  variant === 'white' && 'btn border-0 bg-base-100 text-mn-ink hover:bg-base-200',
+  className,
+];
+---
+
+{
+  href ? (
+    <a href={href} class:list={classes}>
+      <slot />
+      {withArrow && <ArrowIcon className="size-4" />}
+    </a>
+  ) : (
+    <button type={type} class:list={classes}>
+      <slot />
+      {withArrow && <ArrowIcon className="size-4" />}
+    </button>
+  )
+}

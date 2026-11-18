@@ -75,6 +75,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 | 版本 | 日期 | 类型 | 摘要 | 相关文档 |
 | --- | --- | --- | --- | --- |
+| v1.7.0 | 2026-11-18 | 次 | **首页骨架落地 + P0.5 基础组件**：`Container/Button/ArrowLink/ArrowIcon/SectionHeading`；首页 9 个区块全部实现（hero→服务亮点→产品系列→更多规划→制造→应用→案例→合作伙伴→CTA）；导航/页脚按设计稿重构为浅色 | — |
 | v1.6.0 | 2026-11-18 | 次 | **hero 图改为 Figma 图层导出（无文字底图）**：定位 16 个 banner 图片节点并 2x 导出 → WebP，34 MB → 3.4 MB；页面标题改由 HTML 排版，SEO/多语言打通 | `scripts/build-heroes.mjs` |
 | v1.5.0 | 2026-11-18 | 次 | **素材整理完成**：266 张原始导出 → 159 个规范命名 WebP + 17 张整页参考图，58.7 MB 压到 4.4 MB；脚本化可重跑 | `scripts/build-assets.mjs` |
 | v1.4.0 | 2026-11-18 | 次 | **切换 Node 26 + 升级 Astro 7**：fnm 接管版本（`.node-version` + shell 集成），移除 vite pin，依赖树收敛为单一 vite 8，构建与双端渲染复验通过 | [troubleshooting/astro-toolchain-versions.md](troubleshooting/astro-toolchain-versions.md) |
@@ -82,6 +83,19 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | v1.2.0 | 2026-11-11 | 次 | 技术栈定稿（Astro+Tailwind+daisyUI）；完成 Figma 设计稿全面分析，输出页面清单/令牌/组件/交互/风险与实施路线 | [design-analysis.md](design-analysis.md) |
 | v1.1.0 | 2026-11-11 | 次 | 仓库重置：本地项目接管 `thatinjury2011/MENARO`，旧内容与历史全部丢弃（orphan 强推）；新增 `.gitignore` | 本文档 §5.1 |
 | v1.0.0 | 2026-11-11 | 里程碑 | 建立项目文档体系（AGENTS.md + PROJECT_LOG + troubleshooting）；打通 Figma MCP 并完成真机验证 | [figma-mcp.md](troubleshooting/figma-mcp.md) |
+
+### v1.7.0 详细内容（2026-11-18）
+
+1. **基础组件**（`src/components/ui/`）：`Container`（1706 内容宽）、`Button`（primary/outline/white，内置箭头）、`ArrowLink`、`ArrowIcon`、`SectionHeading`。通用箭头统一内联 SVG，不占图片资源。
+2. **导航按设计稿修正**：8 个入口改为 `首页 / 产品体系 / 项目案例 / 解决方案 / 全球合作 / 制造与品质 / 关于我们 / 联系我们`，右侧增加「中文」语言位 + 获取报价。
+3. **页脚改为浅色**：白底 + 上级分隔线、Logo + 标语、9 条导航、4 个社交图标、`© 2026 MENARO. All Rights Reserved.` + 4 条法务链接。
+4. **首页 9 个区块**（`src/components/pages/home/`）：`Hero` `ServiceHighlights` `ProductCollection` `ProductRoadmap` `Manufacturing` `Applications` `Cases` `Partners` `ContactCta`，文案全部取自 Figma 文本图层，图片全部走 `astro:assets` 多尺寸 srcset。
+5. **修掉的问题**：
+   - 案例大卡把按钮（`<a>`）嵌套在卡片链接（`<a>`）里，HTML 不允许 → 外层被解析器截断，按钮漂到页面顶部。改为卡片 div + 全卡覆盖链接 + `pointer-events-auto` 按钮。
+   - hero 在移动端文字压在强光照片上不可读 → `bg-white/85` 移动遮罩，桌面才用左→右渐变。
+   - hero logo 被 flex `stretch` 拉宽变形 → `self-start`。
+6. **验证**：`npm run build` 通过（dist 1.68 MB）；1440 与 390 双端截图与设计稿逐段比对一致。
+7. **待设计确认**：`项目案例` 区块副标题在设计稿中仍写作「多场景应用解决方案」（与「建筑应用方案」重复），当前按原稿保留。
 
 ### v1.6.0 详细内容（2026-11-18）
 
@@ -186,6 +200,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | 切换 Node 26 + 升级 Astro 7 | 2026-11-18 | 见 v1.4.0 |
 | 设计素材整理与 WebP 化 | 2026-11-18 | 见 v1.5.0 |
 | 从 Figma 导出无文字 hero 图 | 2026-11-18 | 见 v1.6.0 |
+| P1 首页骨架（9 区块）+ P0.5 基础组件 | 2026-11-18 | 见 v1.7.0 |
 
 ### 进行中
 
@@ -197,7 +212,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 | 任务 | 优先级 | 备注 |
 | --- | --- | --- |
-| P1 首页（01）双端还原 | 高 | 见 design-analysis §8.4 |
+| P1 首页（01）双端还原 | 进行中 | 骨架已完成（v1.7.0），待逐像素校对间距与字号 |
 | 批量导出 69 个设计素材 | — | 已由 v1.5.0 本地整理替代；如设计更新需重新导出，复用 `scripts/build-assets.mjs` 映射 |
 | 配置 Vercel 项目（当前构建会失败） | 中 | 待有业务代码后再接 |
 | 完成 `vercel` MCP 授权 | 中 | 后续部署需要 |
