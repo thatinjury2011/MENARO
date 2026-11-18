@@ -1,6 +1,6 @@
 # Menaro 项目全局日志（滚动版）
 
-> **文档版本**：v1.2.0 ｜ **最后更新**：2026-11-11 ｜ **维护者**：bo li
+> **文档版本**：v1.3.0 ｜ **最后更新**：2026-11-18 ｜ **维护者**：bo li
 >
 > **用途**：任何新会话 / 新协作者读这一份，就能掌握项目现状与历史决策。
 > **规则**：每完成一个任务，在 §5 追加一行记录（版本号自增），并在 §6 看板更新状态。
@@ -15,7 +15,7 @@
 | 类型 | 跨境电商独立站（DTC） |
 | 本地路径 | `D:\独立站\menaro` |
 | 代码仓库 | `https://github.com/thatinjury2011/MENARO`（公开，默认分支 `main`） |
-| 当前阶段 | 起步期 —— 仅有工具链配置，无业务代码 |
+| 当前阶段 | 脚手架阶段 —— Astro 骨架可跑（Header/Footer/令牌就绪），业务页面待 P1 起实现 |
 | 技术栈 | **Astro + Tailwind CSS + daisyUI**（已定稿，见 ADR-001） |
 
 ---
@@ -30,6 +30,8 @@
 | npm | 11.6.2 |
 | git | 2.49.0.windows.1 |
 | Python | 3.13.7 |
+
+> ⚠️ **Node 版本约束**：当前 Astro 锁在 **6.4.8**、Vite 锁在 **7.x**，因为本机 Node v22.20.0 不满足 Astro 7 要求的 `>=22.23.4`。升级 Node 后可解锁 Astro 7，步骤见 [troubleshooting/astro-toolchain-versions.md](troubleshooting/astro-toolchain-versions.md)。
 
 VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、Figma (`figma.figma-vscode-extension` 0.4.8)。
 
@@ -71,8 +73,26 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 | 版本 | 日期 | 类型 | 摘要 | 相关文档 |
 | --- | --- | --- | --- | --- |
+| v1.3.0 | 2026-11-18 | 次 | **P0 脚手架落地**：Astro 6 + Tailwind v4 + daisyUI 5 可跑；`--mn-*` 令牌与 `menaro` 主题接入；Base 布局 + 响应式 Header/Footer + 404 占位；记录 Astro/Vite 版本坑 | [troubleshooting/astro-toolchain-versions.md](troubleshooting/astro-toolchain-versions.md) |
 | v1.2.0 | 2026-11-11 | 次 | 技术栈定稿（Astro+Tailwind+daisyUI）；完成 Figma 设计稿全面分析，输出页面清单/令牌/组件/交互/风险与实施路线 | [design-analysis.md](design-analysis.md) |
 | v1.1.0 | 2026-11-11 | 次 | 仓库重置：本地项目接管 `thatinjury2011/MENARO`，旧内容与历史全部丢弃（orphan 强推）；新增 `.gitignore` | 本文档 §5.1 |
+| v1.0.0 | 2026-11-11 | 里程碑 | 建立项目文档体系（AGENTS.md + PROJECT_LOG + troubleshooting）；打通 Figma MCP 并完成真机验证 | [figma-mcp.md](troubleshooting/figma-mcp.md) |
+
+### v1.3.0 详细内容（2026-11-18）
+
+1. **依赖**：`astro@6.4.8` + `tailwindcss@4.3.5` + `@tailwindcss/vite@4.3.5` + `daisyui@5.8.1`，并显式锁 `vite@7.3.8`（原因见 troubleshooting 文档）；`tsconfig.json` 继承 `astro/tsconfigs/strict`。
+2. **样式层** `src/styles/global.css`
+   - daisyUI 自定义主题 `menaro`（`themes: false` 关闭内置主题），9 色映射到 `primary/base-100/200/300/secondary` 等语义色
+   - `@theme` 暴露 `--color-mn-*` 令牌，可直接写 `bg-mn-green`、`text-mn-muted`
+   - `:focus-visible` 统一金色外发光 `#b6a36a`
+3. **布局与组件**
+   - `src/layouts/Base.astro`：SEO meta、canonical、OG、跳到主要内容
+   - `Header.astro`：桌面 116px 粘性导航（7 项 + 报价 CTA，hover 下划线动画 + `aria-current` 当前页），移动端 `<details>` 下拉菜单
+   - `Footer.astro`：深绿底 + 白色 Logo + 双列链接 + 版权
+   - `src/data/site.ts`：导航与站点元信息单一数据源
+   - 页面：`/`（占位）、`/404`
+4. **素材**：从 `Pc图片及图标` 取品牌 Logo；原「白色横版标志」实为绿色导出件，已重着色为真正的白色版（`public/brand/logo-white.png`）。
+5. **验证**：`npm run build` 通过；桌面 1440 / 移动 390 截图核对；产物零 JS，CSS 66 KB。
 
 ### v1.2.0 详细内容（2026-11-11）
 
@@ -84,7 +104,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
    - 组件库：桌面 15 类 + 移动 6 类，含 Header/Footer/Card/Input/弹窗/抽屉
    - 交互规范：8 入口全局导航、全部产品抽屉（含 5 分类 + 手风琴）、报价表单校验
    - 素材：146 处引用 / 69 个唯一图片
-3. **提出 9 项风险**，其中 4 处隐藏画板 + 3 处宽度基准不一致需业务确认。| v1.0.0 | 2026-11-11 | 里程碑 | 建立项目文档体系（AGENTS.md + PROJECT_LOG + troubleshooting）；打通 Figma MCP 并完成真机验证 | [figma-mcp.md](troubleshooting/figma-mcp.md) |
+3. **提出 9 项风险**，其中 4 处隐藏画板 + 3 处宽度基准不一致需业务确认。
 
 ### v1.1.0 详细内容（2026-11-11）
 
@@ -121,6 +141,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | `git init` 并覆盖远端仓库 | 2026-11-11 | 见 v1.1.0，旧内容已丢弃 |
 | 技术栈定稿（ADR-001） | 2026-11-11 | Astro + Tailwind + daisyUI |
 | Figma 设计稿分析 | 2026-11-11 | 见 v1.2.0 / [design-analysis.md](design-analysis.md) |
+| P0 脚手架：Astro + Tailwind v4 + daisyUI + 令牌 + Base 布局 + Header/Footer | 2026-11-18 | 见 v1.3.0 |
 
 ### 进行中
 
@@ -132,8 +153,8 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 | 任务 | 优先级 | 备注 |
 | --- | --- | --- |
-| P0 脚手架：Astro + Tailwind v4 + daisyUI + 令牌 + Base 布局 | 高 | 见 design-analysis §8.4 |
-| 批量导出 69 个设计素材 | 高 | 用 Figma MCP `download_assets` |
+| P1 首页（01）双端还原 | 高 | 见 design-analysis §8.4 |
+| 批量导出 69 个设计素材 | 高 | 用 Figma MCP `download_assets`；本地 `Pc图片及图标` 已有 266 张整页/切图混杂的导出（132 MB，未纳管） |
 | 配置 Vercel 项目（当前构建会失败） | 中 | 待有业务代码后再接 |
 | 完成 `vercel` MCP 授权 | 中 | 后续部署需要 |
 | 确认后可删除旧仓库备份 `D:\独立站\_backup_MENARO_20261111` | 低 | 3.4 MB，纯安全网 |
@@ -145,5 +166,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 ## 7. 已知风险 / 注意事项
 
 - **Figma 插件升级会覆盖 `mcp.json`**，需要重新打 schema 补丁（文档里有一步步命令）。
+- **Node 22.20.0 卡住 Astro 7**：Astro 需 `>=22.23.4`，当前锁 Astro 6 + Vite 7；升级 Node 后方可解锁，见 [troubleshooting/astro-toolchain-versions.md](troubleshooting/astro-toolchain-versions.md)。
+- **`Pc图片及图标/` 132 MB 素材未纳入版本控制**，含大量以 `2.png`、`Group 44.png` 命名的原始导出与整页截图，直接提交会让仓库膨胀。
 - 项目尚未纳入版本控制，任何破坏性操作无法回滚。
 - 用户级 MCP 配置含 `.install-staging` 下的旧路径条目（vercel 插件），若清理需同步修改 `chat.pluginLocations`。

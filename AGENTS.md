@@ -1,6 +1,6 @@
 # Menaro 项目指南
 
-跨境电商独立站项目。当前处于起步阶段（尚无业务代码）。
+跨境电商独立站项目。当前处于**脚手架阶段**：Astro + Tailwind v4 + daisyUI 骨架可跑，业务页面从 P1 开始实现。
 
 ## 新会话第一步
 
@@ -23,6 +23,32 @@ Windows 11 ｜ Node v22.20.0 ｜ npm 11.6.2 ｜ git 2.49.0 ｜ Python 3.13.7 ｜
 ## 技术栈（已定稿）
 
 **Astro + Tailwind CSS + daisyUI**。设计令牌前缀 `mn-`（主色 `#083c30`），详见 design-analysis §8。
+
+## 常用命令
+
+```powershell
+npm install      # 首次
+npm run dev      # http://localhost:4321
+npm run build    # 静态产物 → dist/
+npm run preview
+```
+
+## 目录速览
+
+```
+src/
+├─ layouts/Base.astro          # SEO meta + Header/Footer 包裹
+├─ components/site/            # Header / Footer
+├─ data/site.ts                # 导航与站点元信息（单一数据源）
+├─ pages/                      # index 占位、404
+└─ styles/global.css           # @theme --mn-* 令牌 + daisyUI 主题 menaro
+public/brand/                  # 品牌 Logo（绿/白两版）
+```
+
+## 版本约束（重要）
+
+Astro 锁 **6.4.8**、Vite 锁 **7.x**，因为本机 Node v22.20.0 低于 Astro 7 要求的 `>=22.23.4`。
+不要随手 `npm i astro@latest`；升级路径见 [docs/troubleshooting/astro-toolchain-versions.md](docs/troubleshooting/astro-toolchain-versions.md)。
 
 ## Figma MCP（易踩坑，先看这里）
 

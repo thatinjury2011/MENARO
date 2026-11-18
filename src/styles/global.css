@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@plugin "daisyui" {
+  themes: false;
+  logs: false;
+}
+
+@plugin "daisyui/theme" {
+  name: "menaro";
+  default: true;
+  prefersdark: false;
+  color-scheme: light;
+
+  --color-base-100: #ffffff;
+  --color-base-200: #f5f7f4;
+  --color-base-300: #dce4df;
+  --color-base-content: #19332c;
+  --color-primary: #083c30;
+  --color-primary-content: #ffffff;
+  --color-secondary: #b4965b;
+  --color-secondary-content: #19332c;
+  --color-accent: #0d5141;
+  --color-accent-content: #ffffff;
+  --color-neutral: #19332c;
+  --color-neutral-content: #ffffff;
+  --color-info: #2f6f8f;
+  --color-info-content: #ffffff;
+  --color-success: #2f7d4f;
+  --color-success-content: #ffffff;
+  --color-warning: #c08a2e;
+  --color-warning-content: #19332c;
+  --color-error: #a63a2f;
+  --color-error-content: #ffffff;
+
+  --radius-selector: 0.25rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+}
+
+@theme {
+  --color-mn-green: #083c30;
+  --color-mn-green-hover: #0d5141;
+  --color-mn-green-pressed: #052c23;
+  --color-mn-ink: #19332c;
+  --color-mn-muted: #718178;
+  --color-mn-paper: #f5f7f4;
+  --color-mn-border: #dce4df;
+  --color-mn-gold: #b4965b;
+  --color-mn-focus: #b6a36a;
+}
+
+@layer base {
+  :focus-visible {
+    outline: 2px solid var(--color-mn-focus);
+    outline-offset: 3px;
+  }
+}

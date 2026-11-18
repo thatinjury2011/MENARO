@@ -1,0 +1,46 @@
+---
+import { navItems, quoteCta } from '../../data/site';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="bg-primary text-primary-content">
+  <div
+    class="mx-auto flex w-full max-w-[90rem] flex-col gap-10 px-5 py-12 lg:px-10 lg:py-16"
+  >
+    <div class="flex flex-col gap-10 lg:flex-row lg:items-start lg:justify-between">
+      <a href="/" class="flex shrink-0 items-center" aria-label="MENARO 首页">
+        <img
+          src="/brand/logo-white.png"
+          alt="MENARO"
+          width="270"
+          height="55"
+          class="h-7 w-auto lg:h-8"
+        />
+      </a>
+
+      <nav
+        aria-label="页脚导航"
+        class="grid grid-cols-2 gap-x-8 gap-y-3 text-sm sm:grid-cols-3 lg:grid-cols-4 lg:gap-x-12"
+      >
+        {
+          [...navItems, quoteCta].map((item) => (
+            <a
+              href={item.href}
+              class="text-primary-content/75 transition-colors duration-200 hover:text-primary-content"
+            >
+              {item.label}
+            </a>
+          ))
+        }
+      </nav>
+    </div>
+
+    <div
+      class="flex flex-col gap-2 border-t border-primary-content/15 pt-6 text-xs text-primary-content/60 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <p>© {year} MENARO. 保留所有权利。</p>
+      <p>建筑材料与系统解决方案</p>
+    </div>
+  </div>
+</footer>
