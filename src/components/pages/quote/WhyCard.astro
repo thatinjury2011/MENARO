@@ -1,0 +1,39 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  title: string;
+  items: string[];
+  image: ImageMetadata;
+  imageAlt: string;
+}
+
+const { title, items, image, imageAlt } = Astro.props;
+---
+
+<div class="overflow-hidden rounded-box">
+  <Image
+    src={image}
+    alt={imageAlt}
+    widths={[480, 720, 960]}
+    sizes="(min-width: 1024px) 40vw, 100vw"
+    class="aspect-[4/3] w-full object-cover"
+    loading="lazy"
+  />
+  <div class="flex flex-col gap-4 bg-primary px-6 py-8 text-white lg:px-8">
+    <p class="text-[20px] leading-snug font-bold lg:text-[24px]">{title}</p>
+    <ul class="flex flex-col gap-3">
+      {
+        items.map((item) => (
+          <li class="flex items-center gap-3 text-[13px] text-white/90">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="size-4 shrink-0" aria-hidden="true">
+              <path d="m5 13 4 4L19 7" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+            {item}
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>

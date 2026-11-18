@@ -1,0 +1,47 @@
+---
+import Base from '../layouts/Base.astro';
+import Container from '../components/ui/Container.astro';
+import Breadcrumb from '../components/ui/Breadcrumb.astro';
+---
+
+<Base title="使用条款">
+  <section class="bg-base-100 pt-12 pb-6 lg:pt-16">
+    <Container>
+      <div class="flex max-w-[860px] flex-col gap-3">
+        <p class="text-[12px] tracking-[0.08em] text-mn-muted">LEGAL</p>
+        <h1 class="text-[32px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[40px]">使用条款</h1>
+        <p class="text-[13px] text-mn-muted">更新日期：2026 年 11 月</p>
+      </div>
+    </Container>
+  </section>
+
+  <Breadcrumb items={[{ label: '首页', href: '/' }, { label: '使用条款' }]} />
+
+  <section class="bg-base-100 py-12 lg:py-16">
+    <Container>
+      <div class="flex max-w-[860px] flex-col gap-6 text-[14px] leading-7 text-mn-muted">
+        <p>访问或使用 MENARO 美纳罗网站，即表示您同意遵守以下条款。</p>
+
+        <div class="flex flex-col gap-2">
+          <h2 class="text-[18px] font-bold text-mn-ink">网站内容</h2>
+          <p>本站产品图片、参数与说明用于展示产品定位与包装形式，实际规格、性能与适用范围以正式报价资料及产品技术文件为准。</p>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <h2 class="text-[18px] font-bold text-mn-ink">知识产权</h2>
+          <p>本站的文字、图形、标识与图片等内容的知识产权归 MENARO 美纳罗或相关权利人所有，未经书面许可不得转载或用于商业用途。</p>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <h2 class="text-[18px] font-bold text-mn-ink">第三方链接</h2>
+          <p>站点可能包含指向第三方平台的链接，我们不对第三方网站的内容与隐私做法负责。</p>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <h2 class="text-[18px] font-bold text-mn-ink">条款变更</h2>
+          <p>我们可能根据业务与法规要求更新本条款，更新后的内容将在本页发布并即时生效。</p>
+        </div>
+      </div>
+    </Container>
+  </section>
+</Base>

@@ -1,0 +1,58 @@
+---
+import { Image } from 'astro:assets';
+import Container from '../../ui/Container.astro';
+import type { ImageMetadata } from 'astro';
+
+interface CaseItem {
+  title: string;
+  category: string;
+  image: ImageMetadata;
+  wide?: boolean;
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  items: CaseItem[];
+}
+
+const { eyebrow, title, items } = Astro.props;
+---
+
+<section class="bg-base-100 py-14 lg:py-20">
+  <Container>
+    <div class="flex flex-col gap-2">
+      {eyebrow && <p class="text-[12px] tracking-[0.08em] text-mn-muted">{eyebrow}</p>}
+      <h2 class="text-[28px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[40px]">{title}</h2>
+    </div>
+
+    <ul class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-12 lg:grid-cols-3">
+      {
+        items.map((item) => (
+          <li class:list={['group relative overflow-hidden rounded-box', item.wide && 'sm:col-span-2 lg:col-span-3']}>
+            <Image
+              src={item.image}
+              alt={item.title}
+              widths={item.wide ? [600, 1200, 1706] : [420, 560, 840]}
+              sizes={
+                item.wide
+                  ? '(min-width: 1024px) 90vw, 100vw'
+                  : '(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw'
+              }
+              class:list={[
+                'w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]',
+                item.wide ? 'aspect-[16/7]' : 'aspect-[4/3]',
+              ]}
+              loading="lazy"
+            />
+            <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent"></div>
+            <div class="absolute inset-x-0 bottom-0 flex flex-col gap-1 p-5 lg:p-6">
+              <p class="text-lg font-bold text-white lg:text-xl">{item.title}</p>
+              <p class="text-[12px] text-white/80">{item.category}</p>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</section>

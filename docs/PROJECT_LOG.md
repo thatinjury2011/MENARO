@@ -75,6 +75,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 | 版本 | 日期 | 类型 | 摘要 | 相关文档 |
 | --- | --- | --- | --- | --- |
+| v1.9.0 | 2026-11-18 | 次 | **其余 7 个页面落地**：项目案例 / 解决方案 / 环氧彩砂自流平地坪方案 / 全球合作 / 关于我们 / 制造与品质 / 联系我们 / 获取报价，另补 隐私政策·使用条款·网站地图；抽出 `InquiryForm`（联系与报价共用）、`ProcessSteps`、`CaseGrid`、`ApplicationGrid`、`ScenarioCards`、`ConstructionSteps`、`FeatureRow`、`FounderBlock`、`GlobalLocations`、`AdvantageBand`、`JoinBand`、`QuoteSteps`、`WhyCard`、`ContactCard`、`PartnerTypes`、`CatalogGroup`；`PageHero` 增加 `variant` 与 `brandMark` | 见本文档 §5.1 |
 | v1.8.0 | 2026-11-18 | 次 | **P2 产品体系落地**：4 个系列页（美缝 / 瓷砖胶 / 密封胶 / 环氧地坪）+ 3 个产品详情页（动态路由）+ `/products` 目录页；抽出 `PageHero / Breadcrumb / InquiryCta / IntroBlock / SeriesCards / TierCards / PackagingSpecs / SupportCards / ProductShowcase / SpecCards / CatalogGroup` | 见本文档 §5.1 |
 | v1.7.1 | 2026-11-18 | 执行 | 确立「**导出稿为最终版**，Figma 仅作参考」；核对发现 5 张 hero 与导出稿不一致，改用**自解释占位图**顶上（同名覆盖即可替换） | 见本文档 §7 |
 | v1.7.0 | 2026-11-18 | 次 | **首页骨架落地 + P0.5 基础组件**：`Container/Button/ArrowLink/ArrowIcon/SectionHeading`；首页 9 个区块全部实现（hero→服务亮点→产品系列→更多规划→制造→应用→案例→合作伙伴→CTA）；导航/页脚按设计稿重构为浅色 | — |
@@ -85,6 +86,25 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | v1.2.0 | 2026-11-11 | 次 | 技术栈定稿（Astro+Tailwind+daisyUI）；完成 Figma 设计稿全面分析，输出页面清单/令牌/组件/交互/风险与实施路线 | [design-analysis.md](design-analysis.md) |
 | v1.1.0 | 2026-11-11 | 次 | 仓库重置：本地项目接管 `thatinjury2011/MENARO`，旧内容与历史全部丢弃（orphan 强推）；新增 `.gitignore` | 本文档 §5.1 |
 | v1.0.0 | 2026-11-11 | 里程碑 | 建立项目文档体系（AGENTS.md + PROJECT_LOG + troubleshooting）；打通 Figma MCP 并完成真机验证 | [figma-mcp.md](troubleshooting/figma-mcp.md) |
+
+### v1.9.0 详细内容（2026-11-18）
+
+1. **新增 8 个业务页 + 3 个基础页**（`src/pages/`）：
+   - `/cases` 项目案例：3+3+1 大卡网格，7 个案例（导出稿文案）
+   - `/solutions` 解决方案：4 个应用分类卡（仅「工业地坪」可跳转）+ 4 步选型流程
+   - `/solutions/industrial-floor` 环氧彩砂自流平地坪：hero（`variant="wide"`）+ 产品介绍 5 项特性 + 3 张应用场景卡 + 5 步施工流程
+   - `/global` 全球合作：4 类采购商合作卡 + 4 步合作流程
+   - `/about` 关于我们：品牌标识 hero + 创始人（3 段 + 引言）+ 全球运营与制造布局 4 卡 + 深绿核心优势 6 卡 + 图片合作带
+   - `/about/manufacturing` 制造与品质：4 张「从生产到交付」卡（`ratio="wide"`）
+   - `/contact` 联系我们：左侧浅色信息卡（电话 / WhatsApp / 邮箱 / 工作时间）+ 右侧询盘表单
+   - `/quote` 获取报价：hero + 3 项信任点 + 为什么选择卡 + 表单 + 询价流程
+   - `/privacy`、`/terms`、`/sitemap`：页脚法务链接不再 404，网站地图按 4 组索引全部 20 条路由
+2. **组件复用**：`InquiryForm` 一套支持 `contact` / `quote` 两种字段集（意向产品多选、联系人、国家/地区、邮箱、WhatsApp、公司、需求），联系与报价两页共用；`ProcessSteps` 从 solutions 提升到 `components/sections/`；`ScenarioCards` 增加 `ratio`（3:2 / 2:1）。
+3. **`PageHero` 两个新能力**：
+   - `variant="wide"`：照片占 65%、正文收窄到 `lg:max-w-[30vw]`，解决长文案页「文字压到照片上」的问题（1440 下正文右边界 472px、照片左边界 499px）
+   - `brandMark`：标题上方渲染品牌标识（关于我们）
+4. **补齐缺失素材**：工业地坪「工厂车间」配图在导出目录里没有独立文件，从整页导出图按像素安全区域裁切生成 `solutions/industrial-floor/scene-03.webp`（71,1814,568,372），脚本 `scripts/build-crops.mjs` 可复跑；`value-shield-outline` 图标补进 `build-assets.mjs` 映射。
+5. **验证**：`npm run build` 通过（21 页）；20 条路由在 390 / 1440 双端均 200 且无横向溢出。
 
 ### v1.8.0 详细内容（2026-11-18）
 
@@ -233,21 +253,23 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | 从 Figma 导出无文字 hero 图 | 2026-11-18 | 见 v1.6.0 |
 | P1 首页骨架（9 区块）+ P0.5 基础组件 | 2026-11-18 | 见 v1.7.0 |
 | P2 产品体系：4 系列页 + 3 详情页 + 目录页 | 2026-11-18 | 见 v1.8.0 |
+| P3 其余页面：案例 / 方案 / 工业地坪 / 全球 / 关于 / 制造 / 联系 / 报价 + 法务 3 页 | 2026-11-18 | 见 v1.9.0 |
 
 ### 进行中
 
 | 任务 | 状态 | 下一步 |
 | --- | --- | --- |
+| 全站逐页双端像素校对 | 进行中 | 页面结构已全量落地，剩余间距/字号微调 |
 | 设计稿隐藏画板确认 | 待业务方确认 | 4 处隐藏 + 3 处宽度基准，见 design-analysis §7 |
 
 ### 待办 / 候选
 
 | 任务 | 优先级 | 备注 |
 | --- | --- | --- |
-| P1 首页（01）双端还原 | 进行中 | 骨架已完成（v1.7.0），待逐像素校对间距与字号 |
-| 产品系列/详情页逐像素校对 | 中 | v1.8.0 版式与文案已对齐，剩余间距/字号微调 |
-| 其余页面（案例 / 方案 / 工业地坪 / 全球 / 关于 / 制造 / 联系 / 获取报价） | 高 | 参考图已在 `design/reference/pages/`，沿用 PageHero + sections 组合 |
-| 替换 5 张 hero 占位图 | 高（阻塞 P2 视觉验收） | 需导出稿最终版的无文字底图：美缝系列 / 环氧系列 / 密封胶系列 / 密封胶详情 / 获取报价 |
+| 替换 5 张 hero 占位图 | 高 | 美缝系列 / 环氧系列 / 密封胶系列 / 密封胶详情 / 获取报价 |
+| 询盘表单接后端 | 高 | 当前表单为静态 HTML（`action="#"`），需接 API 或第三方表单服务 |
+| 多语言（中文 / EN） | 中 | 头部语言位目前是占位按钮 |
+| 产品中心抽屉（全部产品） | 中 | 目录页已完成，抽屉可复用同一套 `CatalogGroup` 数据 |
 | 批量导出 69 个设计素材 | — | 已由 v1.5.0 本地整理替代；如设计更新需重新导出，复用 `scripts/build-assets.mjs` 映射 |
 | 配置 Vercel 项目（当前构建会失败） | 中 | 待有业务代码后再接 |
 | 完成 `vercel` MCP 授权 | 中 | 后续部署需要 |

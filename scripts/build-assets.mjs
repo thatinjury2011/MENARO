@@ -275,6 +275,7 @@ const ICONS = [
   ['MENARO 扩展 _ desktop-12 _ 环氧彩砂自流平地坪/图片-图标/产品介绍/diamond.png', 'icons/value-diamond'],
   ['MENARO 扩展 _ desktop-12 _ 环氧彩砂自流平地坪/图片-图标/产品介绍/home.png', 'icons/value-home'],
   ['MENARO 扩展 _ desktop-12 _ 环氧彩砂自流平地坪/图片-图标/产品介绍/shield.png', 'icons/value-shield'],
+  ['MENARO 扩展 _ desktop-12 _ 环氧彩砂自流平地坪/图片-图标/产品介绍/ shield_副本.png', 'icons/value-shield-outline'],
   ['MENARO 扩展 _ desktop-12 _ 环氧彩砂自流平地坪/图片-图标/产品介绍/tag.png', 'icons/value-tag'],
   ['首页 _ 全部产品弹窗（展开状态）/图片-图标/图标/美缝与填缝材料.png', 'icons/category-tile-grout'],
   ['首页 _ 全部产品弹窗（展开状态）/图片-图标/图标/瓷砖胶与铺贴材料.png', 'icons/category-tile-adhesive'],

@@ -1,6 +1,6 @@
 # Menaro 项目指南
 
-跨境电商独立站项目。当前进度：脚手架 + 首页 + 产品体系（4 系列页 / 3 详情页 / 目录页）已完成，其余页面按 `design/reference/pages/` 逐页推进。
+跨境电商独立站项目。当前进度：**20 个页面全部落地**（首页 / 产品体系 8 页 / 案例 / 方案 2 页 / 全球 / 关于 2 页 / 联系 / 报价 / 法务 3 页），进入逐页视觉校对阶段。
 
 ## 新会话第一步
 
@@ -54,12 +54,15 @@ src/
 ├─ components/
 │  ├─ ui/                      # 原子件：Container / Button / ArrowLink / ArrowIcon / SectionHeading / Breadcrumb
 │  ├─ site/                    # 全站结构：Header / Footer
-│  ├─ sections/                # 跨页业务区块：PageHero / InquiryCta
-│  └─ pages/<page>/            # 单页私有区块，如 pages/home/*、pages/products/*
+│  ├─ sections/                # 跨页业务区块：PageHero / InquiryCta / ProcessSteps / InquiryForm
+│  └─ pages/<page>/            # 单页私有区块：home / products / cases / solutions / global / about / contact / quote
 ├─ data/                       # 单一数据源：site.ts（导航）/ product-details.ts（详情页内容）
 ├─ pages/
 │  ├─ index.astro              # 首页
 │  ├─ 404.astro
+│  ├─ cases / solutions/index / solutions/industrial-floor / global / contact / quote
+│  ├─ about/index / about/manufacturing
+│  ├─ privacy / terms / sitemap
 │  └─ products/
 │     ├─ index.astro           # 产品目录（/products）
 │     ├─ tile-grout | tile-adhesive | sealant | floor.astro
@@ -69,6 +72,8 @@ public/brand/                  # 品牌 Logo（绿/白两版）
 ```
 
 **组件分层约定**：`ui/` 无业务语义；跨页复用的业务区块放 `components/sections/`；单页私有放 `components/pages/<page>/`。产品文案统一收在 `src/data/`，页面只做排版。
+
+**PageHero 用法**：默认（照片 58%、正文 `lg:max-w-[38vw]`）用于系列/列表页；长文案页（如工业地坪方案）传 `variant="wide"`（照片 65%、正文 30vw）；品牌页可传 `brandMark` 在标题上方渲染 Logo。
 
 ## 版本约束（重要）
 

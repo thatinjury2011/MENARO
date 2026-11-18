@@ -1,0 +1,120 @@
+---
+import { Image } from 'astro:assets';
+import Base from '../../layouts/Base.astro';
+import Container from '../../components/ui/Container.astro';
+import Button from '../../components/ui/Button.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import InquiryCta from '../../components/sections/InquiryCta.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import FeatureRow from '../../components/pages/solutions/FeatureRow.astro';
+import ScenarioCards from '../../components/pages/solutions/ScenarioCards.astro';
+import ConstructionSteps from '../../components/pages/solutions/ConstructionSteps.astro';
+
+import hero from '../../assets/solutions/industrial-floor/hero.webp';
+import intro from '../../assets/solutions/industrial-floor/intro.webp';
+import scene01 from '../../assets/solutions/industrial-floor/scene-01.webp';
+import scene02 from '../../assets/solutions/industrial-floor/scene-02.webp';
+import scene03 from '../../assets/solutions/industrial-floor/scene-03.webp';
+import step01 from '../../assets/solutions/industrial-floor/step-01.webp';
+import step02 from '../../assets/solutions/industrial-floor/step-02.webp';
+import step03 from '../../assets/solutions/industrial-floor/step-03.webp';
+import step04 from '../../assets/solutions/industrial-floor/step-04.webp';
+import step05 from '../../assets/solutions/industrial-floor/step-05.webp';
+
+import iconDiamond from '../../assets/icons/value-diamond.webp';
+import iconShield from '../../assets/icons/value-shield.webp';
+import iconShieldOutline from '../../assets/icons/value-shield-outline.webp';
+import iconTag from '../../assets/icons/value-tag.webp';
+import iconHome from '../../assets/icons/value-home.webp';
+
+const features = [
+  { title: '彩砂质感', desc: '美观大气', icon: iconDiamond },
+  { title: '整体无缝', desc: '易清洁维护', icon: iconShieldOutline },
+  { title: '耐磨抗压', desc: '适用于人流', icon: iconShield },
+  { title: '多种颜色', desc: '可定制效果', icon: iconTag },
+  { title: '应用广泛', desc: '工厂 / 仓储 / 商业', icon: iconHome },
+];
+
+const scenarios = [
+  { title: '工厂车间', desc: '耐磨抗压，适应生产环境的高强度使用。', image: scene03 },
+  { title: '仓储与物流', desc: '平整美观，便于叉车等设备通行与日常维护。', image: scene01 },
+  { title: '商业与展示空间', desc: '多种颜色与质感选择，提升空间整体美观度。', image: scene02 },
+];
+
+const steps = [
+  { index: '01', title: '基层处理', desc: '打磨清洁，确保表面平整', image: step01 },
+  { index: '02', title: '底涂施工', desc: '增强附着力', image: step02 },
+  { index: '03', title: '彩砂自流平施工', desc: '均匀铺设，自流找平', image: step03 },
+  { index: '04', title: '消泡与找平', desc: '确保表面平整无气泡', image: step04 },
+  { index: '05', title: '养护完成', desc: '固化后呈现细腻彩砂效果', image: step05 },
+];
+---
+
+<Base title="环氧彩砂自流平地坪解决方案">
+  <PageHero
+    eyebrow="EPOXY COLORED SAND SELF-LEVELING"
+    title="环氧彩砂自流平地坪"
+    subtitle="高性能 · 美观耐用 · 适用于多种工业与商业空间"
+    description="MENARO 美纳罗提供专业的环氧彩砂自流平地坪材料与解决方案，以优质原材料和稳定的产品性能，满足工厂、仓储、商业及公共空间的地坪需求。"
+    image={hero}
+    imageAlt="环氧彩砂自流平地坪实验室检测场景"
+    primary={{ label: '查看产品系列', href: '/products/floor' }}
+    secondary={{ label: '获取报价', href: '/quote' }}
+    variant="wide"
+  />
+
+  <Breadcrumb
+    items={[
+      { label: '首页', href: '/' },
+      { label: '解决方案', href: '/solutions' },
+      { label: '环氧彩砂自流平地坪' },
+    ]}
+  />
+
+  <section class="bg-base-100 py-14 lg:py-20">
+    <Container>
+      <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
+        <Image
+          src={intro}
+          alt="环氧彩砂自流平地坪表面"
+          widths={[600, 900, 1186]}
+          sizes="(min-width: 1024px) 50vw, 100vw"
+          class="aspect-[4/3] w-full rounded-box object-cover"
+          loading="lazy"
+        />
+        <div class="flex flex-col gap-4">
+          <p class="text-[12px] tracking-[0.08em] text-mn-muted">PRODUCT INTRODUCTION</p>
+          <h2 class="text-[26px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[34px]">产品介绍</h2>
+          <p class="text-[14px] leading-7 text-mn-muted">
+            MENARO 环氧彩砂自流平采用优质环氧树脂为基础，加入精选彩砂骨料，通过自流平施工形成整体无缝的装饰性与功能性地面。表面具有细腻的彩砂质感，耐磨、耐压、易清洁，适用于对地面品质要求较高的工业与商业空间。
+          </p>
+          <FeatureRow items={features} />
+          <div class="pt-2">
+            <Button href="/products/floor" withArrow>了解更多产品信息</Button>
+          </div>
+        </div>
+      </div>
+    </Container>
+  </section>
+
+  <ScenarioCards
+    eyebrow="APPLICATION SCENARIOS"
+    title="应用场景"
+    note="适用于工厂车间、仓储物流、商业空间、公共设施等多种场景，可根据实际功能分区与使用强度配置方案。"
+    items={scenarios}
+  />
+
+  <ConstructionSteps
+    eyebrow="CONSTRUCTION PROCESS"
+    title="施工流程"
+    description="专业的施工流程，确保地坪效果与使用性能。"
+    steps={steps}
+  />
+
+  <InquiryCta
+    eyebrow="GET IN TOUCH"
+    title="获取环氧彩砂自流平地坪解决方案"
+    description="我们提供产品选型、技术支持与定制化服务，欢迎联系我们。"
+    cta={{ label: '提交采购询盘', href: '/quote' }}
+  />
+</Base>

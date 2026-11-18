@@ -1,0 +1,58 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHero from '../components/sections/PageHero.astro';
+import InquiryCta from '../components/sections/InquiryCta.astro';
+import ProcessSteps from '../components/sections/ProcessSteps.astro';
+import Breadcrumb from '../components/ui/Breadcrumb.astro';
+import PartnerTypes from '../components/pages/global/PartnerTypes.astro';
+
+import hero from '../assets/global/hero.webp';
+
+const partners = [
+  { title: '进口商与经销商', desc: '面向区域渠道与产品分销合作' },
+  { title: '批发与多品类采购商', desc: '适合整单采购与渠道配套' },
+  { title: '品牌客户 OEM/ODM', desc: '支持品牌贴标与外包装定制' },
+  { title: '工程与项目供应', desc: '按项目需求对接材料和包装' },
+];
+
+const steps = [
+  { index: '01', title: '提交需求', desc: '告知产品需求和目的国家' },
+  { index: '02', title: '初步沟通', desc: '确定型号、包装与采购数量' },
+  { index: '03', title: '资料样品', desc: '沟通技术资料及样品安排' },
+  { index: '04', title: '报价合作', desc: '确认报价、交期与订单' },
+];
+---
+
+<Base title="全球合作">
+  <PageHero
+    eyebrow="合作方式"
+    title="全球合作"
+    description="为海外进口商、经销商、品牌商及工程采购商提供建筑材料采购支持。"
+    image={hero}
+    imageAlt="MENARO 全球合作与出货场景"
+    primary={{ label: '获取报价', href: '/quote' }}
+  />
+
+  <Breadcrumb items={[{ label: '首页', href: '/' }, { label: '全球合作' }]} />
+
+  <PartnerTypes
+    eyebrow="合作方式"
+    title="与不同类型采购商合作"
+    note="可根据采购规模、产品用途和当地市场需求沟通产品及包装方案。"
+    items={partners}
+  />
+
+  <ProcessSteps
+    eyebrow="合作流程"
+    title="合作流程"
+    note="从产品选择到报价、打样与订单交付，协助您明确采购安排。"
+    steps={steps}
+  />
+
+  <InquiryCta
+    eyebrow="欢迎与美纳罗建立合作"
+    title="让合适的产品更快进入你的采购链"
+    description="欢迎就产品、包装、定制与采购需求与我们联系。"
+    cta={{ label: '提交采购询盘', href: '/quote' }}
+  />
+</Base>

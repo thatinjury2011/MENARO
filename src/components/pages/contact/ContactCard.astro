@@ -1,0 +1,76 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+interface InfoItem {
+  icon: ImageMetadata;
+  label: string;
+  value: string;
+  hint?: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  paragraphs: string[];
+  photo: ImageMetadata;
+  photoAlt: string;
+  address: string;
+  addressIcon: ImageMetadata;
+  items: InfoItem[];
+}
+
+const { eyebrow = '开始沟通', title, paragraphs, photo, photoAlt, address, addressIcon, items } = Astro.props;
+---
+
+<div class="flex flex-col gap-6 rounded-box bg-mn-paper p-6 lg:p-8">
+  <div class="flex flex-col gap-3">
+    <p class="text-[12px] tracking-[0.08em] text-mn-muted">{eyebrow}</p>
+    <h2 class="text-[24px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[30px]">{title}</h2>
+    {paragraphs.map((p) => <p class="text-[13px] leading-7 text-mn-muted">{p}</p>)}
+  </div>
+
+  <Image
+    src={photo}
+    alt={photoAlt}
+    widths={[480, 720, 960]}
+    sizes="(min-width: 1024px) 40vw, 100vw"
+    class="aspect-[4/3] w-full rounded-box object-cover"
+    loading="lazy"
+  />
+
+  <div class="flex flex-col gap-4">
+    <p class="text-[18px] font-bold text-mn-ink lg:text-[20px]">联系我们</p>
+    <p class="flex items-start gap-2 text-[13px] text-mn-ink">
+      <Image
+        src={addressIcon}
+        alt=""
+        width={48}
+        height={48}
+        class="mt-0.5 size-4 shrink-0 object-contain"
+        loading="lazy"
+      />
+      <span class="flex flex-col gap-0.5">
+        <span class="font-semibold">{address}</span>
+        <span class="text-[12px] text-mn-muted">欢迎与我们联系，获取产品资料与报价。</span>
+      </span>
+    </p>
+
+    <ul class="flex flex-col gap-4">
+      {
+        items.map((item) => (
+          <li class="flex items-start gap-2.5">
+            <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary">
+              <Image src={item.icon} alt="" width={40} height={40} class="size-3.5 object-contain brightness-0 invert" loading="lazy" />
+            </span>
+            <span class="flex flex-col gap-0.5">
+              <span class="text-[13px] font-semibold text-mn-ink">{item.label}</span>
+              <span class="text-[13px] text-mn-muted">{item.value}</span>
+              {item.hint && <span class="text-[12px] text-mn-muted">{item.hint}</span>}
+            </span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</div>

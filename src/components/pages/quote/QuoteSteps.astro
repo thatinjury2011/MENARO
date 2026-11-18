@@ -1,0 +1,51 @@
+---
+import { Image } from 'astro:assets';
+import Container from '../../ui/Container.astro';
+import type { ImageMetadata } from 'astro';
+
+interface Step {
+  title: string;
+  desc: string;
+  icon: ImageMetadata;
+}
+
+interface Props {
+  title: string;
+  subtitle?: string;
+  steps: Step[];
+}
+
+const { title, subtitle, steps } = Astro.props;
+---
+
+<section class="bg-base-200/70 py-12 lg:py-16">
+  <Container>
+    <div class="flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-14">
+      <div class="flex shrink-0 flex-col gap-2 lg:w-[220px] lg:border-r lg:border-mn-border lg:pr-10">
+        <h2 class="text-[26px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[34px]">{title}</h2>
+        {subtitle && <p class="text-[13px] text-mn-muted">{subtitle}</p>}
+      </div>
+
+      <ol class="grid flex-1 grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          steps.map((step) => (
+            <li class="flex gap-3">
+              <Image
+                src={step.icon}
+                alt=""
+                width={48}
+                height={48}
+                class="mt-0.5 size-6 shrink-0 object-contain text-mn-green"
+                loading="lazy"
+              />
+              <div class="flex flex-col gap-1">
+                <p class="text-[14px] font-semibold text-mn-ink">{step.title}</p>
+                <p class="text-[12px] leading-5 text-mn-muted">{step.desc}</p>
+              </div>
+            </li>
+          ))
+        }
+      </ol>
+    </div>
+  </Container>
+</section>

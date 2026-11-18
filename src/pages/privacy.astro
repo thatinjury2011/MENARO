@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import Container from '../components/ui/Container.astro';
+import Breadcrumb from '../components/ui/Breadcrumb.astro';
+---
+
+<Base title="隐私政策">
+  <section class="bg-base-100 pt-12 pb-6 lg:pt-16">
+    <Container>
+      <div class="flex max-w-[860px] flex-col gap-3">
+        <p class="text-[12px] tracking-[0.08em] text-mn-muted">LEGAL</p>
+        <h1 class="text-[32px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[40px]">隐私政策</h1>
+        <p class="text-[13px] text-mn-muted">更新日期：2026 年 11 月</p>
+      </div>
+    </Container>
+  </section>
+
+  <Breadcrumb items={[{ label: '首页', href: '/' }, { label: '隐私政策' }]} />
+
+  <section class="bg-base-100 py-12 lg:py-16">
+    <Container>
+      <div class="flex max-w-[860px] flex-col gap-6 text-[14px] leading-7 text-mn-muted">
+        <p>
+          MENARO 美纳罗（下称「我们」）重视您的隐私。本政策说明我们在您浏览本站或提交询盘时如何处理相关信息。
+        </p>
+
+        <div class="flex flex-col gap-2">
+          <h2 class="text-[18px] font-bold text-mn-ink">我们收集的信息</h2>
+          <p>当您通过询盘表单联系我们时，我们会收集您主动填写的信息，例如联系人、公司名称、国家/地区、电子邮箱、WhatsApp 号码、意向产品及需求说明。</p>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <h2 class="text-[18px] font-bold text-mn-ink">信息的使用方式</h2>
+          <p>上述信息仅用于回复您的询盘、提供产品资料与报价、安排样品及跟进订单相关事项，我们不会将其用于与采购无关的用途。</p>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <h2 class="text-[18px] font-bold text-mn-ink">信息的共享</h2>
+          <p>除为完成您所请求的服务（如物流、认证机构等）或法律法规要求外，我们不会向第三方出售或出租您的信息。</p>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <h2 class="text-[18px] font-bold text-mn-ink">您的权利</h2>
+          <p>您可以随时通过 <a class="text-mn-green hover:underline" href="mailto:info@menarobm.com">info@menarobm.com</a> 联系我们，查询、更正或要求删除您提供的信息。</p>
+        </div>
+      </div>
+    </Container>
+  </section>
+</Base>

@@ -1,0 +1,54 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import InquiryCta from '../../components/sections/InquiryCta.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import ScenarioCards from '../../components/pages/solutions/ScenarioCards.astro';
+
+import hero from '../../assets/about/manufacturing/hero.webp';
+import content01 from '../../assets/about/manufacturing/content-01.webp';
+import content02 from '../../assets/about/manufacturing/content-02.webp';
+import content03 from '../../assets/about/manufacturing/content-03.webp';
+import content04 from '../../assets/about/manufacturing/content-04.webp';
+
+const items = [
+  { title: '制造协同', desc: '结合生产安排与订单需求协调交期，及时沟通关键节点。', image: content01 },
+  { title: '品质检验', desc: '按适用的产品标准和订单要求沟通检验项目及相关资料。', image: content02 },
+  { title: '包装与交付', desc: '可按订单要求沟通外箱标识、包装方案和装柜安排。', image: content03 },
+  { title: 'OEM / ODM', desc: '面向品牌商和经销商提供包装、标签及 OEM/ODM 合作咨询。', image: content04 },
+];
+---
+
+<Base title="制造与品质">
+  <PageHero
+    eyebrow="制造与供应"
+    title="制造与品质"
+    description="为建筑材料采购提供生产协调、质量检查、定制包装及出货支持。"
+    image={hero}
+    imageAlt="MENARO 制造生产线"
+    primary={{ label: '获取报价', href: '/quote' }}
+  />
+
+  <Breadcrumb
+    items={[
+      { label: '首页', href: '/' },
+      { label: '关于我们', href: '/about' },
+      { label: '制造与品质' },
+    ]}
+  />
+
+  <ScenarioCards
+    eyebrow="制造与供应"
+    title="从生产到交付的支持"
+    note="根据订单需求协调生产、质量检查、包装和发运，支持批量及定制采购。"
+    items={items}
+    ratio="wide"
+  />
+
+  <InquiryCta
+    eyebrow="欢迎与 MENARO 建立合作"
+    title="让合适的产品更快进入你的采购链"
+    description="欢迎就产品、包装、定制与采购需求与我们联系。"
+    cta={{ label: '提交采购询盘', href: '/quote' }}
+  />
+</Base>
