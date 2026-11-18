@@ -27,6 +27,14 @@ Windows 11 ｜ **Node v26.13.1（fnm 管理）** ｜ npm 11.20.0 ｜ git 2.49.0 
 
 **Astro 7 + Tailwind CSS v4 + daisyUI 5**。设计令牌前缀 `mn-`（主色 `#083c30`），详见 design-analysis §8。
 
+## 样式与资源原则
+
+1. **Tailwind / daisyUI 优先**：设计稿里的 `.mn-*` 自定义类只做等价替换（`btn btn-primary`、`card`、`collapse`…），Tailwind 表达不了才写 CSS。
+2. **图片统一 WebP**：全部放 `src/assets/<页面>/`，命名 `<区块>-<序号>.webp`；PNG 只作原始素材，不进生产。
+3. **通用 UI 字形用内联 SVG**（箭头、chevron、关闭、对勾、时钟），不要导出成图片。
+4. 资源由 `node scripts/build-assets.mjs` 生成，映射表就是文档；重复导出/hover 变体不入库。
+5. 整页参考图在 `design/reference/pages/`（已 gitignore），用于还原比对。
+
 ## 常用命令
 
 ```powershell

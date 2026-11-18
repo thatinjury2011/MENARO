@@ -61,6 +61,8 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | ADR-002 | Figma 接入方式采用**官方插件**而非手写 `mcp.json` | 插件自带 45 个工具的 `_meta` 与 skills，出码质量更高；手写配置每次重启需重新 OAuth | 2026-11-11 |
 | ADR-003 | 修补插件 `mcp.json` 使其符合 Agent Plugins 1.0.0 schema | 官方发布版本不合规，Agent Host 会静默忽略整个配置 | 2026-11-11 |
 | ADR-004 | 产品中心**不单独建页**，用「全部产品右侧抽屉」承载（待最终确认） | 设计稿中 `83:1142` 产品中心页已隐藏，同时提供了完整的抽屉交互稿 | 2026-11-11（待确认） |
+| ADR-005 | 样式一律**优先 Tailwind utility + daisyUI 组件**；设计稿给的 `.mn-*` 自定义类只做等价替换，仅在 Tailwind 无法表达时才保留自命名类 | 减少自研 CSS 维护成本，令牌与主题集中在 `@theme` | 2026-11-18（已确认） |
+| ADR-006 | 图片统一 **WebP** 入 `src/assets`，PNG 只作为原始素材留存 | 压缩率约 92%，且 Astro `<Image>` 仍需源图做多尺寸派生 | 2026-11-18（已确认） |
 
 ---
 
@@ -73,11 +75,21 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 | 版本 | 日期 | 类型 | 摘要 | 相关文档 |
 | --- | --- | --- | --- | --- |
+| v1.5.0 | 2026-11-18 | 次 | **素材整理完成（待确认）**：266 张原始导出 → 159 个规范命名 WebP + 17 张整页参考图，58.7 MB 压到 4.4 MB；脚本化可重跑 | `scripts/build-assets.mjs` |
 | v1.4.0 | 2026-11-18 | 次 | **切换 Node 26 + 升级 Astro 7**：fnm 接管版本（`.node-version` + shell 集成），移除 vite pin，依赖树收敛为单一 vite 8，构建与双端渲染复验通过 | [troubleshooting/astro-toolchain-versions.md](troubleshooting/astro-toolchain-versions.md) |
 | v1.3.0 | 2026-11-18 | 次 | **P0 脚手架落地**：Astro 6 + Tailwind v4 + daisyUI 5 可跑；`--mn-*` 令牌与 `menaro` 主题接入；Base 布局 + 响应式 Header/Footer + 404 占位；记录 Astro/Vite 版本坑 | [troubleshooting/astro-toolchain-versions.md](troubleshooting/astro-toolchain-versions.md) |
 | v1.2.0 | 2026-11-11 | 次 | 技术栈定稿（Astro+Tailwind+daisyUI）；完成 Figma 设计稿全面分析，输出页面清单/令牌/组件/交互/风险与实施路线 | [design-analysis.md](design-analysis.md) |
 | v1.1.0 | 2026-11-11 | 次 | 仓库重置：本地项目接管 `thatinjury2011/MENARO`，旧内容与历史全部丢弃（orphan 强推）；新增 `.gitignore` | 本文档 §5.1 |
 | v1.0.0 | 2026-11-11 | 里程碑 | 建立项目文档体系（AGENTS.md + PROJECT_LOG + troubleshooting）；打通 Figma MCP 并完成真机验证 | [figma-mcp.md](troubleshooting/figma-mcp.md) |
+
+### v1.5.0 详细内容（2026-11-18）
+
+1. **命名规范**：`src/assets/<页面或模块>/<区块>-<序号>.webp`，全小写 kebab-case，无中文、无空格、无 `Group 44` / `2.png` 这类原始名。
+2. **目录**：`brand` `icons` `home` `products/{tile-grout,tile-adhesive,sealant,floor,detail-*}` `cases` `solutions/{index,industrial-floor}` `about` `global` `contact` `quote` `drawer`。
+3. **去重**：44 个完全重复文件（同一个 40×40 箭头出现 12 次）+ 47 个 hover 态/重复帧未入库；`12–48px` 的通用 UI 字形（箭头、chevron、关闭、对勾、时钟）改由内联 SVG 实现，不占用图片资源。
+4. **格式**：全部 PNG → WebP（q82，保留 alpha），站点资源 **58.7 MB → 4.4 MB**；整页截图单独放 `design/reference/pages/`（1920 宽，66.4 MB → 5.1 MB）。
+5. **可重跑**：`node scripts/build-assets.mjs` 依据映射表重新生成，映射表即文档。
+6. **待确认问题（已定）**：banner 类图片把标题/副标题/小标签**烘焙进了图里** → 决策：向设计索取**无文字底图**，标题文案用 HTML 排版（利于 SEO 与多语言）；底图到位前，相关区块用 CSS 渐变/遮罩占位。
 
 ### v1.4.0 详细内容（2026-11-18）
 
@@ -151,6 +163,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | Figma 设计稿分析 | 2026-11-11 | 见 v1.2.0 / [design-analysis.md](design-analysis.md) |
 | P0 脚手架：Astro + Tailwind v4 + daisyUI + 令牌 + Base 布局 + Header/Footer | 2026-11-18 | 见 v1.3.0 |
 | 切换 Node 26 + 升级 Astro 7 | 2026-11-18 | 见 v1.4.0 |
+| 设计素材整理与 WebP 化 | 2026-11-18 | 见 v1.5.0，待确认命名与目录 |
 
 ### 进行中
 
@@ -163,7 +176,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | 任务 | 优先级 | 备注 |
 | --- | --- | --- |
 | P1 首页（01）双端还原 | 高 | 见 design-analysis §8.4 |
-| 批量导出 69 个设计素材 | 高 | 用 Figma MCP `download_assets`；本地 `Pc图片及图标` 已有 266 张整页/切图混杂的导出（132 MB，未纳管） |
+| 批量导出 69 个设计素材 | — | 已由 v1.5.0 本地整理替代；如设计更新需重新导出，复用 `scripts/build-assets.mjs` 映射 |
 | 配置 Vercel 项目（当前构建会失败） | 中 | 待有业务代码后再接 |
 | 完成 `vercel` MCP 授权 | 中 | 后续部署需要 |
 | 确认后可删除旧仓库备份 `D:\独立站\_backup_MENARO_20261111` | 低 | 3.4 MB，纯安全网 |
@@ -176,6 +189,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 - **Figma 插件升级会覆盖 `mcp.json`**，需要重新打 schema 补丁（文档里有一步步命令）。
 - **Node 双版本并存**：fnm 已在 PowerShell 终端生效（26.13.1），但系统级 `C:\Program Files\nodejs` 仍是 22.20.0；cmd / Git Bash / 未加载 profile 的进程跑 Astro 7 会直接报错。彻底规避需卸载 Node 22，见 [troubleshooting/astro-toolchain-versions.md](troubleshooting/astro-toolchain-versions.md)。
+- **Banner 文案烘焙进图**：`home/hero.webp`、`solutions/index/hero.webp` 等图片里已含标题/副标题/标签文字，直接使用会失去可编辑性与 SEO 价值，需设计提供无文字底图（见 v1.5.0）。
 - **`Pc图片及图标/` 132 MB 素材未纳入版本控制**，含大量以 `2.png`、`Group 44.png` 命名的原始导出与整页截图，直接提交会让仓库膨胀。
 - 项目尚未纳入版本控制，任何破坏性操作无法回滚。
 - 用户级 MCP 配置含 `.install-staging` 下的旧路径条目（vercel 插件），若清理需同步修改 `chat.pluginLocations`。
