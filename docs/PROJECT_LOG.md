@@ -75,6 +75,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 | 版本 | 日期 | 类型 | 摘要 | 相关文档 |
 | --- | --- | --- | --- | --- |
+| v1.10.0 | 2026-11-18 | 次 | **中英双语上线**：`/` 为中文、`/en` 为英文，40 条路由（20×2）；新增 `src/i18n/`（config / utils / ui / home / series）与 12 个双语页面组件，页头语言切换按当前路径互跳，`<html lang>`、`hreflang`、og:locale 随语言切换 | 见本文档 §5.1 |
 | v1.9.0 | 2026-11-18 | 次 | **其余 7 个页面落地**：项目案例 / 解决方案 / 环氧彩砂自流平地坪方案 / 全球合作 / 关于我们 / 制造与品质 / 联系我们 / 获取报价，另补 隐私政策·使用条款·网站地图；抽出 `InquiryForm`（联系与报价共用）、`ProcessSteps`、`CaseGrid`、`ApplicationGrid`、`ScenarioCards`、`ConstructionSteps`、`FeatureRow`、`FounderBlock`、`GlobalLocations`、`AdvantageBand`、`JoinBand`、`QuoteSteps`、`WhyCard`、`ContactCard`、`PartnerTypes`、`CatalogGroup`；`PageHero` 增加 `variant` 与 `brandMark` | 见本文档 §5.1 |
 | v1.8.0 | 2026-11-18 | 次 | **P2 产品体系落地**：4 个系列页（美缝 / 瓷砖胶 / 密封胶 / 环氧地坪）+ 3 个产品详情页（动态路由）+ `/products` 目录页；抽出 `PageHero / Breadcrumb / InquiryCta / IntroBlock / SeriesCards / TierCards / PackagingSpecs / SupportCards / ProductShowcase / SpecCards / CatalogGroup` | 见本文档 §5.1 |
 | v1.7.1 | 2026-11-18 | 执行 | 确立「**导出稿为最终版**，Figma 仅作参考」；核对发现 5 张 hero 与导出稿不一致，改用**自解释占位图**顶上（同名覆盖即可替换） | 见本文档 §7 |
@@ -87,6 +88,14 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | v1.1.0 | 2026-11-11 | 次 | 仓库重置：本地项目接管 `thatinjury2011/MENARO`，旧内容与历史全部丢弃（orphan 强推）；新增 `.gitignore` | 本文档 §5.1 |
 | v1.0.0 | 2026-11-11 | 里程碑 | 建立项目文档体系（AGENTS.md + PROJECT_LOG + troubleshooting）；打通 Figma MCP 并完成真机验证 | [figma-mcp.md](troubleshooting/figma-mcp.md) |
 
+### v1.10.0 详细内容（2026-11-18）
+
+1. **路由方案**：中文（默认）留在根路径，英文挂 `/en` 前缀；`astro.config.mjs` 未启用 `i18n` 自动化，改用 `src/i18n/utils.ts` 的 `getLangFromUrl` / `localizePath` / `alternateLangHref`，组件直接读 `Astro.url` 判断语言，避免层层透传 props。
+2. **文案单一来源**：`src/i18n/ui.ts`（导航、页脚、法务链接、状态标签）、`src/i18n/home.ts`（首页 9 个区块）、`src/i18n/series.ts`（4 个产品系列页）、`src/data/product-details.ts`（3 个详情页，`zh`/`en` 并列）、各页面组件内 `{ zh, en }[lang]`。产品详情与系列页的图片走 `slug → assets` 映射，一份版式服务两种语言。
+3. **页面组件化**：原先 20 个页面里的版式搬进 `components/pages/<area>/*Page.astro`（自带 Base 与 `<title>`），`src/pages/**` 与 `src/pages/en/**` 只剩 3 行 wrapper，改版式只改一处。
+4. **语言切换**：页头 `EN` / `中文` 链接按当前路径互跳（如 `/products/tile-grout` ↔ `/en/products/tile-grout`），移动端菜单同样带切换项；`Base.astro` 输出 `<html lang>`、两条 `hreflang` 备用链接与对应 `og:locale`。
+5. **本地化细节**：表单标签与国家级选项、面包屑 aria、社媒名称、`规划中 / Planned`、`已上线 / Available` 全部进字典；日期与电话格式按语言书写。
+6. **验证**：`npm run build` 通过（41 页）；40 条路由（20 中文 + 20 英文）在 1440 下全部 200 且无横向溢出；`/en` 首页、`/en/products/tile-adhesive`、`/en/sitemap`、`/en/quote` 逐屏核对，语言切换双向跳转正确。
 ### v1.9.0 详细内容（2026-11-18）
 
 1. **新增 8 个业务页 + 3 个基础页**（`src/pages/`）：
@@ -254,6 +263,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | P1 首页骨架（9 区块）+ P0.5 基础组件 | 2026-11-18 | 见 v1.7.0 |
 | P2 产品体系：4 系列页 + 3 详情页 + 目录页 | 2026-11-18 | 见 v1.8.0 |
 | P3 其余页面：案例 / 方案 / 工业地坪 / 全球 / 关于 / 制造 / 联系 / 报价 + 法务 3 页 | 2026-11-18 | 见 v1.9.0 |
+| P4 多语言：中文 + 英文（`/en`） | 2026-11-18 | 见 v1.10.0 |
 
 ### 进行中
 
@@ -268,7 +278,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | --- | --- | --- |
 | 替换 5 张 hero 占位图 | 高 | 美缝系列 / 环氧系列 / 密封胶系列 / 密封胶详情 / 获取报价 |
 | 询盘表单接后端 | 高 | 当前表单为静态 HTML（`action="#"`），需接 API 或第三方表单服务 |
-| 多语言（中文 / EN） | 中 | 头部语言位目前是占位按钮 |
+| 多语言扩展（阿语 / 俄语等） | 低 | 现架构按 `locales` 数组 + 字典扩展，加语言只需补字典与 `/xx` 路由 |
 | 产品中心抽屉（全部产品） | 中 | 目录页已完成，抽屉可复用同一套 `CatalogGroup` 数据 |
 | 批量导出 69 个设计素材 | — | 已由 v1.5.0 本地整理替代；如设计更新需重新导出，复用 `scripts/build-assets.mjs` 映射 |
 | 配置 Vercel 项目（当前构建会失败） | 中 | 待有业务代码后再接 |

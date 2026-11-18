@@ -1,0 +1,15 @@
+---
+import type { GetStaticPaths } from 'astro';
+import DetailPage from '../../../../components/pages/products/DetailPage.astro';
+import { productDetails } from '../../../../data/product-details';
+
+export const getStaticPaths = (() =>
+  productDetails.map((product) => ({
+    params: { series: product.series, product: product.slug },
+    props: { product },
+  }))) satisfies GetStaticPaths;
+
+const { product } = Astro.props;
+---
+
+<DetailPage product={product} />

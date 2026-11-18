@@ -1,0 +1,100 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../sections/PageHero.astro';
+import InquiryCta from '../../sections/InquiryCta.astro';
+import Breadcrumb from '../../ui/Breadcrumb.astro';
+import CaseGrid from './CaseGrid.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+
+import hero from '../../../assets/cases/hero.webp';
+import case01 from '../../../assets/cases/case-01.webp';
+import case02 from '../../../assets/cases/case-02.webp';
+import case03 from '../../../assets/cases/case-03.webp';
+import case04 from '../../../assets/cases/case-04.webp';
+import case05 from '../../../assets/cases/case-05.webp';
+import case06 from '../../../assets/cases/case-06.webp';
+import caseWide from '../../../assets/cases/case-wide.webp';
+
+const lang = getLangFromUrl(Astro.url);
+
+const c = {
+  zh: {
+    pageTitle: '项目案例',
+    eyebrow: 'MENARO · APPLICATIONS',
+    title: '项目案例',
+    description: '了解建筑材料在不同项目类型中的应用。',
+    primary: { label: '获取报价', href: '/quote' },
+    imageAlt: 'MENARO 项目案例',
+    crumbs: [
+      { label: '首页', href: '/' },
+      { label: '项目案例', href: '/cases' },
+      { label: '项目展示' },
+    ],
+    grid: { eyebrow: '项目展示', title: '项目展示' },
+    items: [
+      { title: '台州腾达中心', category: '商业办公建筑' },
+      { title: '台州鑫都国际大酒店', category: '酒店空间' },
+      { title: '黄岩宁溪龙仕翔悦境酒店', category: '精品度假酒店' },
+      { title: '台州路桥腾达研究院', category: '研究与办公空间' },
+      { title: '台州市新党校', category: '公共教育建筑' },
+      { title: '台州绿樾湖滨', category: '湖滨居住空间' },
+      { title: '台州市椒江区玖樟府精装项目', category: '精品住宅精装' },
+    ],
+    cta: {
+      eyebrow: '欢迎与美纳罗建立合作',
+      title: '让合适的产品更快进入你的采购链',
+      description: '欢迎就产品、包装、定制与采购需求与我们联系。',
+      button: { label: '提交采购询盘', href: '/quote' },
+    },
+  },
+  en: {
+    pageTitle: 'Project cases',
+    eyebrow: 'MENARO · APPLICATIONS',
+    title: 'Project cases',
+    description: 'See how our building materials are applied across different project types.',
+    primary: { label: 'Get a Quote', href: '/quote' },
+    imageAlt: 'MENARO project cases',
+    crumbs: [
+      { label: 'Home', href: '/' },
+      { label: 'Projects', href: '/cases' },
+      { label: 'Project gallery' },
+    ],
+    grid: { eyebrow: 'Project gallery', title: 'Project gallery' },
+    items: [
+      { title: 'Taizhou Tengda Center', category: 'Commercial office' },
+      { title: 'Taizhou Xindu International Hotel', category: 'Hotel' },
+      { title: 'Huangyan Ningxi Longshixiang Yuejing Hotel', category: 'Boutique resort' },
+      { title: 'Taizhou Luqiao Tengda Research Institute', category: 'Research & office' },
+      { title: 'Taizhou New Party School', category: 'Public education' },
+      { title: 'Taizhou Lüyue Lakeside', category: 'Lakeside residential' },
+      { title: 'Taizhou Jiaojiang Jiuzhang Mansion fit-out', category: 'Premium residential fit-out' },
+    ],
+    cta: {
+      eyebrow: 'Work with MENARO',
+      title: 'Bring the right products into your supply chain faster',
+      description: 'Talk to us about products, packaging, customisation and procurement.',
+      button: { label: 'Send an enquiry', href: '/quote' },
+    },
+  },
+}[lang];
+
+const images = [case01, case02, case03, case04, case05, case06, caseWide];
+const items = c.items.map((item, i) => ({ ...item, image: images[i], wide: i === 6 }));
+---
+
+<Base title={c.pageTitle}>
+  <PageHero
+    eyebrow={c.eyebrow}
+    title={c.title}
+    description={c.description}
+    image={hero}
+    imageAlt={c.imageAlt}
+    primary={c.primary}
+  />
+
+  <Breadcrumb items={c.crumbs} />
+
+  <CaseGrid eyebrow={c.grid.eyebrow} title={c.grid.title} items={items} />
+
+  <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.button} />
+</Base>

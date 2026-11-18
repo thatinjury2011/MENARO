@@ -1,0 +1,128 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../sections/PageHero.astro';
+import InquiryCta from '../../sections/InquiryCta.astro';
+import ProcessSteps from '../../sections/ProcessSteps.astro';
+import Breadcrumb from '../../ui/Breadcrumb.astro';
+import ApplicationGrid from './ApplicationGrid.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+
+import hero from '../../../assets/solutions/index/hero.webp';
+import residential from '../../../assets/solutions/index/application-01.webp';
+import commercial from '../../../assets/solutions/index/application-02.webp';
+import industrial from '../../../assets/solutions/index/application-03.webp';
+import facade from '../../../assets/solutions/index/application-04.webp';
+
+const lang = getLangFromUrl(Astro.url);
+
+const c = {
+  zh: {
+    pageTitle: '解决方案',
+    hero: {
+      eyebrow: '应用场景',
+      title: '解决方案',
+      description: '从住宅商业空间到工业地坪，根据不同场景需求匹配合适的材料体系。',
+      imageAlt: 'MENARO 解决方案',
+      primary: { label: '查看产品', href: '/products' },
+      secondary: { label: '获取报价', href: '/quote' },
+    },
+    crumbs: [{ label: '首页', href: '/' }, { label: '解决方案' }],
+    applications: {
+      eyebrow: '应用分类',
+      title: '按建筑用途选择材料',
+      note: '选择住宅、商业或工业应用，了解适合的材料体系。',
+      items: [
+        { title: '住宅空间' },
+        { title: '商业空间' },
+        { title: '工业地坪', href: '/solutions/industrial-floor' },
+        { title: '建筑外立面与公共区域' },
+      ],
+    },
+    steps: {
+      eyebrow: '服务流程',
+      title: '更方便的产品选型',
+      note: '告诉我们您的项目用途和需求，我们会推荐相应产品并协助询价。',
+      items: [
+        { index: '01', title: '先选场景', desc: '住宅、商业、工业' },
+        { index: '02', title: '再看产品', desc: '匹配材料与施工需求' },
+        { index: '03', title: '提交询盘', desc: '确认规格及预计数量' },
+        { index: '04', title: '后续对接', desc: '获取产品资料与报价' },
+      ],
+    },
+    cta: {
+      eyebrow: '欢迎与美纳罗建立合作',
+      title: '让合适的产品更快进入你的采购链',
+      description: '欢迎就产品、包装、定制与采购需求与我们联系。',
+      button: { label: '提交采购询盘', href: '/quote' },
+    },
+  },
+  en: {
+    pageTitle: 'Solutions',
+    hero: {
+      eyebrow: 'Applications',
+      title: 'Solutions',
+      description: 'From residential and commercial interiors to industrial floors — material systems matched to each scenario.',
+      imageAlt: 'MENARO solutions',
+      primary: { label: 'View products', href: '/products' },
+      secondary: { label: 'Get a Quote', href: '/quote' },
+    },
+    crumbs: [{ label: 'Home', href: '/' }, { label: 'Solutions' }],
+    applications: {
+      eyebrow: 'Application types',
+      title: 'Choose materials by building use',
+      note: 'Select residential, commercial or industrial applications to see the matching material systems.',
+      items: [
+        { title: 'Residential' },
+        { title: 'Commercial' },
+        { title: 'Industrial flooring', href: '/solutions/industrial-floor' },
+        { title: 'Facades & public areas' },
+      ],
+    },
+    steps: {
+      eyebrow: 'How we support you',
+      title: 'Simpler product selection',
+      note: 'Tell us the project use and requirements, and we will recommend products and help with quotations.',
+      items: [
+        { index: '01', title: 'Start with the scenario', desc: 'Residential, commercial, industrial' },
+        { index: '02', title: 'Then the product', desc: 'Match materials to installation needs' },
+        { index: '03', title: 'Send an enquiry', desc: 'Confirm specification and expected quantity' },
+        { index: '04', title: 'Follow-up', desc: 'Receive documents and a quotation' },
+      ],
+    },
+    cta: {
+      eyebrow: 'Work with MENARO',
+      title: 'Bring the right products into your supply chain faster',
+      description: 'Talk to us about products, packaging, customisation and procurement.',
+      button: { label: 'Send an enquiry', href: '/quote' },
+    },
+  },
+}[lang];
+
+const images = [residential, commercial, industrial, facade];
+const items = c.applications.items.map((item, i) => ({ ...item, image: images[i] }));
+---
+
+<Base title={c.pageTitle}>
+  <PageHero
+    eyebrow={c.hero.eyebrow}
+    title={c.hero.title}
+    description={c.hero.description}
+    image={hero}
+    imageAlt={c.hero.imageAlt}
+    primary={c.hero.primary}
+    secondary={c.hero.secondary}
+  />
+
+  <Breadcrumb items={c.crumbs} />
+
+  <ApplicationGrid
+    eyebrow={c.applications.eyebrow}
+    title={c.applications.title}
+    note={c.applications.note}
+    items={items}
+  />
+
+  <ProcessSteps eyebrow={c.steps.eyebrow} title={c.steps.title} note={c.steps.note} steps={c.steps.items} />
+
+  <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.button} />
+</Base>

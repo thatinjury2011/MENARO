@@ -1,0 +1,69 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Container from '../../ui/Container.astro';
+import Breadcrumb from '../../ui/Breadcrumb.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+
+const content = {
+  zh: {
+      pageTitle: '使用条款',
+      eyebrow: 'LEGAL',
+      title: '使用条款',
+      updated: '更新日期：2026 年 11 月',
+      intro: '访问或使用 MENARO 美纳罗网站，即表示您同意遵守以下条款。',
+      crumbs: [{ label: '首页', href: '/' }, { label: '使用条款' }],
+      blocks: [
+        { title: '网站内容', body: '本站产品图片、参数与说明用于展示产品定位与包装形式，实际规格、性能与适用范围以正式报价资料及产品技术文件为准。' },
+        { title: '知识产权', body: '本站的文字、图形、标识与图片等内容的知识产权归 MENARO 美纳罗或相关权利人所有，未经书面许可不得转载或用于商业用途。' },
+        { title: '第三方链接', body: '站点可能包含指向第三方平台的链接，我们不对第三方网站的内容与隐私做法负责。' },
+        { title: '条款变更', body: '我们可能根据业务与法规要求更新本条款，更新后的内容将在本页发布并即时生效。' },
+      ],
+    },
+  en: {
+      pageTitle: 'Terms of use',
+      eyebrow: 'LEGAL',
+      title: 'Terms of use',
+      updated: 'Last updated: November 2026',
+      intro: 'By accessing or using the MENARO website you agree to the terms below.',
+      crumbs: [{ label: 'Home', href: '/' }, { label: 'Terms of Use' }],
+      blocks: [
+        { title: 'Website content', body: 'Product images, parameters and descriptions on this site illustrate product positioning and packaging. Actual specifications, performance and scope of use follow the formal quotation and product technical documentation.' },
+        { title: 'Intellectual property', body: 'Text, graphics, marks and images on this site are owned by MENARO or the relevant rights holders and may not be reproduced or used commercially without written permission.' },
+        { title: 'Third-party links', body: 'The site may link to third-party platforms. We are not responsible for the content or privacy practices of those sites.' },
+        { title: 'Changes to these terms', body: 'We may update these terms for business or regulatory reasons. Updated content is published on this page and takes effect immediately.' },
+      ],
+    },
+}[lang];
+---
+
+<Base title={content.pageTitle}>
+  <section class="bg-base-100 pt-12 pb-6 lg:pt-16">
+    <Container>
+      <div class="flex max-w-[860px] flex-col gap-3">
+        <p class="text-[12px] tracking-[0.08em] text-mn-muted">{content.eyebrow}</p>
+        <h1 class="text-[32px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[40px]">{content.title}</h1>
+        {content.updated && <p class="text-[13px] text-mn-muted">{content.updated}</p>}
+        {content.intro && <p class="text-[13px] text-mn-muted">{content.intro}</p>}
+      </div>
+    </Container>
+  </section>
+
+  <Breadcrumb items={content.crumbs} />
+
+  <section class="bg-base-100 py-12 lg:py-16">
+    <Container>
+      <div class="flex max-w-[860px] flex-col gap-6 text-[14px] leading-7 text-mn-muted">
+        {
+          content.blocks.map((block: { title: string; body: string }) => (
+            <div class="flex flex-col gap-2">
+              <h2 class="text-[18px] font-bold text-mn-ink">{block.title}</h2>
+              <p set:html={block.body} />
+            </div>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+</Base>

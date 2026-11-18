@@ -1,22 +1,30 @@
 ---
 import Container from '../ui/Container.astro';
-import { navItems, quoteCta } from '../../data/site';
+import { getLangFromUrl, localizePath, alternateLangHref } from '../../i18n/utils';
+import { langLabel } from '../../i18n/config';
+import { ui } from '../../i18n/ui';
 
-const path = Astro.url.pathname;
+const lang = getLangFromUrl(Astro.url);
+const t = ui[lang];
+const otherLang = lang === 'zh' ? 'en' : 'zh';
+
+const rawPath = Astro.url.pathname;
+const path = lang === 'zh' ? rawPath : rawPath.replace(/^\/en(?=\/|$)/, '') || '/';
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+const switchHref = alternateLangHref(Astro.url, otherLang);
 ---
 
 <header class="sticky top-0 z-50 border-b border-mn-border bg-base-100/95 backdrop-blur-md">
   <Container class="flex h-16 items-center gap-6 lg:h-[116px] lg:gap-10">
-    <a href="/" class="flex shrink-0 items-center" aria-label="MENARO 首页">
-      <img src="/brand/logo.png" alt="MENARO" width="237" height="82" class="h-9 w-auto lg:h-11" />
+    <a href={localizePath('/', lang)} class="flex shrink-0 items-center" aria-label={t.logoLabel}>
+      <img src="/brand/logo.png" alt={t.logoAlt} width="237" height="82" class="h-9 w-auto lg:h-11" />
     </a>
 
-    <nav aria-label="主导航" class="hidden flex-1 items-center justify-center gap-4 lg:flex xl:gap-7">
+    <nav aria-label={t.navAria} class="hidden flex-1 items-center justify-center gap-4 lg:flex xl:gap-7">
       {
-        navItems.map((item) => (
+        t.nav.map((item) => (
           <a
-            href={item.href}
+            href={localizePath(item.href, lang)}
             aria-current={isActive(item.href) ? 'page' : undefined}
             class:list={[
               'group/nav relative py-1.5 text-[14px] font-medium whitespace-nowrap transition-colors duration-200 xl:text-[15px]',
@@ -32,26 +40,28 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     </nav>
 
     <div class="ml-auto flex items-center gap-2 lg:ml-0 lg:gap-4">
-      <button
-        type="button"
+      <a
+        href={switchHref}
+        hreflang={otherLang === 'zh' ? 'zh-CN' : 'en'}
+        lang={otherLang === 'zh' ? 'zh-CN' : 'en'}
         class="hidden items-center gap-1 text-[14px] text-mn-ink transition-colors hover:text-mn-green xl:inline-flex"
-        aria-label="切换语言（当前：中文）"
+        aria-label={t.langSwitchAria}
       >
-        中文
+        {langLabel[lang]}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="size-3" aria-hidden="true">
           <path d="m6 9 6 6 6-6"></path>
         </svg>
-      </button>
+      </a>
 
       <a
-        href={quoteCta.href}
+        href={localizePath(t.quote.href, lang)}
         class="btn btn-primary h-auto min-h-0 rounded-field px-5 py-3 text-sm shadow-none"
       >
-        {quoteCta.label}
+        {t.quote.label}
       </a>
 
       <details class="dropdown dropdown-end lg:hidden">
-        <summary class="btn btn-square btn-ghost" aria-label="打开导航菜单">
+        <summary class="btn btn-square btn-ghost" aria-label={t.menuAria}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="size-5"
@@ -68,10 +78,10 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
           class="menu dropdown-content z-50 mt-3 w-60 rounded-box border border-mn-border bg-base-100 p-2 shadow-lg"
         >
           {
-            navItems.map((item) => (
+            t.nav.map((item) => (
               <li>
                 <a
-                  href={item.href}
+                  href={localizePath(item.href, lang)}
                   aria-current={isActive(item.href) ? 'page' : undefined}
                   class:list={['py-3', isActive(item.href) && 'font-semibold']}
                 >
@@ -80,6 +90,11 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
               </li>
             ))
           }
+          <li>
+            <a href={switchHref} class="py-3" hreflang={otherLang === 'zh' ? 'zh-CN' : 'en'}>
+              {langLabel[lang]}
+            </a>
+          </li>
         </ul>
       </details>
     </div>

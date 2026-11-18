@@ -1,17 +1,16 @@
 ---
 import Container from '../../ui/Container.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+import { home } from '../../../i18n/home';
 
 import service01 from '../../../assets/icons/service-01.webp';
 import service02 from '../../../assets/icons/service-02.webp';
 import service03 from '../../../assets/icons/service-03.webp';
 import service04 from '../../../assets/icons/service-04.webp';
 
-const items = [
-  { icon: service01, title: '专业制造协同', desc: '深度合作 ．生产组织' },
-  { icon: service02, title: '品质过程管理', desc: '从原料到交付的质量要求' },
-  { icon: service03, title: '定制合作服务', desc: '产品规格 · 包装定制' },
-  { icon: service04, title: '全球供应服务', desc: '定制订单 ．长期合作' },
-];
+const lang = getLangFromUrl(Astro.url);
+const icons = [service01, service02, service03, service04];
+const items = home[lang].services;
 ---
 
 <section class="border-y border-mn-border bg-base-200/70">
@@ -25,7 +24,7 @@ const items = [
               i > 0 && 'sm:border-l sm:border-mn-border',
             ]}
           >
-            <img src={item.icon.src} alt="" width="58" height="58" class="size-8 shrink-0" loading="lazy" />
+            <img src={icons[i].src} alt="" width="58" height="58" class="size-8 shrink-0" loading="lazy" />
             <div class="flex flex-col gap-1">
               <p class="text-[15px] font-semibold text-mn-ink">{item.title}</p>
               <p class="text-[13px] text-mn-muted">{item.desc}</p>

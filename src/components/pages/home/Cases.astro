@@ -4,54 +4,61 @@ import Container from '../../ui/Container.astro';
 import SectionHeading from '../../ui/SectionHeading.astro';
 import ArrowLink from '../../ui/ArrowLink.astro';
 import Button from '../../ui/Button.astro';
+import { getLangFromUrl, localizePath } from '../../../i18n/utils';
+import { home } from '../../../i18n/home';
 
 import caseLarge from '../../../assets/home/case-large-01.webp';
 import case01 from '../../../assets/home/case-01.webp';
 import case02 from '../../../assets/home/case-02.webp';
 
-const smallCases = [
-  { title: '台州鑫都国际大酒店', sub: '优质建筑材料 致力城市高端酒店建设', image: case01 },
-  { title: '台州市腾达研究院', sub: '高性能材料 打造现代科研空间', image: case02 },
-];
+const lang = getLangFromUrl(Astro.url);
+const t = home[lang].cases;
+const smallImages = [case01, case02];
+const casesHref = localizePath('/cases', lang);
 ---
 
 <section class="bg-base-100 py-14 lg:py-24">
   <Container>
     <div class="flex items-end justify-between gap-6">
-      <SectionHeading title="项目案例" subtitle="多场景应用解决方案" />
-      <ArrowLink href="/cases" class="shrink-0">查看全部案例</ArrowLink>
+      <SectionHeading title={t.title} subtitle={t.subtitle} />
+      <ArrowLink href={casesHref} class="shrink-0">{t.link}</ArrowLink>
     </div>
 
     <div class="mt-8 grid grid-cols-1 gap-6 lg:mt-12 lg:grid-cols-3">
       <div class="group relative overflow-hidden rounded-box lg:col-span-2">
         <Image
           src={caseLarge}
-          alt="台州腾达中心"
+          alt={t.main.title}
           widths={[600, 1200, 1600]}
           sizes="(min-width: 1024px) 66vw, 100vw"
           class="h-full min-h-[260px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03] lg:min-h-[420px]"
           loading="lazy"
         />
         <div class="absolute inset-0 bg-linear-to-t from-black/65 via-black/15 to-transparent"></div>
-        <a href="/cases" class="absolute inset-0" aria-label="台州腾达中心 案例详情"></a>
+        <a href={casesHref} class="absolute inset-0" aria-label={t.main.title}></a>
         <div class="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-start gap-4 p-6 lg:p-10">
           <div class="flex flex-col gap-2">
-            <p class="text-2xl font-bold text-white lg:text-3xl">台州腾达中心</p>
-            <p class="text-[13px] text-white/80">打造高品质商务空间</p>
+            <p class="text-2xl font-bold text-white lg:text-3xl">{t.main.title}</p>
+            <p class="text-[13px] text-white/80">{t.main.sub}</p>
           </div>
-          <Button href="/contact" variant="white" withArrow class="pointer-events-auto min-w-[168px] justify-between">
-            洽谈商务合作
+          <Button
+            href={localizePath('/contact', lang)}
+            variant="white"
+            withArrow
+            class="pointer-events-auto min-w-[168px] justify-between"
+          >
+            {t.main.cta}
           </Button>
         </div>
       </div>
 
       <ul class="flex flex-col gap-6">
         {
-          smallCases.map((item) => (
+          t.items.map((item, i) => (
             <li class="flex-1">
-              <a href="/cases" class="group relative block h-full overflow-hidden rounded-box">
+              <a href={casesHref} class="group relative block h-full overflow-hidden rounded-box">
                 <Image
-                  src={item.image}
+                  src={smallImages[i]}
                   alt={item.title}
                   widths={[527, 1054]}
                   sizes="(min-width: 1024px) 33vw, 100vw"

@@ -2,56 +2,42 @@
 import { Image } from 'astro:assets';
 import Container from '../../ui/Container.astro';
 import SectionHeading from '../../ui/SectionHeading.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+import { home } from '../../../i18n/home';
 
 import mfg01 from '../../../assets/home/manufacturing-01.webp';
 import mfg02 from '../../../assets/home/manufacturing-02.webp';
 import mfg03 from '../../../assets/home/manufacturing-03.webp';
 import mfg04 from '../../../assets/home/manufacturing-04.webp';
 
-const cards = [
-  { title: '制造协同', image: mfg01 },
-  { title: '生产与定制', image: mfg02 },
-  { title: '品质检验', image: mfg03 },
-  { title: '包装与交付', image: mfg04 },
-];
-
-const pillars = [
-  {
-    label: '制造协同',
-    title: '深度协同的制造体系',
-    desc: '与专业制造企业长期协作，在部分合作生产线参与生产组织、质量管理与订单交付，形成灵活可靠的供应能力。',
-  },
-  {
-    label: '品质与交付',
-    title: '产品品质与供应保障',
-    desc: '围绕产品规格、原料管理、过程检验及出口交付开展协同管理，满足不同客户的采购与定制需求。',
-  },
-];
+const lang = getLangFromUrl(Astro.url);
+const t = home[lang].manufacturing;
+const images = [mfg01, mfg02, mfg03, mfg04];
 ---
 
 <section class="bg-base-200/70 py-14 lg:py-24">
   <Container>
     <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-      <SectionHeading eyebrow="专业制造与可靠交付" title="制造与品质" subtitle="制造与品质" />
+      <SectionHeading eyebrow={t.eyebrow} title={t.title} subtitle={t.subtitle} />
       <p class="max-w-[520px] text-[13px] leading-6 text-mn-muted lg:text-right">
-        美纳罗以自主制造基地为基础，并整合国内外优质合作制造资源，<br class="hidden lg:block" />
-        构建自主生产与合作制造相结合的供应体系。
+        {t.note[0]}<br class="hidden lg:block" />
+        {t.note[1]}
       </p>
     </div>
 
     <ul class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">
       {
-        cards.map((card) => (
+        t.cards.map((title, i) => (
           <li class="flex flex-col gap-4">
             <Image
-              src={card.image}
-              alt={card.title}
+              src={images[i]}
+              alt={title}
               widths={[415, 830]}
               sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
               class="aspect-[415/249] w-full rounded-box object-cover"
               loading="lazy"
             />
-            <p class="text-[15px] font-semibold text-mn-ink">{card.title}</p>
+            <p class="text-[15px] font-semibold text-mn-ink">{title}</p>
           </li>
         ))
       }
@@ -59,7 +45,7 @@ const pillars = [
 
     <ul class="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-box bg-primary lg:mt-10 lg:grid-cols-2">
       {
-        pillars.map((p) => (
+        t.pillars.map((p) => (
           <li class="flex flex-col gap-3 bg-primary px-7 py-8 text-white lg:px-10 lg:py-10">
             <p class="text-[13px] text-white/70">{p.label}</p>
             <p class="text-xl font-semibold">{p.title}</p>

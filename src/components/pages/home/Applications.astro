@@ -3,39 +3,36 @@ import { Image } from 'astro:assets';
 import Container from '../../ui/Container.astro';
 import SectionHeading from '../../ui/SectionHeading.astro';
 import ArrowLink from '../../ui/ArrowLink.astro';
+import { getLangFromUrl, localizePath } from '../../../i18n/utils';
+import { home } from '../../../i18n/home';
 
 import app01 from '../../../assets/home/application-01.webp';
 import app02 from '../../../assets/home/application-02.webp';
 import app03 from '../../../assets/home/application-03.webp';
 import app04 from '../../../assets/home/application-04.webp';
 
-const scenes = [
-  { title: '住宅空间', sub: '家居空间', image: app01 },
-  { title: '商业建筑', sub: '商业场景空间', image: app02 },
-  { title: '室外与建筑外立面', sub: '建筑与空间应用', image: app03 },
-  { title: '公共建筑与空间', sub: '公共建筑空间', image: app04 },
-];
+const lang = getLangFromUrl(Astro.url);
+const t = home[lang].applications;
+const images = [app01, app02, app03, app04];
 ---
 
 <section class="bg-base-100 py-14 lg:py-24">
   <Container>
     <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-      <SectionHeading title="建筑应用方案" subtitle="多场景应用解决方案" />
+      <SectionHeading title={t.title} subtitle={t.subtitle} />
       <div class="flex flex-col gap-4 lg:items-end">
-        <p class="max-w-[560px] text-[13px] leading-6 text-mn-muted lg:text-right">
-          从住宅到商业空间、从室内配套到室外建筑应用，为不同采购项目匹配适宜的材料方案。
-        </p>
-        <ArrowLink href="/solutions">了解应用场景</ArrowLink>
+        <p class="max-w-[560px] text-[13px] leading-6 text-mn-muted lg:text-right">{t.note}</p>
+        <ArrowLink href={localizePath('/solutions', lang)}>{t.link}</ArrowLink>
       </div>
     </div>
 
     <ul class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">
       {
-        scenes.map((scene) => (
+        t.scenes.map((scene, i) => (
           <li>
-            <a href="/solutions" class="group relative block overflow-hidden rounded-box">
+            <a href={localizePath('/solutions', lang)} class="group relative block overflow-hidden rounded-box">
               <Image
-                src={scene.image}
+                src={images[i]}
                 alt={scene.title}
                 widths={[409, 818]}
                 sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"

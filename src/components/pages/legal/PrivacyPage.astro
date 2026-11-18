@@ -1,0 +1,67 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Container from '../../ui/Container.astro';
+import Breadcrumb from '../../ui/Breadcrumb.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+
+const content = {
+  zh: {
+      pageTitle: '隐私政策',
+      eyebrow: 'LEGAL',
+      title: '隐私政策',
+      updated: '更新日期：2026 年 11 月',
+      crumbs: [{ label: '首页', href: '/' }, { label: '隐私政策' }],
+      blocks: [
+        { title: '我们收集的信息', body: '当您通过询盘表单联系我们时，我们会收集您主动填写的信息，例如联系人、公司名称、国家/地区、电子邮箱、WhatsApp 号码、意向产品及需求说明。' },
+        { title: '信息的使用方式', body: '上述信息仅用于回复您的询盘、提供产品资料与报价、安排样品及跟进订单相关事项，我们不会将其用于与采购无关的用途。' },
+        { title: '信息的共享', body: '除为完成您所请求的服务（如物流、认证机构等）或法律法规要求外，我们不会向第三方出售或出租您的信息。' },
+        { title: '您的权利', body: '您可以随时通过 <a class="text-mn-green hover:underline" href="mailto:info@menarobm.com">info@menarobm.com</a> 联系我们，查询、更正或要求删除您提供的信息。' },
+      ],
+    },
+  en: {
+      pageTitle: 'Privacy policy',
+      eyebrow: 'LEGAL',
+      title: 'Privacy policy',
+      updated: 'Last updated: November 2026',
+      crumbs: [{ label: 'Home', href: '/' }, { label: 'Privacy Policy' }],
+      blocks: [
+        { title: 'Information we collect', body: 'When you contact us through an enquiry form we collect the details you choose to provide, such as contact person, company name, country/region, email address, WhatsApp number, products of interest and your requirements.' },
+        { title: 'How we use information', body: 'This information is used only to respond to your enquiry, provide product documents and pricing, arrange samples and follow up on orders. We do not use it for purposes unrelated to your procurement.' },
+        { title: 'Sharing', body: 'We do not sell or rent your information. It is shared only where needed to deliver the service you requested (for example logistics or certification bodies) or where required by law.' },
+        { title: 'Your rights', body: 'You can contact us at <a class="text-mn-green hover:underline" href="mailto:info@menarobm.com">info@menarobm.com</a> at any time to access, correct or request deletion of the information you provided.' },
+      ],
+    },
+}[lang];
+---
+
+<Base title={content.pageTitle}>
+  <section class="bg-base-100 pt-12 pb-6 lg:pt-16">
+    <Container>
+      <div class="flex max-w-[860px] flex-col gap-3">
+        <p class="text-[12px] tracking-[0.08em] text-mn-muted">{content.eyebrow}</p>
+        <h1 class="text-[32px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[40px]">{content.title}</h1>
+        {content.updated && <p class="text-[13px] text-mn-muted">{content.updated}</p>}
+        {content.intro && <p class="text-[13px] text-mn-muted">{content.intro}</p>}
+      </div>
+    </Container>
+  </section>
+
+  <Breadcrumb items={content.crumbs} />
+
+  <section class="bg-base-100 py-12 lg:py-16">
+    <Container>
+      <div class="flex max-w-[860px] flex-col gap-6 text-[14px] leading-7 text-mn-muted">
+        {
+          content.blocks.map((block: { title: string; body: string }) => (
+            <div class="flex flex-col gap-2">
+              <h2 class="text-[18px] font-bold text-mn-ink">{block.title}</h2>
+              <p set:html={block.body} />
+            </div>
+          ))
+        }
+      </div>
+    </Container>
+  </section>
+</Base>

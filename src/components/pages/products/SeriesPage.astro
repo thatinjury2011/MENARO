@@ -1,0 +1,128 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../sections/PageHero.astro';
+import InquiryCta from '../../sections/InquiryCta.astro';
+import Breadcrumb from '../../ui/Breadcrumb.astro';
+import IntroBlock from './IntroBlock.astro';
+import SeriesCards from './SeriesCards.astro';
+import TierCards from './TierCards.astro';
+import PackagingSpecs from './PackagingSpecs.astro';
+import SupportCards from './SupportCards.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+import { seriesContent } from '../../../i18n/series';
+
+import groutHero from '../../../assets/products/tile-grout/hero.webp';
+import groutIntro from '../../../assets/products/tile-grout/intro.webp';
+import groutPackaging from '../../../assets/products/tile-grout/packaging.webp';
+import groutFlagship from '../../../assets/products/tile-grout/series-flagship.webp';
+import groutPro from '../../../assets/products/tile-grout/series-pro.webp';
+import groutClassic from '../../../assets/products/tile-grout/series-classic.webp';
+
+import adHero from '../../../assets/products/tile-adhesive/hero.webp';
+import adIntro from '../../../assets/products/tile-adhesive/comparison.webp';
+import adBasic from '../../../assets/products/tile-adhesive/bucket-basic.webp';
+import adPro from '../../../assets/products/tile-adhesive/bucket-pro.webp';
+import adPromax from '../../../assets/products/tile-adhesive/bucket-promax.webp';
+
+import sealHero from '../../../assets/products/sealant/hero.webp';
+import sealIntro from '../../../assets/products/sealant/intro.webp';
+import sealPackaging from '../../../assets/products/sealant/packaging.webp';
+import seal01 from '../../../assets/products/sealant/series-01.webp';
+import seal02 from '../../../assets/products/sealant/series-02.webp';
+import seal03 from '../../../assets/products/sealant/series-03.webp';
+
+import floorHero from '../../../assets/products/floor/hero.webp';
+import floorIntro from '../../../assets/products/floor/intro.webp';
+import floorPackaging from '../../../assets/products/floor/packaging.webp';
+import floor01 from '../../../assets/products/floor/series-01.webp';
+import floor02 from '../../../assets/products/floor/series-02.webp';
+import floor03 from '../../../assets/products/floor/series-03.webp';
+
+interface Props {
+  slug: 'tile-grout' | 'tile-adhesive' | 'sealant' | 'floor';
+}
+
+const assets = {
+  'tile-grout': { hero: groutHero, intro: groutIntro, packaging: groutPackaging, cards: [groutFlagship, groutPro, groutClassic] },
+  'tile-adhesive': { hero: adHero, intro: adIntro, packaging: null, cards: [adBasic, adPro, adPromax] },
+  sealant: { hero: sealHero, intro: sealIntro, packaging: sealPackaging, cards: [seal01, seal02, seal03] },
+  floor: { hero: floorHero, intro: floorIntro, packaging: floorPackaging, cards: [floor01, floor02, floor03] },
+} as const;
+
+const { slug } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const c = seriesContent[slug][lang];
+const a = assets[slug];
+
+const cards = c.kind === 'cards'
+  ? c.section.cards.map((card: any, i: number) => ({ ...card, image: a.cards[i] }))
+  : [];
+const tiers = c.kind === 'tiers'
+  ? c.section.tiers.map((tier: any, i: number) => ({ ...tier, image: a.cards[i] }))
+  : [];
+---
+
+<Base title={c.pageTitle}>
+  <PageHero
+    eyebrow={c.hero.eyebrow}
+    title={c.hero.title}
+    subtitle={c.hero.subtitle}
+    description={c.hero.description}
+    image={a.hero}
+    imageAlt={c.hero.imageAlt}
+    primary={c.hero.primary}
+    secondary={c.hero.secondary}
+  />
+
+  <Breadcrumb items={c.crumbs} />
+
+  <IntroBlock
+    eyebrow={c.intro.eyebrow}
+    title={c.intro.title}
+    description={c.intro.description}
+    note={c.intro.note}
+    bullets={c.intro.bullets}
+    chips={c.intro.chips}
+    image={a.intro}
+    imageAlt={c.intro.imageAlt}
+    cta={c.intro.cta}
+  />
+
+  {
+    c.kind === 'cards' ? (
+      <SeriesCards
+        eyebrow={c.section.eyebrow}
+        title={c.section.title}
+        note={c.section.note}
+        cards={cards}
+      />
+    ) : (
+      <TierCards
+        eyebrow={c.section.eyebrow}
+        title={c.section.title}
+        subtitle={c.section.subtitle}
+        note={c.section.note}
+        footnote={c.section.footnote}
+        tiers={tiers}
+      />
+    )
+  }
+
+  {
+    c.packaging && (
+      <PackagingSpecs
+        eyebrow={c.packaging.eyebrow}
+        title={c.packaging.title}
+        description={c.packaging.description}
+        image={a.packaging}
+        imageAlt={c.packaging.imageAlt}
+        specs={c.packaging.specs}
+        note={c.packaging.note}
+      />
+    )
+  }
+
+  {c.support && <SupportCards eyebrow={c.support.eyebrow} title={c.support.title} note={c.support.note} items={c.support.items} />}
+
+  <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.cta} />
+</Base>

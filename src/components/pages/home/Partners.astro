@@ -1,6 +1,8 @@
 ---
 import { Image } from 'astro:assets';
 import Container from '../../ui/Container.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+import { home } from '../../../i18n/home';
 
 import partnersBg from '../../../assets/home/partners-bg.webp';
 import p1 from '../../../assets/icons/partner-01.webp';
@@ -8,29 +10,22 @@ import p2 from '../../../assets/icons/partner-02.webp';
 import p3 from '../../../assets/icons/partner-03.webp';
 import p4 from '../../../assets/icons/partner-04.webp';
 
-const partners = [
-  { icon: p1, title: '进口商与经销商', lines: ['进口商与经销商', '长期供应与渠道合作'] },
-  { icon: p2, title: '批发与多品类采购', lines: ['批发与集中采购', '专业产品与灵活采购'] },
-  { icon: p3, title: '品牌定制贴牌定制', lines: ['自有品牌与定制', '产品与包装定制'] },
-  { icon: p4, title: '工程与项目供应', lines: ['工程项目供应', '项目材料与交付支持'] },
-];
+const lang = getLangFromUrl(Astro.url);
+const t = home[lang].partners;
+const icons = [p1, p2, p3, p4];
 ---
 
 <section class="bg-base-100 py-14 lg:py-24">
   <Container>
     <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,420px)_1fr] lg:gap-16">
       <div class="flex flex-col gap-5">
-        <h2 class="text-[32px] leading-[1.15] font-bold tracking-tight text-mn-ink lg:text-[44px]">
-          全球合作伙伴
-        </h2>
-        <p class="text-[13px] leading-6 text-mn-muted">
-          我们与全球经销商，建筑商，品牌客户及工程采购商建立长期稳定的合作关系，提供优质的产品，专业的解决方案与持续的服务支持，共同推动更高品质的建筑空间。
-        </p>
+        <h2 class="text-[32px] leading-[1.15] font-bold tracking-tight text-mn-ink lg:text-[44px]">{t.title}</h2>
+        <p class="text-[13px] leading-6 text-mn-muted">{t.desc}</p>
       </div>
 
       <Image
         src={partnersBg}
-        alt="MENARO 全球合作伙伴分布"
+        alt={t.title}
         widths={[600, 1079]}
         sizes="(min-width: 1024px) 55vw, 100vw"
         class="w-full object-contain"
@@ -40,9 +35,9 @@ const partners = [
 
     <ul class="mt-10 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-14 lg:grid-cols-4">
       {
-        partners.map((item) => (
+        t.items.map((item, i) => (
           <li class="flex flex-col gap-5 rounded-box border border-mn-border px-6 py-7">
-            <img src={item.icon.src} alt="" width="34" height="34" class="size-6" loading="lazy" />
+            <img src={icons[i].src} alt="" width="34" height="34" class="size-6" loading="lazy" />
             <div class="flex flex-col gap-4">
               <p class="text-[15px] font-semibold text-mn-ink">{item.title}</p>
               <div class="flex flex-col gap-1 text-[12px] text-mn-muted">

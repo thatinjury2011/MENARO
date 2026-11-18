@@ -1,6 +1,6 @@
 # Menaro 项目指南
 
-跨境电商独立站项目。当前进度：**20 个页面全部落地**（首页 / 产品体系 8 页 / 案例 / 方案 2 页 / 全球 / 关于 2 页 / 联系 / 报价 / 法务 3 页），进入逐页视觉校对阶段。
+跨境电商独立站项目。当前进度：**中英双语 20 个页面全部落地**（中文在根路径，英文在 `/en`，共 40 条路由），进入逐页视觉校对阶段。
 
 ## 新会话第一步
 
@@ -74,6 +74,13 @@ public/brand/                  # 品牌 Logo（绿/白两版）
 **组件分层约定**：`ui/` 无业务语义；跨页复用的业务区块放 `components/sections/`；单页私有放 `components/pages/<page>/`。产品文案统一收在 `src/data/`，页面只做排版。
 
 **PageHero 用法**：默认（照片 58%、正文 `lg:max-w-[38vw]`）用于系列/列表页；长文案页（如工业地坪方案）传 `variant="wide"`（照片 65%、正文 30vw）；品牌页可传 `brandMark` 在标题上方渲染 Logo。
+
+## 多语言（中文 / 英文）
+
+- **路由**：中文在根路径（`/products`），英文加 `/en` 前缀（`/en/products`）。每个页面在 `src/pages/**` 与 `src/pages/en/**` 各有一个 3 行 wrapper，真正的版式在 `src/components/pages/<area>/*Page.astro`。
+- **取语言**：组件里 `const lang = getLangFromUrl(Astro.url)`，链接一律 `localizePath(href, lang)`；不要硬编码 `/en`。
+- **文案**：共用文案在 `src/i18n/ui.ts`（导航/页脚/状态标签），首页在 `src/i18n/home.ts`，产品系列在 `src/i18n/series.ts`，详情页在 `src/data/product-details.ts`（`zh`/`en` 并列），其余页面组件内用 `{ zh: {...}, en: {...} }[lang]`。
+- **新增语言**：在 `src/i18n/config.ts` 的 `locales` 里加代码，补齐字典，再生成对应前缀的路由目录即可。
 
 ## 版本约束（重要）
 

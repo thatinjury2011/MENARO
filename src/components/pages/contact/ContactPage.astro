@@ -1,0 +1,120 @@
+---
+import Base from '../../../layouts/Base.astro';
+import Container from '../../ui/Container.astro';
+import PageHero from '../../sections/PageHero.astro';
+import Breadcrumb from '../../ui/Breadcrumb.astro';
+import InquiryForm from '../../sections/InquiryForm.astro';
+import ContactCard from './ContactCard.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+
+import hero from '../../../assets/contact/hero.webp';
+import photo from '../../../assets/contact/photo.webp';
+
+import iconAddress from '../../../assets/icons/contact-address.webp';
+import iconPhone from '../../../assets/icons/contact-phone.webp';
+import iconWhatsapp from '../../../assets/icons/contact-whatsapp.webp';
+import iconMail from '../../../assets/icons/contact-mail.webp';
+import iconTime from '../../../assets/icons/contact-time.webp';
+
+const lang = getLangFromUrl(Astro.url);
+
+const c = {
+  zh: {
+    pageTitle: '联系我们',
+    hero: {
+      eyebrow: '商务询盘',
+      title: '联系我们',
+      description: '咨询产品资料、包装规格、样品与报价，请留下采购需求和联系方式。',
+      imageAlt: 'MENARO 品牌空间与产品应用',
+      primary: { label: '获取报价', href: '/quote' },
+    },
+    crumbs: [{ label: '首页', href: '/' }, { label: '联系我们' }],
+    card: {
+      title: '告诉我们您的采购需求',
+      paragraph: '无论您需要产品资料、包装规格、样品测试，还是定制化解决方案，我们都将根据您的市场需求，提供合适的产品方案与专业的报价支持。',
+      photoAlt: 'MENARO 商务洽谈',
+      address: '中国 · 浙江 · 台州',
+      items: [
+        { label: '电话', value: '+86 576 8853 9555（工作时间 9:00 - 18:00）' },
+        { label: 'WhatsApp', value: '+86 189 5760 1234（可直接添加联系）' },
+        { label: '企业邮箱', value: 'info@menarobm.com' },
+        { label: '工作时间（北京时间）', value: '周一至周五 9:00 - 18:00' },
+      ],
+    },
+    form: {
+      title: '提交询盘',
+      note: '请留下联系人、国家/地区、意向产品，以及邮箱或 WhatsApp 中至少一种联系方式。',
+      submit: '提交采购询盘',
+    },
+  },
+  en: {
+    pageTitle: 'Contact us',
+    hero: {
+      eyebrow: 'Business enquiry',
+      title: 'Contact us',
+      description: 'For product documents, packaging specifications, samples and pricing, leave your requirements and contact details.',
+      imageAlt: 'MENARO brand space and product applications',
+      primary: { label: 'Get a Quote', href: '/quote' },
+    },
+    crumbs: [{ label: 'Home', href: '/' }, { label: 'Contact' }],
+    card: {
+      title: 'Tell us what you need to source',
+      paragraph: 'Whether you need product documents, packaging specifications, sample testing or a tailored solution, we will propose the right products and provide professional quotation support for your market.',
+      photoAlt: 'MENARO business discussion',
+      address: 'Taizhou, Zhejiang, China',
+      items: [
+        { label: 'Phone', value: '+86 576 8853 9555 (9:00 - 18:00 CST)' },
+        { label: 'WhatsApp', value: '+86 189 5760 1234 (add us directly)' },
+        { label: 'Email', value: 'info@menarobm.com' },
+        { label: 'Business hours (Beijing time)', value: 'Monday to Friday, 9:00 - 18:00' },
+      ],
+    },
+    form: {
+      title: 'Send an enquiry',
+      note: 'Please include a contact person, country/region and products of interest, plus at least one of email or WhatsApp.',
+      submit: 'Send an enquiry',
+    },
+  },
+}[lang];
+
+const icons = [iconPhone, iconWhatsapp, iconMail, iconTime];
+const items = c.card.items.map((item, i) => ({ ...item, icon: icons[i] }));
+---
+
+<Base title={c.pageTitle}>
+  <PageHero
+    eyebrow={c.hero.eyebrow}
+    title={c.hero.title}
+    description={c.hero.description}
+    image={hero}
+    imageAlt={c.hero.imageAlt}
+    primary={c.hero.primary}
+  />
+
+  <Breadcrumb items={c.crumbs} />
+
+  <section class="bg-base-100 py-12 lg:py-16">
+    <Container>
+      <div class="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,0.82fr)_minmax(0,1fr)] lg:gap-10">
+        <ContactCard
+          title={c.card.title}
+          paragraphs={[c.card.paragraph]}
+          photo={photo}
+          photoAlt={c.card.photoAlt}
+          address={c.card.address}
+          addressIcon={iconAddress}
+          items={items}
+        />
+
+        <div class="rounded-box border border-mn-border bg-base-100 p-6 lg:p-8">
+          <InquiryForm
+            variant="contact"
+            title={c.form.title}
+            note={c.form.note}
+            submitLabel={c.form.submit}
+          />
+        </div>
+      </div>
+    </Container>
+  </section>
+</Base>

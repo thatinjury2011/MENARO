@@ -1,5 +1,7 @@
 ---
 import Container from '../ui/Container.astro';
+import { getLangFromUrl, localizePath } from '../../i18n/utils';
+import { ui } from '../../i18n/ui';
 
 interface Crumb {
   label: string;
@@ -11,16 +13,17 @@ interface Props {
 }
 
 const { items } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
 ---
 
-<nav aria-label="面包屑" class="border-b border-mn-border bg-base-100">
+<nav aria-label={ui[lang].breadcrumbAria} class="border-b border-mn-border bg-base-100">
   <Container class="py-4">
     <ol class="flex flex-wrap items-center gap-2 text-[13px] text-mn-muted">
       {
         items.map((item, i) => (
           <li class="flex items-center gap-2">
             {item.href ? (
-              <a href={item.href} class="transition-colors hover:text-mn-green">
+              <a href={localizePath(item.href, lang)} class="transition-colors hover:text-mn-green">
                 {item.label}
               </a>
             ) : (

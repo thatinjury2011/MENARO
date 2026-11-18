@@ -1,0 +1,123 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../sections/PageHero.astro';
+import InquiryCta from '../../sections/InquiryCta.astro';
+import ProcessSteps from '../../sections/ProcessSteps.astro';
+import Breadcrumb from '../../ui/Breadcrumb.astro';
+import PartnerTypes from './PartnerTypes.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+
+import hero from '../../../assets/global/hero.webp';
+
+const lang = getLangFromUrl(Astro.url);
+
+const c = {
+  zh: {
+    pageTitle: '全球合作',
+    hero: {
+      eyebrow: '合作方式',
+      title: '全球合作',
+      description: '为海外进口商、经销商、品牌商及工程采购商提供建筑材料采购支持。',
+      imageAlt: 'MENARO 全球合作与出货场景',
+      primary: { label: '获取报价', href: '/quote' },
+    },
+    crumbs: [{ label: '首页', href: '/' }, { label: '全球合作' }],
+    partners: {
+      eyebrow: '合作方式',
+      title: '与不同类型采购商合作',
+      note: '可根据采购规模、产品用途和当地市场需求沟通产品及包装方案。',
+      items: [
+        { title: '进口商与经销商', desc: '面向区域渠道与产品分销合作' },
+        { title: '批发与多品类采购商', desc: '适合整单采购与渠道配套' },
+        { title: '品牌客户 OEM/ODM', desc: '支持品牌贴标与外包装定制' },
+        { title: '工程与项目供应', desc: '按项目需求对接材料和包装' },
+      ],
+    },
+    steps: {
+      eyebrow: '合作流程',
+      title: '合作流程',
+      note: '从产品选择到报价、打样与订单交付，协助您明确采购安排。',
+      items: [
+        { index: '01', title: '提交需求', desc: '告知产品需求和目的国家' },
+        { index: '02', title: '初步沟通', desc: '确定型号、包装与采购数量' },
+        { index: '03', title: '资料样品', desc: '沟通技术资料及样品安排' },
+        { index: '04', title: '报价合作', desc: '确认报价、交期与订单' },
+      ],
+    },
+    cta: {
+      eyebrow: '欢迎与美纳罗建立合作',
+      title: '让合适的产品更快进入你的采购链',
+      description: '欢迎就产品、包装、定制与采购需求与我们联系。',
+      button: { label: '提交采购询盘', href: '/quote' },
+    },
+  },
+  en: {
+    pageTitle: 'Global cooperation',
+    hero: {
+      eyebrow: 'How we cooperate',
+      title: 'Global cooperation',
+      description: 'Procurement support for importers, distributors, brand owners and project buyers worldwide.',
+      imageAlt: 'MENARO global cooperation and shipping',
+      primary: { label: 'Get a Quote', href: '/quote' },
+    },
+    crumbs: [{ label: 'Home', href: '/' }, { label: 'Global' }],
+    partners: {
+      eyebrow: 'How we cooperate',
+      title: 'Working with different types of buyers',
+      note: 'Product and packaging proposals are tailored to purchase scale, product application and local market demand.',
+      items: [
+        { title: 'Importers & distributors', desc: 'Regional channels and product distribution' },
+        { title: 'Wholesale & multi-category buyers', desc: 'Suited to consolidated orders and channel supply' },
+        { title: 'Brand owners OEM/ODM', desc: 'Private labelling and packaging customisation' },
+        { title: 'Project supply', desc: 'Materials and packaging matched to project needs' },
+      ],
+    },
+    steps: {
+      eyebrow: 'Cooperation process',
+      title: 'Cooperation process',
+      note: 'From product selection to quotation, sampling and order delivery, we help you clarify the procurement plan.',
+      items: [
+        { index: '01', title: 'Share requirements', desc: 'Tell us the products and destination country' },
+        { index: '02', title: 'Initial discussion', desc: 'Confirm models, packaging and quantities' },
+        { index: '03', title: 'Documents & samples', desc: 'Arrange technical documents and samples' },
+        { index: '04', title: 'Quotation & order', desc: 'Confirm pricing, lead time and the order' },
+      ],
+    },
+    cta: {
+      eyebrow: 'Work with MENARO',
+      title: 'Bring the right products into your supply chain faster',
+      description: 'Talk to us about products, packaging, customisation and procurement.',
+      button: { label: 'Send an enquiry', href: '/quote' },
+    },
+  },
+}[lang];
+---
+
+<Base title={c.pageTitle}>
+  <PageHero
+    eyebrow={c.hero.eyebrow}
+    title={c.hero.title}
+    description={c.hero.description}
+    image={hero}
+    imageAlt={c.hero.imageAlt}
+    primary={c.hero.primary}
+  />
+
+  <Breadcrumb items={c.crumbs} />
+
+  <PartnerTypes
+    eyebrow={c.partners.eyebrow}
+    title={c.partners.title}
+    note={c.partners.note}
+    items={c.partners.items}
+  />
+
+  <ProcessSteps
+    eyebrow={c.steps.eyebrow}
+    title={c.steps.title}
+    note={c.steps.note}
+    steps={c.steps.items}
+  />
+
+  <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.button} />
+</Base>

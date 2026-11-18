@@ -1,47 +1,41 @@
 ---
 import Container from '../../ui/Container.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+import { home } from '../../../i18n/home';
+import { ui } from '../../../i18n/ui';
 
 import future01 from '../../../assets/icons/future-01.webp';
 import future02 from '../../../assets/icons/future-02.webp';
 import future03 from '../../../assets/icons/future-03.webp';
 
-const planned = [
-  { icon: future01, title: '防水与防护材料', desc: '防水涂料·防水浆料·防护材料' },
-  { icon: future02, title: '建筑涂料与艺术漆', desc: '内墙漆·外墙漆·艺术漆·底漆' },
-];
-
-const categories = [
-  '全屋定制与木作系统',
-  '门窗与移门系统',
-  '地板与装饰面材',
-  '卫浴洁具与五金配件',
-  '照明与智能控制',
-  '家具与软装家居',
-];
+const lang = getLangFromUrl(Astro.url);
+const t = home[lang].roadmap;
+const labels = ui[lang];
+const icons = [future01, future02];
 ---
 
 <section class="bg-base-100 pb-14 lg:pb-24">
   <Container>
     <div class="rounded-box bg-base-200/70 p-6 lg:p-8">
       <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
-        <h3 class="text-xl font-bold text-mn-ink lg:text-2xl">更多产品规划</h3>
+        <h3 class="text-xl font-bold text-mn-ink lg:text-2xl">{t.title}</h3>
         <span class="h-4 w-px bg-mn-border"></span>
-        <p class="text-[13px] text-mn-muted">持续完善的产品布局</p>
+        <p class="text-[13px] text-mn-muted">{t.sub}</p>
         <span class="badge badge-soft gap-1 border-mn-border text-[11px] text-mn-muted">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="size-3" aria-hidden="true">
             <circle cx="12" cy="12" r="9"></circle>
             <path d="M12 7v5l3 2"></path>
           </svg>
-          规划中
+          {labels.planning}
         </span>
       </div>
 
       <ul class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
         {
-          planned.map((item) => (
+          t.items.map((item, i) => (
             <li class="flex flex-col gap-3">
               <div class="flex items-center gap-3">
-                <img src={item.icon.src} alt="" width="52" height="52" class="size-8" loading="lazy" />
+                <img src={icons[i].src} alt="" width="52" height="52" class="size-8" loading="lazy" />
                 <p class="text-[15px] font-semibold text-mn-ink">{item.title}</p>
               </div>
               <p class="text-[13px] text-mn-muted">{item.desc}</p>
@@ -51,13 +45,13 @@ const categories = [
         <li class="flex flex-col gap-3">
           <div class="flex items-center gap-3">
             <img src={future03.src} alt="" width="52" height="52" class="size-8" loading="lazy" />
-            <p class="text-[15px] font-semibold text-mn-ink">空间成品与定制系统</p>
-            <span class="badge badge-soft gap-1 border-mn-border text-[11px] text-mn-muted">规划中</span>
+            <p class="text-[15px] font-semibold text-mn-ink">{t.system.title}</p>
+            <span class="badge badge-soft gap-1 border-mn-border text-[11px] text-mn-muted">{labels.planning}</span>
           </div>
-          <p class="text-[13px] text-mn-muted">为住宅及商业空间提供可安装、可使用的成品与配套系统</p>
+          <p class="text-[13px] text-mn-muted">{t.system.desc}</p>
           <ul class="flex flex-wrap gap-x-2 gap-y-2">
             {
-              categories.map((c) => (
+              t.system.chips.map((c) => (
                 <li class="rounded border border-mn-border px-2 py-1 text-[11px] text-mn-muted">{c}</li>
               ))
             }

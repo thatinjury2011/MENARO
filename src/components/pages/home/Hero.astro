@@ -2,14 +2,19 @@
 import { Image } from 'astro:assets';
 import Container from '../../ui/Container.astro';
 import Button from '../../ui/Button.astro';
+import { getLangFromUrl, localizePath } from '../../../i18n/utils';
+import { home } from '../../../i18n/home';
 import hero from '../../../assets/home/hero.webp';
 import logo from '../../../assets/brand/logo.webp';
+
+const lang = getLangFromUrl(Astro.url);
+const t = home[lang].hero;
 ---
 
 <section class="relative isolate overflow-hidden bg-base-200">
   <Image
     src={hero}
-    alt="MENARO 建筑材料制造与全球供应的现代建筑外立面"
+    alt={t.imageAlt}
     widths={[960, 1440, 1920, 2880]}
     sizes="100vw"
     class="absolute inset-0 size-full object-cover object-right"
@@ -23,28 +28,29 @@ import logo from '../../../assets/brand/logo.webp';
 
   <Container class="relative">
     <div class="flex max-w-[720px] flex-col gap-5 py-16 lg:gap-6 lg:py-[110px]">
-      <img
-        src={logo.src}
-        alt="MENARO 美纳罗"
-        width="237"
-        height="82"
-        class="h-11 w-auto self-start lg:h-12"
-      />
-      <p class="text-[13px] tracking-[0.05em] text-mn-muted">更好的材料，更好的建筑</p>
+      <img src={logo.src} alt={t.logoAlt} width="237" height="82" class="h-11 w-auto self-start lg:h-12" />
+      <p class="text-[13px] tracking-[0.05em] text-mn-muted">{t.tagline}</p>
 
       <h1 class="text-[34px] leading-[1.2] font-bold tracking-tight text-mn-ink lg:text-[58px] lg:leading-[1.12]">
-        高品质建筑材料制造<br />与全球供应
+        {t.titleLines.map((line, i) => <>{i > 0 && <br />}{line}</>)}
       </h1>
 
-      <p class="text-base text-mn-muted lg:text-lg">建筑材料制造与全球供应</p>
+      <p class="text-base text-mn-muted lg:text-lg">{t.sub}</p>
 
-      <p class="max-w-[640px] text-[14px] leading-7 text-mn-muted lg:text-[15px]">
-        美纳罗专注于高品质建筑材料的研发、制造与全球供应，依托专业制造能力、稳定的生产资源及严格的品质管理体系，为全球经销商、批发商、品牌客户与工程采购商提供可靠的产品、专业定制服务和稳定的供应保障。
-      </p>
+      <p class="max-w-[640px] text-[14px] leading-7 text-mn-muted lg:text-[15px]">{t.desc}</p>
 
       <div class="mt-3 flex flex-wrap gap-4">
-        <Button href="/products" withArrow class="min-w-[188px] justify-between">查看核心产品</Button>
-        <Button href="/contact" variant="white" withArrow class="min-w-[188px] justify-between">商务合作</Button>
+        <Button href={localizePath(t.primary.href, lang)} withArrow class="min-w-[188px] justify-between">
+          {t.primary.label}
+        </Button>
+        <Button
+          href={localizePath(t.secondary.href, lang)}
+          variant="white"
+          withArrow
+          class="min-w-[188px] justify-between"
+        >
+          {t.secondary.label}
+        </Button>
       </div>
     </div>
   </Container>

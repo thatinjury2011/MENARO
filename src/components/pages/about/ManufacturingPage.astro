@@ -1,0 +1,101 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../sections/PageHero.astro';
+import InquiryCta from '../../sections/InquiryCta.astro';
+import Breadcrumb from '../../ui/Breadcrumb.astro';
+import ScenarioCards from '../solutions/ScenarioCards.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+
+import hero from '../../../assets/about/manufacturing/hero.webp';
+import content01 from '../../../assets/about/manufacturing/content-01.webp';
+import content02 from '../../../assets/about/manufacturing/content-02.webp';
+import content03 from '../../../assets/about/manufacturing/content-03.webp';
+import content04 from '../../../assets/about/manufacturing/content-04.webp';
+
+const lang = getLangFromUrl(Astro.url);
+
+const c = {
+  zh: {
+    pageTitle: '制造与品质',
+    hero: {
+      eyebrow: '制造与供应',
+      title: '制造与品质',
+      description: '为建筑材料采购提供生产协调、质量检查、定制包装及出货支持。',
+      imageAlt: 'MENARO 制造生产线',
+      primary: { label: '获取报价', href: '/quote' },
+    },
+    crumbs: [{ label: '首页', href: '/' }, { label: '关于我们', href: '/about' }, { label: '制造与品质' }],
+    section: {
+      eyebrow: '制造与供应',
+      title: '从生产到交付的支持',
+      note: '根据订单需求协调生产、质量检查、包装和发运，支持批量及定制采购。',
+      items: [
+        { title: '制造协同', desc: '结合生产安排与订单需求协调交期，及时沟通关键节点。' },
+        { title: '品质检验', desc: '按适用的产品标准和订单要求沟通检验项目及相关资料。' },
+        { title: '包装与交付', desc: '可按订单要求沟通外箱标识、包装方案和装柜安排。' },
+        { title: 'OEM / ODM', desc: '面向品牌商和经销商提供包装、标签及 OEM/ODM 合作咨询。' },
+      ],
+    },
+    cta: {
+      eyebrow: '欢迎与 MENARO 建立合作',
+      title: '让合适的产品更快进入你的采购链',
+      description: '欢迎就产品、包装、定制与采购需求与我们联系。',
+      button: { label: '提交采购询盘', href: '/quote' },
+    },
+  },
+  en: {
+    pageTitle: 'Manufacturing & quality',
+    hero: {
+      eyebrow: 'Manufacturing & supply',
+      title: 'Manufacturing & quality',
+      description: 'Production coordination, quality inspection, custom packaging and shipment support for building material procurement.',
+      imageAlt: 'MENARO production line',
+      primary: { label: 'Get a Quote', href: '/quote' },
+    },
+    crumbs: [{ label: 'Home', href: '/' }, { label: 'About', href: '/about' }, { label: 'Manufacturing & quality' }],
+    section: {
+      eyebrow: 'Manufacturing & supply',
+      title: 'Support from production to delivery',
+      note: 'We coordinate production, quality inspection, packaging and shipping to your order requirements, supporting both bulk and customised purchasing.',
+      items: [
+        { title: 'Production coordination', desc: 'Lead times are coordinated with production schedules and order requirements, with key milestones shared in time.' },
+        { title: 'Quality inspection', desc: 'Inspection items and related documents are agreed against the applicable product standards and order requirements.' },
+        { title: 'Packaging & delivery', desc: 'Carton marking, packaging options and container loading plans can be arranged to order requirements.' },
+        { title: 'OEM / ODM', desc: 'Packaging, labelling and OEM/ODM cooperation for brand owners and distributors.' },
+      ],
+    },
+    cta: {
+      eyebrow: 'Work with MENARO',
+      title: 'Bring the right products into your supply chain faster',
+      description: 'Talk to us about products, packaging, customisation and procurement.',
+      button: { label: 'Send an enquiry', href: '/quote' },
+    },
+  },
+}[lang];
+
+const images = [content01, content02, content03, content04];
+const items = c.section.items.map((item, i) => ({ ...item, image: images[i] }));
+---
+
+<Base title={c.pageTitle}>
+  <PageHero
+    eyebrow={c.hero.eyebrow}
+    title={c.hero.title}
+    description={c.hero.description}
+    image={hero}
+    imageAlt={c.hero.imageAlt}
+    primary={c.hero.primary}
+  />
+
+  <Breadcrumb items={c.crumbs} />
+
+  <ScenarioCards
+    eyebrow={c.section.eyebrow}
+    title={c.section.title}
+    note={c.section.note}
+    items={items}
+    ratio="wide"
+  />
+
+  <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.button} />
+</Base>

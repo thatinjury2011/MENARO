@@ -1,0 +1,93 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHero from '../../sections/PageHero.astro';
+import InquiryCta from '../../sections/InquiryCta.astro';
+import Breadcrumb from '../../ui/Breadcrumb.astro';
+import ProductShowcase from './ProductShowcase.astro';
+import SpecCards from './SpecCards.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+import type { ProductDetail } from '../../../data/product-details';
+
+interface Props {
+  product: ProductDetail;
+}
+
+const { product } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const c = product[lang];
+
+const text = {
+  zh: {
+    eyebrow: '产品详情',
+    primary: { label: '询价与合作', href: '/contact' },
+    secondary: { label: '返回产品中心', href: '/products' },
+    crumbs: ['首页', '产品体系'],
+    showcaseEyebrow: '产品详情',
+    caption: '包装概念参考',
+    cta: { label: '获取批发报价', href: '/quote' },
+    specTitle: '产品规格与采购信息',
+    specNote: '提供所需规格、采购数量和目的地，即可咨询产品资料与供货报价。',
+    ctaBand: {
+      eyebrow: '欢迎与 MENARO 建立合作',
+      title: '让合适的产品更快进入你的采购链',
+      description: '欢迎就产品、包装、定制与采购需求与我们联系。',
+      cta: { label: '提交采购询盘', href: '/quote' },
+    },
+  },
+  en: {
+    eyebrow: 'Product detail',
+    primary: { label: 'Enquire & cooperate', href: '/contact' },
+    secondary: { label: 'Back to products', href: '/products' },
+    crumbs: ['Home', 'Products'],
+    showcaseEyebrow: 'Product detail',
+    caption: 'Packaging reference',
+    cta: { label: 'Request a wholesale quote', href: '/quote' },
+    specTitle: 'Product specifications and procurement',
+    specNote: 'Share the required specification, quantity and destination to request product documents and a supply quotation.',
+    ctaBand: {
+      eyebrow: 'Work with MENARO',
+      title: 'Bring the right products into your supply chain faster',
+      description: 'Talk to us about products, packaging, customisation and procurement.',
+      cta: { label: 'Send an enquiry', href: '/quote' },
+    },
+  },
+}[lang];
+
+const cards = c.cards.map((card, i) => ({ ...card, image: product.gallery[i] }));
+---
+
+<Base title={c.title}>
+  <PageHero
+    eyebrow={text.eyebrow}
+    title={c.title}
+    description={c.description}
+    image={product.hero}
+    imageAlt={c.heroAlt}
+    primary={text.primary}
+    secondary={text.secondary}
+  />
+
+  <Breadcrumb items={[...text.crumbs.map((label, i) => ({ label, href: i === 0 ? '/' : '/products' })), { label: c.title }]} />
+
+  <ProductShowcase
+    eyebrow={text.showcaseEyebrow}
+    caption={text.caption}
+    title={c.title}
+    description={c.description}
+    model={c.model}
+    packaging={c.packaging}
+    highlight={c.highlight}
+    image={product.showcase}
+    imageAlt={c.showcaseAlt}
+    cta={text.cta}
+  />
+
+  <SpecCards title={text.specTitle} note={text.specNote} cards={cards} />
+
+  <InquiryCta
+    eyebrow={text.ctaBand.eyebrow}
+    title={text.ctaBand.title}
+    description={text.ctaBand.description}
+    cta={text.ctaBand.cta}
+  />
+</Base>

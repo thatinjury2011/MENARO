@@ -1,11 +1,6 @@
 ---
 import type { GetStaticPaths } from 'astro';
-import Base from '../../../layouts/Base.astro';
-import PageHero from '../../../components/sections/PageHero.astro';
-import InquiryCta from '../../../components/sections/InquiryCta.astro';
-import Breadcrumb from '../../../components/ui/Breadcrumb.astro';
-import ProductShowcase from '../../../components/pages/products/ProductShowcase.astro';
-import SpecCards from '../../../components/pages/products/SpecCards.astro';
+import DetailPage from '../../../components/pages/products/DetailPage.astro';
 import { productDetails } from '../../../data/product-details';
 
 export const getStaticPaths = (() =>
@@ -17,46 +12,4 @@ export const getStaticPaths = (() =>
 const { product } = Astro.props;
 ---
 
-<Base title={product.title}>
-  <PageHero
-    eyebrow="产品详情"
-    title={product.title}
-    description={product.description}
-    image={product.hero}
-    imageAlt={product.heroAlt}
-    primary={{ label: '询价与合作', href: '/contact' }}
-    secondary={{ label: '返回产品中心', href: '/products' }}
-  />
-
-  <Breadcrumb
-    items={[
-      { label: '首页', href: '/' },
-      { label: '产品体系', href: '/products' },
-      { label: product.title },
-    ]}
-  />
-
-  <ProductShowcase
-    title={product.title}
-    description={product.description}
-    model={product.model}
-    packaging={product.packaging}
-    highlight={product.highlight}
-    image={product.showcase}
-    imageAlt={product.showcaseAlt}
-    cta={{ label: '获取批发报价', href: '/quote' }}
-  />
-
-  <SpecCards
-    title="产品规格与采购信息"
-    note="提供所需规格、采购数量和目的地，即可咨询产品资料与供货报价。"
-    cards={product.cards}
-  />
-
-  <InquiryCta
-    eyebrow="欢迎与 MENARO 建立合作"
-    title="让合适的产品更快进入你的采购链"
-    description="欢迎就产品、包装、定制与采购需求与我们联系。"
-    cta={{ label: '提交采购询盘', href: '/quote' }}
-  />
-</Base>
+<DetailPage product={product} />

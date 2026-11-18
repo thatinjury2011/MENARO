@@ -1,11 +1,9 @@
 ---
 import Button from '../ui/Button.astro';
+import { getLangFromUrl } from '../../i18n/utils';
+import { ui } from '../../i18n/ui';
 
 interface Props {
-  /**
-   * contact：联系我们页（字段较精简，联系方式二选一提示）
-   * quote：获取报价页（多了必填项、采购数量与包装定制字段）
-   */
   variant?: 'contact' | 'quote';
   title: string;
   note: string;
@@ -14,56 +12,84 @@ interface Props {
 
 const { variant = 'contact', title, note, submitLabel } = Astro.props;
 const isQuote = variant === 'quote';
+const lang = getLangFromUrl(Astro.url);
+const labels = ui[lang];
 
-const productGroups = [
-  {
-    index: '01',
-    name: '建筑与装修施工材料',
-    items: ['美缝与填缝材料', '瓷砖胶与铺贴材料', '建筑密封胶与结构胶', '环氧地坪与自流平', '防水与防护材料', '建筑涂料与艺术漆'],
-    planned: [false, false, false, false, true, true],
+const t = {
+  zh: {
+    productsLabel: '意向产品（可多选）',
+    required: '* 为必填项',
+    name: '联系人',
+    nameQuote: '联系人姓名',
+    namePlaceholder: '请输入联系人姓名',
+    nameQuotePlaceholder: '请输入您的姓名',
+    email: '电子邮箱',
+    emailPlaceholder: '请输入电子邮箱',
+    emailQuotePlaceholder: '例如：name@company.com',
+    country: '国家/地区',
+    countryPlaceholder: '请选择国家/地区',
+    countryQuotePlaceholder: '请选择或输入您的国家/地区',
+    whatsappPlaceholder: '请输入 WhatsApp 号码',
+    whatsappQuotePlaceholder: '例如：+971 50123 4567',
+    company: '公司名称（选填）',
+    companyPlaceholder: '请输入公司名称',
+    quantity: '预计采购数量',
+    quantityPlaceholder: '例如：5,000支/1个集装箱',
+    message: '数量、规格或其他需求（选填）',
+    messageQuote: '包装定制及其他要求',
+    messagePlaceholder: '例如：产品规格、数量、包装要求、目标市场、预计采购时间等。',
+    messageQuotePlaceholder: '例如：OEM 包装、产品规格、应用场景等',
+    groups: [
+      { index: '01', name: '建筑与装修施工材料', items: ['美缝与填缝材料', '瓷砖胶与铺贴材料', '建筑密封胶与结构胶', '环氧地坪与自流平', '防水与防护材料', '建筑涂料与艺术漆'], planned: [false, false, false, false, true, true] },
+      { index: '02', name: '空间成品与定制系统', items: ['全屋定制与木作系统', '门窗与移门系统', '地板与装饰面料', '卫浴洁具与五金配件', '照明与智能控制', '家具与软装家居'], planned: [true, true, true, true, true, true] },
+    ],
+    countries: ['中国', '阿联酋', '沙特阿拉伯', '美国', '德国', '英国', '法国', '意大利', '西班牙', '俄罗斯', '澳大利亚', '越南', '泰国', '马来西亚', '印度尼西亚', '巴西', '墨西哥', '南非', '其他国家和地区'],
   },
-  {
-    index: '02',
-    name: '空间成品与定制系统',
-    items: ['全屋定制与木作系统', '门窗与移门系统', '地板与装饰面料', '卫浴洁具与五金配件', '照明与智能控制', '家具与软装家居'],
-    planned: [true, true, true, true, true, true],
+  en: {
+    productsLabel: 'Products of interest (multiple selection)',
+    required: '* Required fields',
+    name: 'Contact person',
+    nameQuote: 'Contact name',
+    namePlaceholder: 'Your contact name',
+    nameQuotePlaceholder: 'Your full name',
+    email: 'Email',
+    emailPlaceholder: 'Your email address',
+    emailQuotePlaceholder: 'e.g. name@company.com',
+    country: 'Country / Region',
+    countryPlaceholder: 'Select your country / region',
+    countryQuotePlaceholder: 'Select or type your country / region',
+    whatsappPlaceholder: 'Your WhatsApp number',
+    whatsappQuotePlaceholder: 'e.g. +971 50123 4567',
+    company: 'Company name (optional)',
+    companyPlaceholder: 'Your company name',
+    quantity: 'Estimated quantity',
+    quantityPlaceholder: 'e.g. 5,000 pcs / 1 container',
+    message: 'Quantity, specification or other requirements (optional)',
+    messageQuote: 'Packaging, customisation and other requirements',
+    messagePlaceholder: 'e.g. product specification, quantity, packaging requirements, target market, expected purchase date.',
+    messageQuotePlaceholder: 'e.g. OEM packaging, product specification, application.',
+    groups: [
+      { index: '01', name: 'Construction & finishing materials', items: ['Tile grout & jointing', 'Tile adhesive & installation', 'Sealants & structural adhesives', 'Epoxy flooring & self-levelling', 'Waterproofing & protection', 'Architectural & decorative coatings'], planned: [false, false, false, false, true, true] },
+      { index: '02', name: 'Interior products & custom systems', items: ['Whole-house customisation & joinery', 'Doors, windows & sliding systems', 'Flooring & decorative panels', 'Sanitary ware & hardware', 'Lighting & smart control', 'Furniture & soft furnishing'], planned: [true, true, true, true, true, true] },
+    ],
+    countries: ['United Arab Emirates', 'Saudi Arabia', 'United States', 'Germany', 'United Kingdom', 'France', 'Italy', 'Spain', 'Russia', 'Australia', 'Vietnam', 'Thailand', 'Malaysia', 'Indonesia', 'Brazil', 'Mexico', 'South Africa', 'China', 'Other country / region'],
   },
-];
-
-const countries = [
-  '中国',
-  '阿联酋',
-  '沙特阿拉伯',
-  '美国',
-  '德国',
-  '英国',
-  '法国',
-  '意大利',
-  '西班牙',
-  '俄罗斯',
-  '澳大利亚',
-  '越南',
-  '泰国',
-  '马来西亚',
-  '印度尼西亚',
-  '巴西',
-  '墨西哥',
-  '南非',
-  '其他国家和地区',
-];
+}[lang];
 ---
 
 <form class="flex flex-col gap-6" action="#" method="post" novalidate>
   <div class="flex flex-wrap items-end justify-between gap-2">
     <h2 class="text-[22px] font-bold text-mn-ink lg:text-[26px]">{title}</h2>
-    {isQuote && <p class="text-[12px] text-mn-muted">* 为必填项</p>}
+    {isQuote && <p class="text-[12px] text-mn-muted">{t.required}</p>}
   </div>
 
   <fieldset class="flex flex-col gap-4">
-    <legend class="pb-2 text-[13px] font-semibold text-mn-ink">意向产品（可多选）<span class="text-mn-gold">*</span></legend>
+    <legend class="pb-2 text-[13px] font-semibold text-mn-ink">
+      {t.productsLabel}<span class="text-mn-gold">*</span>
+    </legend>
 
     {
-      productGroups.map((group) => (
+      t.groups.map((group) => (
         <div class="flex flex-col gap-3 rounded-box bg-base-200/60 px-4 py-4">
           <p class="text-[13px] font-semibold text-mn-ink">
             {group.index}　{group.name}
@@ -71,11 +97,16 @@ const countries = [
           <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
             {group.items.map((item, i) => (
               <label class="flex cursor-pointer items-start gap-2 text-[13px] text-mn-ink">
-                <input type="checkbox" name={`product-${group.index}`} value={item} class="checkbox checkbox-sm checkbox-primary mt-0.5" />
+                <input
+                  type="checkbox"
+                  name={`product-${group.index}`}
+                  value={item}
+                  class="checkbox checkbox-sm checkbox-primary mt-0.5"
+                />
                 <span class="flex flex-wrap items-center gap-1">
                   {item}
                   {group.planned[i] && (
-                    <span class="rounded bg-mn-gold/15 px-1.5 py-0.5 text-[10px] text-mn-gold">规划中</span>
+                    <span class="rounded bg-mn-gold/15 px-1.5 py-0.5 text-[10px] text-mn-gold">{labels.planning}</span>
                   )}
                 </span>
               </label>
@@ -88,40 +119,46 @@ const countries = [
 
   <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
     <label class="flex flex-col gap-2">
-      <span class="text-[13px] font-semibold text-mn-ink">{isQuote ? '联系人姓名' : '联系人'}<span class="text-mn-gold">*</span></span>
+      <span class="text-[13px] font-semibold text-mn-ink">
+        {isQuote ? t.nameQuote : t.name}<span class="text-mn-gold">*</span>
+      </span>
       <input
         type="text"
         name="name"
         required
-        placeholder={isQuote ? '请输入您的姓名' : '请输入联系人姓名'}
+        placeholder={isQuote ? t.nameQuotePlaceholder : t.namePlaceholder}
         class="input w-full border-mn-border"
       />
     </label>
 
     <label class="flex flex-col gap-2">
-      <span class="text-[13px] font-semibold text-mn-ink">{isQuote ? '电子邮箱' : '国家/地区'}<span class="text-mn-gold">*</span></span>
+      <span class="text-[13px] font-semibold text-mn-ink">
+        {isQuote ? t.email : t.country}{isQuote && <span class="text-mn-gold">*</span>}
+      </span>
       {
         isQuote ? (
-          <input type="email" name="email" required placeholder="例如：name@company.com" class="input w-full border-mn-border" />
+          <input type="email" name="email" required placeholder={t.emailQuotePlaceholder} class="input w-full border-mn-border" />
         ) : (
           <select name="country" required class="select w-full border-mn-border">
-            <option value="">请选择国家/地区</option>
-            {countries.map((c) => <option value={c}>{c}</option>)}
+            <option value="">{t.countryPlaceholder}</option>
+            {t.countries.map((c) => <option value={c}>{c}</option>)}
           </select>
         )
       }
     </label>
 
     <label class="flex flex-col gap-2">
-      <span class="text-[13px] font-semibold text-mn-ink">{isQuote ? '国家/地区' : '电子邮箱'}{isQuote && <span class="text-mn-gold">*</span>}</span>
+      <span class="text-[13px] font-semibold text-mn-ink">
+        {isQuote ? t.country : t.email}{isQuote && <span class="text-mn-gold">*</span>}
+      </span>
       {
         isQuote ? (
           <select name="country" required class="select w-full border-mn-border">
-            <option value="">请选择或输入您的国家/地区</option>
-            {countries.map((c) => <option value={c}>{c}</option>)}
+            <option value="">{t.countryQuotePlaceholder}</option>
+            {t.countries.map((c) => <option value={c}>{c}</option>)}
           </select>
         ) : (
-          <input type="email" name="email" placeholder="请输入电子邮箱" class="input w-full border-mn-border" />
+          <input type="email" name="email" placeholder={t.emailPlaceholder} class="input w-full border-mn-border" />
         )
       }
     </label>
@@ -132,21 +169,21 @@ const countries = [
         type="tel"
         name="whatsapp"
         required={isQuote}
-        placeholder={isQuote ? '例如：+971 50123 4567' : '请输入 WhatsApp 号码'}
+        placeholder={isQuote ? t.whatsappQuotePlaceholder : t.whatsappPlaceholder}
         class="input w-full border-mn-border"
       />
     </label>
 
     <label class="flex flex-col gap-2">
-      <span class="text-[13px] font-semibold text-mn-ink">公司名称（选填）</span>
-      <input type="text" name="company" placeholder="请输入公司名称" class="input w-full border-mn-border" />
+      <span class="text-[13px] font-semibold text-mn-ink">{t.company}</span>
+      <input type="text" name="company" placeholder={t.companyPlaceholder} class="input w-full border-mn-border" />
     </label>
 
     {
       isQuote ? (
         <label class="flex flex-col gap-2">
-          <span class="text-[13px] font-semibold text-mn-ink">预计采购数量</span>
-          <input type="text" name="quantity" placeholder="例如：5,000支/1个集装箱" class="input w-full border-mn-border" />
+          <span class="text-[13px] font-semibold text-mn-ink">{t.quantity}</span>
+          <input type="text" name="quantity" placeholder={t.quantityPlaceholder} class="input w-full border-mn-border" />
         </label>
       ) : (
         <div class="hidden sm:block" aria-hidden="true"></div>
@@ -155,15 +192,11 @@ const countries = [
   </div>
 
   <label class="flex flex-col gap-2">
-    <span class="text-[13px] font-semibold text-mn-ink">
-      {isQuote ? '包装定制及其他要求' : '数量、规格或其他需求（选填）'}
-    </span>
+    <span class="text-[13px] font-semibold text-mn-ink">{isQuote ? t.messageQuote : t.message}</span>
     <textarea
       name="message"
       rows="4"
-      placeholder={isQuote
-        ? '例如：OEM 包装、产品规格、应用场景等'
-        : '例如：产品规格、数量、包装要求、目标市场、预计采购时间等。'}
+      placeholder={isQuote ? t.messageQuotePlaceholder : t.messagePlaceholder}
       class="textarea w-full border-mn-border"></textarea>
   </label>
 
