@@ -75,6 +75,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 | 版本 | 日期 | 类型 | 摘要 | 相关文档 |
 | --- | --- | --- | --- | --- |
+| v1.7.1 | 2026-11-18 | 执行 | 确立「**导出稿为最终版**，Figma 仅作参考」；核对发现 5 张 hero 与导出稿不一致，改用**自解释占位图**顶上（同名覆盖即可替换） | 见本文档 §7 |
 | v1.7.0 | 2026-11-18 | 次 | **首页骨架落地 + P0.5 基础组件**：`Container/Button/ArrowLink/ArrowIcon/SectionHeading`；首页 9 个区块全部实现（hero→服务亮点→产品系列→更多规划→制造→应用→案例→合作伙伴→CTA）；导航/页脚按设计稿重构为浅色 | — |
 | v1.6.0 | 2026-11-18 | 次 | **hero 图改为 Figma 图层导出（无文字底图）**：定位 16 个 banner 图片节点并 2x 导出 → WebP，34 MB → 3.4 MB；页面标题改由 HTML 排版，SEO/多语言打通 | `scripts/build-heroes.mjs` |
 | v1.5.0 | 2026-11-18 | 次 | **素材整理完成**：266 张原始导出 → 159 个规范命名 WebP + 17 张整页参考图，58.7 MB 压到 4.4 MB；脚本化可重跑 | `scripts/build-assets.mjs` |
@@ -83,6 +84,13 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | v1.2.0 | 2026-11-11 | 次 | 技术栈定稿（Astro+Tailwind+daisyUI）；完成 Figma 设计稿全面分析，输出页面清单/令牌/组件/交互/风险与实施路线 | [design-analysis.md](design-analysis.md) |
 | v1.1.0 | 2026-11-11 | 次 | 仓库重置：本地项目接管 `thatinjury2011/MENARO`，旧内容与历史全部丢弃（orphan 强推）；新增 `.gitignore` | 本文档 §5.1 |
 | v1.0.0 | 2026-11-11 | 里程碑 | 建立项目文档体系（AGENTS.md + PROJECT_LOG + troubleshooting）；打通 Figma MCP 并完成真机验证 | [figma-mcp.md](troubleshooting/figma-mcp.md) |
+
+### v1.7.1 详细内容（2026-11-18）
+
+1. **设计真源**：`Pc图片及图标/` 的导出（含整页截图与切片）为最终版，Figma 文件仅作参考；两者冲突以导出为准。已写入 AGENTS.md。
+2. **漂移核对**：把 16 张 hero 与导出稿逐页比对，11 张一致（首页 / 案例 / 方案 / 工业地坪 / 关于 / 制造 / 全球 / 联系 / 瓷砖胶系列 / 美缝详情 / 环氧详情），5 张不一致（美缝系列 / 环氧系列 / 密封胶系列 / 密封胶详情 / 获取报价）。
+3. **占位方案**：不一致的 5 张改由 `scripts/build-placeholders.mjs` 生成**自解释占位图**（斜纹底 + 「占位图 · 待替换」+ 目标路径 + 替换说明），保持尺寸与原 slot 一致，页面版式不受影响。
+4. **替换路径**：拿到最终版无文字底图后覆盖同名 `hero.webp` 即可；`build-heroes.mjs` 里的 `SKIP` 列表保证重跑不会覆盖占位图。
 
 ### v1.7.0 详细内容（2026-11-18）
 
@@ -213,6 +221,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | 任务 | 优先级 | 备注 |
 | --- | --- | --- |
 | P1 首页（01）双端还原 | 进行中 | 骨架已完成（v1.7.0），待逐像素校对间距与字号 |
+| 替换 5 张 hero 占位图 | 高（阻塞 P2 视觉验收） | 需导出稿最终版的无文字底图：美缝系列 / 环氧系列 / 密封胶系列 / 密封胶详情 / 获取报价 |
 | 批量导出 69 个设计素材 | — | 已由 v1.5.0 本地整理替代；如设计更新需重新导出，复用 `scripts/build-assets.mjs` 映射 |
 | 配置 Vercel 项目（当前构建会失败） | 中 | 待有业务代码后再接 |
 | 完成 `vercel` MCP 授权 | 中 | 后续部署需要 |
@@ -226,6 +235,9 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 - **Figma 插件升级会覆盖 `mcp.json`**，需要重新打 schema 补丁（文档里有一步步命令）。
 - **Node 双版本并存**：fnm 已在 PowerShell 终端生效（26.13.1），但系统级 `C:\Program Files\nodejs` 仍是 22.20.0；cmd / Git Bash / 未加载 profile 的进程跑 Astro 7 会直接报错。彻底规避需卸载 Node 22，见 [troubleshooting/astro-toolchain-versions.md](troubleshooting/astro-toolchain-versions.md)。
+- **hero 占位图（待替换）**：`products/tile-grout`、`products/floor`、`products/sealant`、`products/detail-sealant`、`quote` 五处 hero 当前是**斜纹占位图**（图上写明「占位图 · 待替换」+ 目标路径）。
+  - 原因：Figma 在导出后改版，这 5 张与导出稿内容不一致；而导出稿里只有带文字的整图，没有独立照片图层。
+  - 替换方式：拿到最终版无文字底图后，**直接覆盖同名 `src/assets/.../hero.webp`**，无需改代码；`scripts/build-heroes.mjs` 已把这几项列入 `SKIP`，重跑管线不会把旧图刷回来。
 - **Banner 文案**（已解决）：原以为文字烘焙进图，实为整页截图导致；v1.6.0 已改为按图层导出无文字底图，文案走 HTML。
 - **`Pc图片及图标/` 132 MB 素材未纳入版本控制**，含大量以 `2.png`、`Group 44.png` 命名的原始导出与整页截图，直接提交会让仓库膨胀。
 - 项目尚未纳入版本控制，任何破坏性操作无法回滚。

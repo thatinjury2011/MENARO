@@ -38,9 +38,22 @@ const HEROES = [
 
 const MAX_WIDTH = 3840;
 
+/** 导出稿缺少无文字底图、改用占位图的 hero（见 scripts/build-placeholders.mjs），此处不覆盖 */
+const SKIP = new Set([
+  'products/tile-grout/hero',
+  'products/floor/hero',
+  'products/sealant/hero',
+  'products/detail-sealant/hero',
+  'quote/hero',
+]);
+
 async function main() {
   const rows = [];
   for (const [file, destRel, nodeId, opts = {}] of HEROES) {
+    if (SKIP.has(destRel)) {
+      console.log(`跳过占位 hero：${destRel}`);
+      continue;
+    }
     const src = path.join(SRC, file);
     const dst = path.join(OUT, `${destRel}.webp`);
     await fs.mkdir(path.dirname(dst), { recursive: true });
