@@ -1,0 +1,59 @@
+---
+import { Image } from 'astro:assets';
+import Container from '../ui/Container.astro';
+import Button from '../ui/Button.astro';
+import type { ImageMetadata } from 'astro';
+
+interface Cta {
+  label: string;
+  href: string;
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  description?: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  primary: Cta;
+  secondary?: Cta;
+}
+
+const { eyebrow, title, subtitle, description, image, imageAlt, primary, secondary } = Astro.props;
+---
+
+<section class="relative isolate overflow-hidden bg-base-200">
+  <Image
+    src={image}
+    alt={imageAlt}
+    widths={[640, 960, 1440, 1920]}
+    sizes="(min-width: 1024px) 58vw, 100vw"
+    class="absolute inset-y-0 right-0 h-full w-full object-cover object-right lg:w-[58%]"
+    loading="eager"
+    fetchpriority="high"
+  />
+  <div
+    class="absolute inset-0 bg-linear-to-r from-white from-30% via-white/85 via-55% to-white/40 lg:from-40% lg:via-white/70 lg:via-48% lg:to-transparent lg:to-60%"
+  >
+  </div>
+
+  <Container class="relative">
+    <div class="flex max-w-[700px] flex-col gap-4 py-12 lg:min-h-[360px] lg:justify-center lg:py-16">
+      {eyebrow && <p class="text-[13px] font-medium tracking-wide text-mn-muted">{eyebrow}</p>}
+      <h1 class="text-[32px] leading-[1.15] font-bold tracking-tight text-mn-ink lg:text-[44px]">{title}</h1>
+      {subtitle && <p class="text-[15px] font-medium tracking-wide text-mn-ink/80">{subtitle}</p>}
+      {description && <p class="max-w-[560px] text-[14px] leading-7 text-mn-muted">{description}</p>}
+      <div class="mt-3 flex flex-wrap gap-4">
+        <Button href={primary.href} withArrow class="min-w-[168px] justify-between">{primary.label}</Button>
+        {
+          secondary && (
+            <Button href={secondary.href} variant="outline" withArrow class="min-w-[168px] justify-between">
+              {secondary.label}
+            </Button>
+          )
+        }
+      </div>
+    </div>
+  </Container>
+</section>

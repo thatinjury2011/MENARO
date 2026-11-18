@@ -1,0 +1,110 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import InquiryCta from '../../components/sections/InquiryCta.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import IntroBlock from '../../components/pages/products/IntroBlock.astro';
+import SeriesCards from '../../components/pages/products/SeriesCards.astro';
+import PackagingSpecs from '../../components/pages/products/PackagingSpecs.astro';
+
+import hero from '../../assets/products/tile-grout/hero.webp';
+import intro from '../../assets/products/tile-grout/intro.webp';
+import packaging from '../../assets/products/tile-grout/packaging.webp';
+import flagship from '../../assets/products/tile-grout/series-flagship.webp';
+import pro from '../../assets/products/tile-grout/series-pro.webp';
+import classic from '../../assets/products/tile-grout/series-classic.webp';
+
+const series = [
+  {
+    badge: '旗舰系列',
+    title: '旗舰系列',
+    subtitle: '环氧彩砂 / 聚脲系列',
+    bullets: ['MG-700 氢化碳环彩砂美缝剂', 'PU-800 聚脲UV美缝剂', 'MG-600 氢化碳环UV美缝剂'],
+    packaging: '包装：双管 420ml/组',
+    usage: '适用：美缝升级、渠道定制',
+    link: { label: '查看代表产品', href: '/products/tile-grout/mg-700' },
+    image: flagship,
+    accent: 'gold' as const,
+  },
+  {
+    badge: '专业系列',
+    title: '专业系列',
+    subtitle: '晶瓷与金刚砂系列',
+    bullets: ['MG-450 金刚砂美缝剂', 'MG-400 生态金刚砂美缝剂', 'MG-300 纳米青瓷美缝剂'],
+    packaging: '包装：双管 420ml/组',
+    usage: '适用：住宅装修、经销渠道',
+    link: { label: '获取报价', href: '/quote' },
+    image: pro,
+    accent: 'green' as const,
+  },
+  {
+    badge: '经典系列',
+    title: '经典系列',
+    subtitle: '晶瓷美缝系列',
+    bullets: ['MG-200 氧化晶瓷美缝剂', 'MG-100 环氧晶瓷美缝剂'],
+    packaging: '包装：双管 420ml/组',
+    usage: '适用：常规瓷砖美缝',
+    link: { label: '获取报价', href: '/quote' },
+    image: classic,
+    accent: 'gray' as const,
+  },
+];
+---
+
+<Base title="美缝材料">
+  <PageHero
+    eyebrow="产品系列"
+    title="美缝材料"
+    description="适合住宅、商业空间及工程项目的瓷砖接缝装饰与保护。"
+    image={hero}
+    imageAlt="MENARO 美缝材料产品"
+    primary={{ label: '询价与合作', href: '/contact' }}
+    secondary={{ label: '返回产品中心', href: '/products' }}
+  />
+
+  <Breadcrumb
+    items={[
+      { label: '首页', href: '/' },
+      { label: '产品体系', href: '/products' },
+      { label: '美缝材料' },
+    ]}
+  />
+
+  <IntroBlock
+    eyebrow="产品介绍"
+    title="瓷砖美缝与接缝保护"
+    description="适合住宅、商业空间及工程项目的瓷砖接缝装饰与保护。"
+    bullets={['瓷砖缝隙装饰与保护', '颜色稳定与耐污需求', '支持经销采购与定制包装']}
+    image={intro}
+    imageAlt="美缝材料展示"
+    cta={{ label: '获取报价', href: '/quote' }}
+  />
+
+  <SeriesCards
+    eyebrow="产品系列"
+    title="按需求选择产品系列"
+    note="根据使用场景和施工要求，选择合适的产品与包装形式。"
+    cards={series}
+  />
+
+  <PackagingSpecs
+    eyebrow="包装与技术资料"
+    title="包装规格与采购支持"
+    description="可按需咨询包装规格、颜色选项和施工资料。提供采购数量及目的地，可获得针对性报价。"
+    image={packaging}
+    imageAlt="美缝材料包装形式"
+    specs={[
+      { label: '包装形式', value: '单管装、双管装' },
+      { label: '合作服务', value: 'OEM / ODM、品牌贴标、渠道分销' },
+      { label: '技术资料', value: '色卡、施工说明、检测摘要' },
+    ]}
+    note="产品规格、可选包装及交货条件以正式报价资料为准。"
+  />
+
+  <InquiryCta
+    eyebrow="欢迎与 MENARO 建立合作"
+    title="让合适的产品更快进入你的采购链"
+    description="欢迎就产品、包装、定制与采购需求与我们联系。"
+    cta={{ label: '提交采购询盘', href: '/quote' }}
+  />
+</Base>

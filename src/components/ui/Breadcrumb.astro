@@ -1,0 +1,35 @@
+---
+import Container from '../ui/Container.astro';
+
+interface Crumb {
+  label: string;
+  href?: string;
+}
+
+interface Props {
+  items: Crumb[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav aria-label="面包屑" class="border-b border-mn-border bg-base-100">
+  <Container class="py-4">
+    <ol class="flex flex-wrap items-center gap-2 text-[13px] text-mn-muted">
+      {
+        items.map((item, i) => (
+          <li class="flex items-center gap-2">
+            {item.href ? (
+              <a href={item.href} class="transition-colors hover:text-mn-green">
+                {item.label}
+              </a>
+            ) : (
+              <span class="text-mn-ink">{item.label}</span>
+            )}
+            {i < items.length - 1 && <span aria-hidden="true">/</span>}
+          </li>
+        ))
+      }
+    </ol>
+  </Container>
+</nav>

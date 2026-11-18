@@ -1,0 +1,66 @@
+---
+import { Image } from 'astro:assets';
+import Container from '../../ui/Container.astro';
+import type { ImageMetadata } from 'astro';
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  description?: string;
+  image: ImageMetadata;
+  imageAlt: string;
+  specs: { label: string; value: string }[];
+  note?: string;
+}
+
+const { eyebrow, title, description, image, imageAlt, specs, note } = Astro.props;
+---
+
+<section class="bg-base-100 py-14 lg:py-24">
+  <Container>
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <div class="flex flex-col gap-2">
+        {eyebrow && <p class="text-[12px] tracking-[0.08em] text-mn-muted">{eyebrow}</p>}
+        <h2 class="text-[28px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[40px]">{title}</h2>
+      </div>
+      {description && <p class="max-w-[460px] text-[13px] leading-6 text-mn-muted lg:text-right">{description}</p>}
+    </div>
+
+    <div class="mt-8 grid grid-cols-1 items-start gap-8 lg:mt-12 lg:grid-cols-2 lg:gap-14">
+      <Image
+        src={image}
+        alt={imageAlt}
+        widths={[560, 1124]}
+        sizes="(min-width: 1024px) 50vw, 100vw"
+        class="w-full rounded-box object-cover"
+        loading="lazy"
+      />
+
+      <div class="flex flex-col gap-4">
+        <dl class="overflow-hidden rounded-box border border-mn-border">
+          {
+            specs.map((row, i) => (
+              <div
+                class:list={[
+                  'grid grid-cols-[140px_1fr] gap-4 px-5 py-4 text-[13px]',
+                  i > 0 && 'border-t border-mn-border',
+                ]}
+              >
+                <dt class="font-medium text-mn-ink">{row.label}</dt>
+                <dd class="text-mn-muted">{row.value}</dd>
+              </div>
+            ))
+          }
+        </dl>
+
+        {
+          note && (
+            <p class="rounded-box border-l-2 border-mn-gold bg-base-200/60 px-4 py-3 text-[12px] leading-6 text-mn-muted">
+              {note}
+            </p>
+          )
+        }
+      </div>
+    </div>
+  </Container>
+</section>

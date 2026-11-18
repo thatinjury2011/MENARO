@@ -1,0 +1,89 @@
+---
+import { Image } from 'astro:assets';
+import Container from '../../ui/Container.astro';
+import ArrowIcon from '../../ui/ArrowIcon.astro';
+import type { ImageMetadata } from 'astro';
+
+interface Card {
+  badge: string;
+  title: string;
+  subtitle: string;
+  bullets: string[];
+  packaging: string;
+  usage: string;
+  link: { label: string; href: string };
+  image: ImageMetadata;
+  accent?: 'gray' | 'green' | 'gold';
+}
+
+interface Props {
+  eyebrow?: string;
+  title: string;
+  note?: string;
+  cards: Card[];
+}
+
+const { eyebrow, title, note, cards } = Astro.props;
+
+const accentBar: Record<NonNullable<Card['accent']>, string> = {
+  gray: 'bg-mn-border',
+  green: 'bg-mn-green',
+  gold: 'bg-mn-gold',
+};
+---
+
+<section class="bg-base-200/70 py-14 lg:py-24">
+  <Container>
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
+      <div class="flex flex-col gap-2">
+        {eyebrow && <p class="text-[12px] tracking-[0.08em] text-mn-muted">{eyebrow}</p>}
+        <h2 class="text-[28px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[40px]">{title}</h2>
+      </div>
+      {note && <p class="max-w-[520px] text-[13px] leading-6 text-mn-muted lg:text-right">{note}</p>}
+    </div>
+
+    <ul class="mt-8 grid grid-cols-1 gap-6 lg:mt-12 lg:grid-cols-3">
+      {
+        cards.map((card) => (
+          <li class="flex flex-col overflow-hidden rounded-box bg-base-100">
+            <Image
+              src={card.image}
+              alt={card.title}
+              widths={[404, 808]}
+              sizes="(min-width: 1024px) 33vw, 100vw"
+              class="aspect-[808/572] w-full bg-mn-paper object-cover"
+              loading="lazy"
+            />
+            <span class:list={['block h-1', accentBar[card.accent ?? 'gray']]} aria-hidden="true" />
+            <div class="flex flex-1 flex-col gap-3 p-6">
+              <span class="w-fit rounded-full bg-base-200 px-3 py-1 text-[12px] text-mn-muted">
+                {card.badge}
+              </span>
+              <h3 class="text-xl font-bold text-mn-ink">{card.title}</h3>
+              <p class="text-[14px] font-semibold text-mn-green">{card.subtitle}</p>
+              <ul class="flex flex-col gap-1.5">
+                {card.bullets.map((b) => (
+                  <li class="flex items-start gap-2 text-[13px] text-mn-muted">
+                    <span class="mt-2 size-1 shrink-0 rounded-full bg-mn-muted" aria-hidden="true" />
+                    {b}
+                  </li>
+                ))}
+              </ul>
+              <div class="mt-auto flex flex-col gap-1 border-t border-mn-border pt-4 text-[12px] text-mn-muted">
+                <span>{card.packaging}</span>
+                <span>{card.usage}</span>
+              </div>
+              <a
+                href={card.link.href}
+                class="group inline-flex items-center gap-2 text-[13px] font-medium text-mn-ink transition-colors hover:text-mn-green"
+              >
+                {card.link.label}
+                <ArrowIcon className="size-3.5 transition-transform group-hover:translate-x-1" />
+              </a>
+            </div>
+          </li>
+        ))
+      }
+    </ul>
+  </Container>
+</section>

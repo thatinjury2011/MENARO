@@ -1,0 +1,78 @@
+---
+import { Image } from 'astro:assets';
+import ArrowIcon from '../../ui/ArrowIcon.astro';
+import type { ImageMetadata } from 'astro';
+
+interface Item {
+  title: string;
+  desc: string;
+  icon: ImageMetadata;
+  href?: string;
+}
+
+interface Props {
+  index: string;
+  title: string;
+  description: string;
+  items: Item[];
+}
+
+const { index, title, description, items } = Astro.props;
+---
+
+<section class="border-t border-mn-border py-10 first:border-t-0 lg:py-14">
+  <div class="grid grid-cols-1 gap-8 lg:grid-cols-[280px_1fr] lg:gap-12">
+    <div class="flex items-start gap-4">
+      <span class="text-[40px] leading-none font-bold text-mn-green/20 tabular-nums">{index}</span>
+      <div class="flex flex-col gap-3 pt-1">
+        <h2 class="text-xl font-bold text-mn-ink">{title}</h2>
+        <p class="text-[13px] leading-6 text-mn-muted">{description}</p>
+      </div>
+    </div>
+
+    <ul class="flex flex-col divide-y divide-mn-border border-t border-mn-border">
+      {
+        items.map((item) => {
+          const online = Boolean(item.href);
+          const content = (
+            <>
+              <span class="flex size-11 shrink-0 items-center justify-center rounded-box border border-mn-border bg-base-100">
+                <Image src={item.icon} alt="" width={44} height={44} class="size-6 object-contain" loading="lazy" />
+              </span>
+              <span class="flex min-w-0 flex-1 flex-col gap-1">
+                <span class="text-[15px] font-medium text-mn-ink">{item.title}</span>
+                <span class="text-[12px] text-mn-muted">{item.desc}</span>
+              </span>
+              <span
+                class:list={[
+                  'shrink-0 rounded-full px-2.5 py-1 text-[11px]',
+                  online ? 'bg-mn-green text-white' : 'bg-base-200 text-mn-muted',
+                ]}
+              >
+                {online ? '已上线' : '规划中'}
+              </span>
+              <ArrowIcon
+                className={online ? 'size-4 shrink-0 text-mn-muted' : 'size-4 shrink-0 text-mn-border'}
+              />
+            </>
+          );
+
+          return (
+            <li>
+              {online ? (
+                <a
+                  href={item.href}
+                  class="group flex items-center gap-4 py-4 transition-colors hover:text-mn-green"
+                >
+                  {content}
+                </a>
+              ) : (
+                <div class="flex items-center gap-4 py-4 opacity-70">{content}</div>
+              )}
+            </li>
+          );
+        })
+      }
+    </ul>
+  </div>
+</section>

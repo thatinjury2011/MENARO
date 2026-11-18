@@ -1,0 +1,109 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHero from '../../components/sections/PageHero.astro';
+import InquiryCta from '../../components/sections/InquiryCta.astro';
+import Breadcrumb from '../../components/ui/Breadcrumb.astro';
+import IntroBlock from '../../components/pages/products/IntroBlock.astro';
+import TierCards from '../../components/pages/products/TierCards.astro';
+import SupportCards from '../../components/pages/products/SupportCards.astro';
+
+import hero from '../../assets/products/tile-adhesive/hero.webp';
+import comparison from '../../assets/products/tile-adhesive/comparison.webp';
+import basic from '../../assets/products/tile-adhesive/bucket-basic.webp';
+import pro from '../../assets/products/tile-adhesive/bucket-pro.webp';
+import promax from '../../assets/products/tile-adhesive/bucket-promax.webp';
+
+const tiers = [
+  {
+    name: 'BASIC',
+    code: 'C1T',
+    subtitle: '基础型瓷砖胶',
+    desc: '面向常规铺贴及价格敏感的基础工程与经销市场，强调清晰的选型与应用条件。',
+    footer: '银灰色包装 ｜ 适用场景需按技术资料核对',
+    image: basic,
+    accent: 'gray' as const,
+  },
+  {
+    name: 'PRO',
+    code: 'C2TE',
+    subtitle: '增强型瓷砖胶',
+    desc: '规划为中档主销系列，关注粘结性能、施工开放时间与常规工程的适配需求。',
+    footer: '森林绿色包装 ｜ 适用场景需按技术资料核对',
+    image: pro,
+    accent: 'green' as const,
+  },
+  {
+    name: 'PRO MAX',
+    code: 'C2TES1',
+    subtitle: '高性能柔性瓷砖胶',
+    desc: '面向大规格砖、地暖及更高要求的施工场景开展验证，关注柔性与基层适配。',
+    footer: '深香槟金包装 ｜ 实际性能以工厂抽检为准',
+    image: promax,
+    accent: 'gold' as const,
+  },
+];
+---
+
+<Base title="瓷砖胶产品系列">
+  <PageHero
+    eyebrow="TILE ADHESIVES · PRODUCT COLLECTION"
+    title="瓷砖胶产品系列"
+    subtitle="BASIC · PRO · PRO MAX"
+    description="面向不同瓷砖、基层与施工条件，规划基础型、增强型及高性能柔性系列，为工程采购提供更清晰的产品选择。"
+    image={hero}
+    imageAlt="瓷砖胶施工场景"
+    primary={{ label: '询价与合作', href: '/contact' }}
+    secondary={{ label: '返回产品中心', href: '/products' }}
+  />
+
+  <Breadcrumb
+    items={[
+      { label: '首页', href: '/' },
+      { label: '产品体系', href: '/products' },
+      { label: '瓷砖胶' },
+    ]}
+  />
+
+  <IntroBlock
+    eyebrow="PRODUCT INTRODUCTION"
+    title="瓷砖胶 · Tile Adhesive"
+    description="MENARO 瓷砖胶以统一桶型及三档配色展示：银灰 BASIC、森林绿 PRO、深香槟金 PRO MAX。根据不同基材、瓷砖规格与施工条件，为经销商及工程客户提供分级选型参考。"
+    note="具体性能、桶装净重、使用方式及适用范围，均以工厂最终检测和产品技术资料为准。"
+    chips={['BASIC · C1T', 'PRO · C2TE', 'PRO MAX · C2TES1']}
+    image={comparison}
+    imageAlt="瓷砖胶三档产品"
+    cta={{ label: '获取报价', href: '/quote' }}
+  />
+
+  <TierCards
+    eyebrow="PRODUCT SPECIFICATIONS"
+    title="产品规格与采购信息"
+    subtitle="统一视觉体系 · 三档不同性能定位"
+    note="产品等级按规划展示，正式等级、包装净重和施工参数以测试及签章技术资料为准。"
+    footnote="注：C1T、C2TE、C2TES1 为拟定产品等级，不代表已取得认证或检测结果。桶装为包装视觉示意；如采用水泥基粉料，实际使用需按产品技术资料配制，并非开桶即用的预拌胶。"
+    tiers={tiers}
+  />
+
+  <SupportCards
+    eyebrow="APPLICATION & SUPPORT"
+    title="应用与技术支持"
+    note="按实际瓷砖规格、基层条件和施工环境选择合适的材料体系。"
+    items={[
+      {
+        title: '应用场景',
+        desc: '室内墙地面，不同吸水率瓷砖、复合基层及地暖相关铺贴需求，须结合产品技术文件与施工要求确定。',
+      },
+      {
+        title: '产品资料与定制',
+        desc: '为客户提供产品选型、样品沟通与包装方案支持；最终包装、净重及性能参数以工厂确认资料为准。',
+      },
+    ]}
+  />
+
+  <InquiryCta
+    eyebrow="MENARO · PRODUCT RANGE"
+    title="瓷砖铺贴，从合适的材料开始"
+    description="了解不同等级的产品定位，选择更适合实际施工条件的瓷砖胶。"
+    cta={{ label: '返回产品系列', href: '/products' }}
+  />
+</Base>

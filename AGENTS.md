@@ -1,6 +1,6 @@
 # Menaro 项目指南
 
-跨境电商独立站项目。当前处于**脚手架阶段**：Astro + Tailwind v4 + daisyUI 骨架可跑，业务页面从 P1 开始实现。
+跨境电商独立站项目。当前进度：脚手架 + 首页 + 产品体系（4 系列页 / 3 详情页 / 目录页）已完成，其余页面按 `design/reference/pages/` 逐页推进。
 
 ## 新会话第一步
 
@@ -52,16 +52,23 @@ npm run preview
 src/
 ├─ layouts/Base.astro          # SEO meta + Header/Footer 包裹
 ├─ components/
-│  ├─ ui/                      # 原子件：Container / Button / ArrowLink / ArrowIcon / SectionHeading
+│  ├─ ui/                      # 原子件：Container / Button / ArrowLink / ArrowIcon / SectionHeading / Breadcrumb
 │  ├─ site/                    # 全站结构：Header / Footer
-│  └─ pages/<page>/            # 单页私有区块，如 pages/home/*
-├─ data/site.ts                # 导航与站点元信息（单一数据源）
-├─ pages/                      # index 首页、404
+│  ├─ sections/                # 跨页业务区块：PageHero / InquiryCta
+│  └─ pages/<page>/            # 单页私有区块，如 pages/home/*、pages/products/*
+├─ data/                       # 单一数据源：site.ts（导航）/ product-details.ts（详情页内容）
+├─ pages/
+│  ├─ index.astro              # 首页
+│  ├─ 404.astro
+│  └─ products/
+│     ├─ index.astro           # 产品目录（/products）
+│     ├─ tile-grout | tile-adhesive | sealant | floor.astro
+│     └─ [series]/[product].astro   # 产品详情动态路由
 └─ styles/global.css           # @theme --mn-* 令牌 + daisyUI 主题 menaro
 public/brand/                  # 品牌 Logo（绿/白两版）
 ```
 
-**组件分层约定**：`ui/` 无业务语义；跨页复用的业务区块放 `components/sections/`（尚未开始）；单页私有放 `components/pages/<page>/`。
+**组件分层约定**：`ui/` 无业务语义；跨页复用的业务区块放 `components/sections/`；单页私有放 `components/pages/<page>/`。产品文案统一收在 `src/data/`，页面只做排版。
 
 ## 版本约束（重要）
 

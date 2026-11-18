@@ -60,7 +60,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | ADR-001 | 技术栈定为 **Astro + Tailwind CSS + daisyUI** | 独立站以内容 + 转化页为主，Astro 零 JS 静态输出成本低；Tailwind v4 `@theme` 可 1:1 承接设计令牌；daisyUI 提供 btn/card/collapse/drawer 等现成组件，减少自研 | 2026-11-11（已确认） |
 | ADR-002 | Figma 接入方式采用**官方插件**而非手写 `mcp.json` | 插件自带 45 个工具的 `_meta` 与 skills，出码质量更高；手写配置每次重启需重新 OAuth | 2026-11-11 |
 | ADR-003 | 修补插件 `mcp.json` 使其符合 Agent Plugins 1.0.0 schema | 官方发布版本不合规，Agent Host 会静默忽略整个配置 | 2026-11-11 |
-| ADR-004 | 产品中心**不单独建页**，用「全部产品右侧抽屉」承载（待最终确认） | 设计稿中 `83:1142` 产品中心页已隐藏，同时提供了完整的抽屉交互稿 | 2026-11-11（待确认） |
+| ADR-004 | 产品中心**建独立目录页 `/products`**，与「全部产品右侧抽屉」共用同一套信息架构（01 建筑与装修施工材料 / 02 空间成品与定制系统 + 已上线/规划中状态） | 导航与各页「返回产品中心」都需要落点；抽屉里的目录结构本身就能直接当页面用，数据一份两用 | 2026-11-18（v1.8.0 确认） |
 | ADR-005 | 样式一律**优先 Tailwind utility + daisyUI 组件**；设计稿给的 `.mn-*` 自定义类只做等价替换，仅在 Tailwind 无法表达时才保留自命名类 | 减少自研 CSS 维护成本，令牌与主题集中在 `@theme` | 2026-11-18（已确认） |
 | ADR-006 | 图片统一 **WebP** 入 `src/assets`，PNG 只作为原始素材留存 | 压缩率约 92%，且 Astro `<Image>` 仍需源图做多尺寸派生 | 2026-11-18（已确认） |
 
@@ -75,6 +75,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 | 版本 | 日期 | 类型 | 摘要 | 相关文档 |
 | --- | --- | --- | --- | --- |
+| v1.8.0 | 2026-11-18 | 次 | **P2 产品体系落地**：4 个系列页（美缝 / 瓷砖胶 / 密封胶 / 环氧地坪）+ 3 个产品详情页（动态路由）+ `/products` 目录页；抽出 `PageHero / Breadcrumb / InquiryCta / IntroBlock / SeriesCards / TierCards / PackagingSpecs / SupportCards / ProductShowcase / SpecCards / CatalogGroup` | 见本文档 §5.1 |
 | v1.7.1 | 2026-11-18 | 执行 | 确立「**导出稿为最终版**，Figma 仅作参考」；核对发现 5 张 hero 与导出稿不一致，改用**自解释占位图**顶上（同名覆盖即可替换） | 见本文档 §7 |
 | v1.7.0 | 2026-11-18 | 次 | **首页骨架落地 + P0.5 基础组件**：`Container/Button/ArrowLink/ArrowIcon/SectionHeading`；首页 9 个区块全部实现（hero→服务亮点→产品系列→更多规划→制造→应用→案例→合作伙伴→CTA）；导航/页脚按设计稿重构为浅色 | — |
 | v1.6.0 | 2026-11-18 | 次 | **hero 图改为 Figma 图层导出（无文字底图）**：定位 16 个 banner 图片节点并 2x 导出 → WebP，34 MB → 3.4 MB；页面标题改由 HTML 排版，SEO/多语言打通 | `scripts/build-heroes.mjs` |
@@ -84,6 +85,28 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | v1.2.0 | 2026-11-11 | 次 | 技术栈定稿（Astro+Tailwind+daisyUI）；完成 Figma 设计稿全面分析，输出页面清单/令牌/组件/交互/风险与实施路线 | [design-analysis.md](design-analysis.md) |
 | v1.1.0 | 2026-11-11 | 次 | 仓库重置：本地项目接管 `thatinjury2011/MENARO`，旧内容与历史全部丢弃（orphan 强推）；新增 `.gitignore` | 本文档 §5.1 |
 | v1.0.0 | 2026-11-11 | 里程碑 | 建立项目文档体系（AGENTS.md + PROJECT_LOG + troubleshooting）；打通 Figma MCP 并完成真机验证 | [figma-mcp.md](troubleshooting/figma-mcp.md) |
+
+### v1.8.0 详细内容（2026-11-18）
+
+1. **4 个产品系列页**（`src/pages/products/`）：`tile-grout`（美缝材料）、`tile-adhesive`（瓷砖胶）、`sealant`（建筑密封胶）、`floor`（环氧地坪）。文案与结构逐页对齐导出稿，四种结构各不相同：
+   - 美缝：系列卡（旗舰/专业/经典）+ 包装规格表
+   - 瓷砖胶：三档规格卡（BASIC / PRO / PRO MAX）
+   - 密封胶：系列卡（单型号）+ 包装表
+   - 环氧地坪：系列卡（包装按项目确认）+ 包装表
+2. **3 个产品详情页**：`/products/[series]/[product]` 动态路由 + `src/data/product-details.ts`：
+   - `/products/tile-grout/mg-700` 氢化碳环彩砂美缝剂
+   - `/products/sealant/ms-786` 高级中性耐候密封胶
+   - `/products/floor/epoxy-sand` 环氧彩砂自流平系统
+   版式：hero → 面包屑 → 包装概念参考 + 型号/包装标签 + 「获取批发报价」→ 3 张规格卡（产品包装 / 产品应用 / 资料与定制）→ 深绿 CTA。
+3. **`/products` 目录页**：按导出稿「产品目录」抽屉的信息架构落地 —— 01 建筑与装修施工材料（前 4 项「已上线」可跳转，后 2 项「规划中」）+ 02 空间成品与定制系统（6 项规划中），图标复用 `assets/icons/category-*.webp`。ADR-004 由此确定：**独立目录页 + 抽屉共用同一套数据**，不再二选一。
+4. **组件分层**：`sections/`（PageHero、InquiryCta 跨页复用）、`ui/`（Breadcrumb）、`pages/products/`（IntroBlock、SeriesCards、TierCards、PackagingSpecs、SupportCards、ProductShowcase、SpecCards、CatalogGroup）。
+5. **细节对齐**：
+   - hero 渐变改为 `from-40% via-48% to-60%`，照片不再被大面积冲白；hero 高度 441 → 360，标题 48 → 44px。
+   - 系列卡 / 规格卡补上顶部色条（灰 / 绿 / 金）与浅灰图片底，瓷砖胶三档补「基础型 / 增强型 / 高性能柔性」副标题。
+6. **验证**：`npm run build` 通过（10 页）；10 条路由在 390px 下 `scrollWidth == clientWidth`（无横向溢出）；1440 与导出稿逐段比对。
+7. **与导出稿的主动偏差**（记录待确认）：
+   - 环氧地坪详情第 2 张卡文案，导出稿写的是「适用于相应的**瓷砖接缝**装饰与保护场景」（疑似复制粘贴），改为「适用于相应的**地坪**装饰与保护场景」。
+   - 面包屑统一 3 级（首页 / 产品体系 / 当前页）；瓷砖胶导出稿是 4 级（多一层「瓷砖铺贴与美缝材料」），因分类层没有对应页面，未采用。
 
 ### v1.7.1 详细内容（2026-11-18）
 
@@ -209,6 +232,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | 设计素材整理与 WebP 化 | 2026-11-18 | 见 v1.5.0 |
 | 从 Figma 导出无文字 hero 图 | 2026-11-18 | 见 v1.6.0 |
 | P1 首页骨架（9 区块）+ P0.5 基础组件 | 2026-11-18 | 见 v1.7.0 |
+| P2 产品体系：4 系列页 + 3 详情页 + 目录页 | 2026-11-18 | 见 v1.8.0 |
 
 ### 进行中
 
@@ -221,6 +245,8 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 | 任务 | 优先级 | 备注 |
 | --- | --- | --- |
 | P1 首页（01）双端还原 | 进行中 | 骨架已完成（v1.7.0），待逐像素校对间距与字号 |
+| 产品系列/详情页逐像素校对 | 中 | v1.8.0 版式与文案已对齐，剩余间距/字号微调 |
+| 其余页面（案例 / 方案 / 工业地坪 / 全球 / 关于 / 制造 / 联系 / 获取报价） | 高 | 参考图已在 `design/reference/pages/`，沿用 PageHero + sections 组合 |
 | 替换 5 张 hero 占位图 | 高（阻塞 P2 视觉验收） | 需导出稿最终版的无文字底图：美缝系列 / 环氧系列 / 密封胶系列 / 密封胶详情 / 获取报价 |
 | 批量导出 69 个设计素材 | — | 已由 v1.5.0 本地整理替代；如设计更新需重新导出，复用 `scripts/build-assets.mjs` 映射 |
 | 配置 Vercel 项目（当前构建会失败） | 中 | 待有业务代码后再接 |
