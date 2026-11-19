@@ -1,6 +1,7 @@
 ---
 import Container from '../ui/Container.astro';
 import ArrowIcon from '../ui/ArrowIcon.astro';
+import ProductDrawer from './ProductDrawer.astro';
 import { getLangFromUrl, localizePath, alternateLangHref } from '../../i18n/utils';
 import { langLabel } from '../../i18n/config';
 import { ui } from '../../i18n/ui';
@@ -13,6 +14,14 @@ const rawPath = Astro.url.pathname;
 const path = lang === 'zh' ? rawPath : rawPath.replace(/^\/en(?=\/|$)/, '') || '/';
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 const switchHref = alternateLangHref(Astro.url, otherLang);
+
+// 产品体系改为触发全部产品抽屉（见 ProductDrawer），手机端菜单仍指向产品目录页
+const drawerHref = '/products';
+const navItemClass = [
+  'group/nav relative py-1.5 text-[14px] font-bold whitespace-nowrap transition-colors duration-200 lg:text-[15px] 2xl:text-[16px]',
+  'after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:origin-left after:scale-x-0 after:bg-mn-green-hover after:transition-transform after:duration-300',
+  'hover:text-mn-green-hover hover:after:scale-x-100',
+];
 ---
 
 <header class="sticky top-0 z-50 border-b border-mn-border bg-[#f8f9f7]/95 backdrop-blur-md">
@@ -29,20 +38,31 @@ const switchHref = alternateLangHref(Astro.url, otherLang);
 
     <nav aria-label={t.navAria} class="hidden items-center gap-4 lg:ml-auto lg:flex xl:gap-6 2xl:ml-[270px] 2xl:gap-[44px]">
       {
-        t.nav.map((item) => (
-          <a
-            href={localizePath(item.href, lang)}
-            aria-current={isActive(item.href) ? 'page' : undefined}
-            class:list={[
-              'group/nav relative py-1.5 text-[14px] font-bold whitespace-nowrap transition-colors duration-200 lg:text-[15px] 2xl:text-[16px]',
-              'after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:origin-left after:scale-x-0 after:bg-mn-green-hover after:transition-transform after:duration-300',
-              'hover:text-mn-green-hover hover:after:scale-x-100',
-              isActive(item.href) ? 'text-mn-green after:scale-x-100' : 'text-mn-ink',
-            ]}
-          >
-            {item.label}
-          </a>
-        ))
+        t.nav.map((item) =>
+          item.href === drawerHref ? (
+            <button
+              type="button"
+              data-drawer-open
+              aria-expanded="false"
+              aria-controls="product-drawer"
+              class:list={[
+                navItemClass,
+                'cursor-pointer',
+                isActive(item.href) ? 'text-mn-green after:scale-x-100' : 'text-mn-ink',
+              ]}
+            >
+              {item.label}
+            </button>
+          ) : (
+            <a
+              href={localizePath(item.href, lang)}
+              aria-current={isActive(item.href) ? 'page' : undefined}
+              class:list={[navItemClass, isActive(item.href) ? 'text-mn-green after:scale-x-100' : 'text-mn-ink']}
+            >
+              {item.label}
+            </a>
+          ),
+        )
       }
     </nav>
 
@@ -108,3 +128,5 @@ const switchHref = alternateLangHref(Astro.url, otherLang);
     </div>
   </Container>
 </header>
+
+<ProductDrawer />

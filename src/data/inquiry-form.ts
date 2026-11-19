@@ -26,12 +26,13 @@ export const inquiryForm = {
     messageQuote: '包装定制及其他要求',
     messagePlaceholder: '例如：产品规格、数量、包装要求、目标市场、预计采购时间等。',
     messageQuotePlaceholder: '例如：OEM 包装、产品规格、应用场景等',
+    planned: '规划中',
     groups: [
       {
         index: '01',
         name: '建筑与装修施工材料',
         items: ['美缝与填缝材料', '瓷砖胶与铺贴材料', '建筑密封胶与结构胶', '环氧地坪与自流平', '防水与防护材料', '建筑涂料与艺术漆'],
-        planned: [false, false, false, false, true, true],
+        planned: [false, false, false, false, false, false],
       },
       {
         index: '02',
@@ -68,12 +69,13 @@ export const inquiryForm = {
     messageQuote: 'Packaging, customisation and other requirements',
     messagePlaceholder: 'e.g. product specification, quantity, packaging requirements, target market, expected purchase date.',
     messageQuotePlaceholder: 'e.g. OEM packaging, product specification, application.',
+    planned: 'Planned',
     groups: [
       {
         index: '01',
         name: 'Construction & finishing materials',
         items: ['Tile grout & jointing', 'Tile adhesive & installation', 'Sealants & structural adhesives', 'Epoxy flooring & self-levelling', 'Waterproofing & protection', 'Architectural & decorative coatings'],
-        planned: [false, false, false, false, true, true],
+        planned: [false, false, false, false, false, false],
       },
       {
         index: '02',

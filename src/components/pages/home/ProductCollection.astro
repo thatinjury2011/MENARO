@@ -16,6 +16,8 @@ const lang = getLangFromUrl(Astro.url);
 const t = home[lang].collection;
 const labels = ui[lang];
 const images = [grout, adhesive, sealant, floor];
+// 美缝卡片已换成 2x 高清素材；sizes 按 25vw（1920 下 480px）声明，srcset 对齐 1x/2x/3x+
+const widths = [[480, 960, 1640], [408, 816], [408, 816], [408, 816]];
 ---
 
 <section class="bg-base-100 pt-14 pb-8 lg:pt-24 lg:pb-8">
@@ -40,7 +42,7 @@ const images = [grout, adhesive, sealant, floor];
                 <Image
                   src={images[i]}
                   alt={item.title}
-                  widths={[408, 816]}
+                  widths={widths[i]}
                   sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
                   class="aspect-[408/250] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                   loading="lazy"

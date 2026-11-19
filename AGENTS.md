@@ -33,7 +33,7 @@ Windows 11 ｜ **Node v26.13.1（fnm 管理）** ｜ npm 11.20.0 ｜ git 2.49.0 
 2. **Tailwind / daisyUI 优先**：设计稿里的 `.mn-*` 自定义类只做等价替换（`btn btn-primary`、`card`、`collapse`…），Tailwind 表达不了才写 CSS。
 2. **图片统一 WebP**：全部放 `src/assets/<页面>/`，命名 `<区块>-<序号>.webp`；PNG 只作原始素材，不进生产。
 3. **通用 UI 字形用内联 SVG**（箭头、chevron、关闭、对勾、时钟），不要导出成图片。
-4. 资源由 `node scripts/build-assets.mjs` 生成，映射表就是文档；重复导出/hover 变体不入库。
+4. 资源由 `node scripts/build-assets.mjs` 生成，映射表就是文档；重复导出/hover 变体不入库。**`*/hero.webp` 例外**：由 `build-heroes.mjs` 按 Figma 图层导出，`build-assets` 见到 `/hero` 结尾的目标会跳过（别把这层守卫删掉，否则会把带文字的整幅 banner 覆盖回去）。
 5. 整页参考图在 `design/reference/pages/`（已 gitignore），用于还原比对。
 6. **hero/banner 图必须按图层从 Figma 导出**（`node scripts/build-heroes.mjs`，节点表见 PROJECT_LOG v1.6.0），不要从整页截图裁切——那样会把标题文字一起烘焙进图片。
 
@@ -53,10 +53,10 @@ src/
 ├─ layouts/Base.astro          # SEO meta + Header/Footer 包裹
 ├─ components/
 │  ├─ ui/                      # 原子件：Container / Button / ArrowLink / ArrowIcon / SectionHeading / Breadcrumb
-│  ├─ site/                    # 全站结构：Header / Footer
+│  ├─ site/                    # 全站结构：Header / Footer / ProductDrawer（全部产品抽屉）
 │  ├─ sections/                # 跨页业务区块：PageHero / InquiryCta / ProcessSteps / InquiryForm
 │  └─ pages/<page>/            # 单页私有区块：home / products / cases / solutions / global / about / contact / quote
-├─ data/                       # 单一数据源：site.ts（导航）/ product-details.ts（详情页内容）
+├─ data/                       # 单一数据源：site.ts（导航）/ product-details.ts（详情页内容）/ product-drawer.ts（全部产品抽屉）/ inquiry-form.ts（询盘表单）
 ├─ pages/
 │  ├─ index.astro              # 首页
 │  ├─ 404.astro

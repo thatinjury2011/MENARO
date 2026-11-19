@@ -217,6 +217,21 @@ const ENTRIES = [
   // ── 产品抽屉 ─────────────────────────────────────────
   ['首页 _ 全部产品弹窗（展开状态）/图片-图标/02背景.png', 'drawer/category-bg'],
   ['首页 _ 全部产品弹窗（展开状态）/图片-图标/分类标题.png', 'drawer/category-title'],
+  ['首页 _ 全部产品弹窗（展开状态）/图片-图标/更多产品与制造合作.png', 'drawer/collab'],
+  ['首页 _ 全部产品弹窗（展开状态）/图片-图标/电话.png', 'drawer/contact-phone'],
+  ['首页 _ 全部产品弹窗（展开状态）/图片-图标/邮件.png', 'drawer/contact-email'],
+  ['首页 _ 全部产品弹窗（展开状态）/图片-图标/图标/美缝与填缝材料.png', 'drawer/item-grout'],
+  ['首页 _ 全部产品弹窗（展开状态）/图片-图标/图标/瓷砖胶与铺贴材料.png', 'drawer/item-adhesive'],
+  ['首页 _ 全部产品弹窗（展开状态）/图片-图标/图标/建筑密封胶与结构胶｜线性图标.png', 'drawer/item-sealant'],
+  ['首页 _ 全部产品弹窗（展开状态）/图片-图标/图标/环氧地坪与自流平.png', 'drawer/item-epoxy'],
+  ['首页 _ 全部产品弹窗（展开状态）/图片-图标/图标/防水与防护材料.png', 'drawer/item-waterproof'],
+  ['首页 _ 全部产品弹窗（展开状态）/图片-图标/图标/建筑涂料与艺术漆.png', 'drawer/item-coating'],
+  ['首页 _ 全部产品弹窗（展开状态）/图片-图标/图标/全屋定制与木作系统.png', 'drawer/item-joinery'],
+  ['首页 _ 全部产品弹窗（展开状态）/图片-图标/图标/门窗与移门系统.png', 'drawer/item-windows'],
+  ['首页 _ 全部产品弹窗（展开状态）/图片-图标/图标/地板与装饰面材.png', 'drawer/item-flooring'],
+  ['首页 _ 全部产品弹窗（展开状态）/图片-图标/图标/轮廓｜卫浴洁具与五金配件.png', 'drawer/item-sanitary'],
+  ['首页 _ 全部产品弹窗（展开状态）/图片-图标/图标/照明与智能控制.png', 'drawer/item-lighting'],
+  ['首页 _ 全部产品弹窗（展开状态）/图片-图标/图标/家具与软装家居.png', 'drawer/item-furniture'],
 ];
 
 /** 品牌线性图标 / 社交 / 联系 / 表单 / 分类（保留为 WebP 2x 图） */
@@ -303,6 +318,9 @@ const normalize = (p) =>
 
 const srcIndex = new Map();
 
+/** hero.webp 归 scripts/build-heroes.mjs 管，本脚本不写 */
+const isHeroDest = (destRel) => /(^|\/)hero$/.test(destRel);
+
 async function walk(dir, rel = '') {
   const entries = await fs.readdir(dir, { withFileTypes: true });
   for (const e of entries) {
@@ -353,8 +371,15 @@ async function main() {
   const refResults = [];
   const missing = [];
   const failed = [];
+  const heroSkipped = [];
 
   for (const [srcRel, destRel] of [...ENTRIES, ...ICONS]) {
+    // hero 由 scripts/build-heroes.mjs 从 Figma 图层导出（无文字底图）；
+    // 这里保留映射仅作来源对照，绝不覆盖，否则会把整幅 banner（含烘焙文字）写回去
+    if (isHeroDest(destRel)) {
+      heroSkipped.push(destRel);
+      continue;
+    }
     const key = normalize(srcRel);
     const abs = srcIndex.get(key) ?? [...srcIndex.entries()].find(([k]) => k.endsWith(key))?.[1];
     if (!abs) {
@@ -402,6 +427,7 @@ async function main() {
   console.log(`   体积 ${(sum(refResults.map((r) => r.before)) / 1048576).toFixed(1)} MB → ${(sum(refResults.map((r) => r.after)) / 1048576).toFixed(1)} MB`);
   if (missing.length) console.log(`\nWARN 源文件缺失 ${missing.length} 个:\n  ${missing.join('\n  ')}`);
   if (failed.length) console.log(`\nWARN 转换失败 ${failed.length} 个:\n  ${failed.join('\n  ')}`);
+  if (heroSkipped.length) console.log(`\nSKIP hero ${heroSkipped.length} 个（由 build-heroes.mjs 负责，勿在此覆盖）`);
   console.log(`\n跳过（重复帧 / hover 变体 / UI 字形）${unused.length} 个`);
 
   await fs.writeFile(

@@ -14,9 +14,22 @@ interface Props {
   image: ImageMetadata;
   imageAlt: string;
   cta?: { label: string; href: string };
+  /** 源图分辨率更高时补出 1.5x / 2x 候选（默认沿用 1186 上限） */
+  imageWidths?: number[];
 }
 
-const { eyebrow, title, description, note, bullets, chips, image, imageAlt, cta } = Astro.props;
+const {
+  eyebrow,
+  title,
+  description,
+  note,
+  bullets,
+  chips,
+  image,
+  imageAlt,
+  cta,
+  imageWidths = [600, 900, 1186],
+} = Astro.props;
 ---
 
 <section class="bg-base-100 py-14 lg:py-20">
@@ -25,7 +38,7 @@ const { eyebrow, title, description, note, bullets, chips, image, imageAlt, cta 
       <Image
         src={image}
         alt={imageAlt}
-        widths={[600, 900, 1186]}
+        widths={imageWidths}
         sizes="(min-width: 1024px) 50vw, 100vw"
         class="w-full rounded-box object-cover"
         loading="lazy"

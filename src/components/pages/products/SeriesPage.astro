@@ -60,6 +60,9 @@ const cards = c.kind === 'cards'
 const tiers = c.kind === 'tiers'
   ? c.section.tiers.map((tier: any, i: number) => ({ ...tier, image: a.cards[i] }))
   : [];
+
+// 美缝系列的「瓷砖美缝与接缝保护」配图已换成 2318 宽 2x 素材，需要更长的 srcset 候选
+const introWidths = slug === 'tile-grout' ? [600, 900, 1186, 1642, 2318] : undefined;
 ---
 
 <Base title={c.pageTitle}>
@@ -85,6 +88,7 @@ const tiers = c.kind === 'tiers'
     chips={c.intro.chips}
     image={a.intro}
     imageAlt={c.intro.imageAlt}
+    imageWidths={introWidths}
     cta={c.intro.cta}
   />
 

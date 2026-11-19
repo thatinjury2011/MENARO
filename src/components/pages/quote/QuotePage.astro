@@ -1,10 +1,9 @@
 ---
-import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
 import Container from '../../ui/Container.astro';
-import PageHero from '../../sections/PageHero.astro';
-import InquiryForm from '../../sections/InquiryForm.astro';
+import QuoteHero from './QuoteHero.astro';
 import WhyCard from './WhyCard.astro';
+import QuoteForm from './QuoteForm.astro';
 import QuoteSteps from './QuoteSteps.astro';
 import { getLangFromUrl } from '../../../i18n/utils';
 
@@ -12,12 +11,11 @@ import hero from '../../../assets/quote/hero.webp';
 import why from '../../../assets/quote/why.webp';
 
 import iconShield from '../../../assets/icons/value-shield.webp';
-import iconLayers from '../../../assets/icons/advantage-03.webp';
+import iconLayers from '../../../assets/icons/layers-outline.webp';
 import iconGlobe from '../../../assets/icons/form-globe.webp';
-import process01 from '../../../assets/icons/process-01.webp';
-import process02 from '../../../assets/icons/process-02.webp';
-import process03 from '../../../assets/icons/process-03.webp';
-import process04 from '../../../assets/icons/form-box.webp';
+import processDoc from '../../../assets/icons/process-01.webp';
+import processBox from '../../../assets/icons/process-02.webp';
+import processSupport from '../../../assets/icons/process-03.webp';
 
 const lang = getLangFromUrl(Astro.url);
 
@@ -27,30 +25,29 @@ const c = {
     hero: {
       eyebrow: '获取报价',
       title: '获取报价',
-      description: '告诉我们您的采购需求，我们将为您提供合适的产品方案、报价和服务支持。',
+      description: '告诉我们您的采购需求，我们将为您提供合适的产品\n方案、报价和服务支持。',
       imageAlt: 'MENARO 产品系列',
-      primary: { label: '填写询价信息', href: '#quote-form' },
+      highlights: [
+        { title: '源头品质', desc: '稳定可靠' },
+        { title: '产品齐全', desc: '应用广泛' },
+        { title: '全球供应', desc: '专业支持' },
+      ],
     },
-    highlights: [
-      { title: '源头品质', desc: '稳定可靠' },
-      { title: '产品齐全', desc: '应用广泛' },
-      { title: '全球供应', desc: '专业支持' },
-    ],
     why: {
-      title: '为什么选择 MENARO美纳罗？',
+      lines: ['为什么选择', 'MENARO美纳罗？'],
       imageAlt: 'MENARO 产品应用空间',
       items: ['专业的产品解决方案', '灵活的包装与OEM/ODM', '稳定的供货与交付', '面向全球的服务支持'],
     },
     form: {
       title: '获取报价',
-      note: '我们会根据您填写的产品、数量与目标市场，提供对应的产品方案与报价。',
+      requiredNote: '* 为必填项',
       submit: '获取报价',
     },
     steps: {
       title: '询价流程',
       subtitle: '简单 · 高效 · 专业',
       items: [
-        { title: '提交需求', desc: '填写并提缴询盘信息' },
+        { title: '提交需求', desc: '填写并提交询盘信息' },
         { title: '专人联系', desc: '我们的团队将尽快与您联系' },
         { title: '提供方案与报价', desc: '根据您的需求提供产品方案与报价' },
         { title: '确认合作', desc: '确定产品、数量与交付安排' },
@@ -62,23 +59,27 @@ const c = {
     hero: {
       eyebrow: 'Get a quote',
       title: 'Get a quote',
-      description: 'Tell us what you need and we will propose the right products, pricing and service support.',
+      description: 'Tell us what you need and we will propose the right products,\npricing and service support.',
       imageAlt: 'MENARO product range',
-      primary: { label: 'Fill in the enquiry form', href: '#quote-form' },
+      highlights: [
+        { title: 'Source quality', desc: 'Stable and reliable' },
+        { title: 'Full range', desc: 'Wide applications' },
+        { title: 'Global supply', desc: 'Professional support' },
+      ],
     },
-    highlights: [
-      { title: 'Source quality', desc: 'Stable and reliable' },
-      { title: 'Full range', desc: 'Wide applications' },
-      { title: 'Global supply', desc: 'Professional support' },
-    ],
     why: {
-      title: 'Why choose MENARO?',
+      lines: ['Why choose', 'MENARO?'],
       imageAlt: 'MENARO products in application',
-      items: ['Professional product solutions', 'Flexible packaging and OEM/ODM', 'Stable supply and delivery', 'Worldwide service support'],
+      items: [
+        'Professional product solutions',
+        'Flexible packaging and OEM/ODM',
+        'Stable supply and delivery',
+        'Worldwide service support',
+      ],
     },
     form: {
       title: 'Get a quote',
-      note: 'Based on the products, quantities and target market you provide, we will propose a matching solution and quotation.',
+      requiredNote: '* Required fields',
       submit: 'Get a quote',
     },
     steps: {
@@ -95,47 +96,32 @@ const c = {
 }[lang];
 
 const highlightIcons = [iconShield, iconLayers, iconGlobe];
-const highlights = c.highlights.map((item, i) => ({ ...item, icon: highlightIcons[i] }));
-const stepIcons = [process01, process02, process03, process04];
+const highlights = c.hero.highlights.map((item, i) => ({ ...item, icon: highlightIcons[i] }));
+// 导出稿里第 1 步与第 3 步共用同一个「文档」图标
+const stepIcons = [processDoc, processSupport, processDoc, processBox];
 const steps = c.steps.items.map((item, i) => ({ ...item, icon: stepIcons[i] }));
 ---
 
-<Base title={c.pageTitle}>
-  <PageHero
+<Base title={c.pageTitle} footerTheme="dark">
+  <QuoteHero
     eyebrow={c.hero.eyebrow}
     title={c.hero.title}
     description={c.hero.description}
     image={hero}
     imageAlt={c.hero.imageAlt}
-    primary={c.hero.primary}
+    highlights={highlights}
   />
 
-  <section class="border-b border-mn-border bg-base-100 py-6">
-    <Container>
-      <ul class="flex flex-wrap items-center justify-center gap-x-10 gap-y-4 lg:justify-start">
-        {
-          highlights.map((item) => (
-            <li class="flex items-center gap-2.5">
-              <Image src={item.icon} alt="" width={48} height={48} class="size-5 object-contain" loading="lazy" />
-              <span class="flex flex-col">
-                <span class="text-[13px] font-semibold text-mn-ink">{item.title}</span>
-                <span class="text-[11px] text-mn-muted">{item.desc}</span>
-              </span>
-            </li>
-          ))
-        }
-      </ul>
-    </Container>
-  </section>
+  <section class="bg-base-100 pb-12 lg:pt-[74px] lg:pb-[75px]">
+    <Container width="narrow">
+      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[471px_minmax(0,1fr)] lg:gap-[29px]">
+        <WhyCard lines={c.why.lines} items={c.why.items} image={why} imageAlt={c.why.imageAlt} />
 
-  <section id="quote-form" class="bg-base-100 py-12 lg:py-16">
-    <Container>
-      <div class="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,0.72fr)_minmax(0,1fr)] lg:gap-10">
-        <WhyCard title={c.why.title} items={c.why.items} image={why} imageAlt={c.why.imageAlt} />
-
-        <div class="rounded-box border border-mn-border bg-base-100 p-6 lg:p-8">
-          <InquiryForm variant="quote" title={c.form.title} note={c.form.note} submitLabel={c.form.submit} />
-        </div>
+        <QuoteForm
+          title={c.form.title}
+          requiredNote={c.form.requiredNote}
+          submitLabel={c.form.submit}
+        />
       </div>
     </Container>
   </section>

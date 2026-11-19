@@ -1,6 +1,7 @@
 ---
 import { Image } from 'astro:assets';
 import Container from '../../ui/Container.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
 import type { ImageMetadata } from 'astro';
 
 interface Step {
@@ -14,38 +15,56 @@ interface Props {
   subtitle?: string;
   steps: Step[];
 }
-
 const { title, subtitle, steps } = Astro.props;
+// 中文最长一条说明 329px，凭它定上限；英文文案更长，压窄一些才能让块之间留出间距
+const stepCap = getLangFromUrl(Astro.url) === 'zh' ? 'lg:max-w-[340px]' : 'lg:max-w-[286px]';
 ---
 
-<section class="bg-base-200/70 py-12 lg:py-16">
-  <Container>
-    <div class="flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-14">
-      <div class="flex shrink-0 flex-col gap-2 lg:w-[220px] lg:border-r lg:border-mn-border lg:pr-10">
-        <h2 class="text-[26px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[34px]">{title}</h2>
-        {subtitle && <p class="text-[13px] text-mn-muted">{subtitle}</p>}
-      </div>
+<section class="bg-[#f6f6f4] py-12 lg:py-[59px]">
+  <Container width="narrow" class="flex flex-col gap-8 lg:flex-row lg:items-center lg:gap-0">
+    <div class="flex shrink-0 flex-col gap-2 border-[#7c867e] lg:w-[270px] lg:border-r lg:pr-0">
+      <h2 class="text-[26px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[49px] lg:leading-[71px]">
+        {title}
+      </h2>
+      {subtitle && <p class="text-[15px] text-mn-muted lg:text-[26px] lg:leading-[38px]">{subtitle}</p>}
+    </div>
 
-      <ol class="grid flex-1 grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-        {
-          steps.map((step) => (
-            <li class="flex gap-3">
+    <ol class="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:flex lg:flex-1 lg:items-start lg:gap-0 lg:pl-[40px]">
+      {
+        steps.map((step, i) => (
+          <>
+            <li class:list={['flex items-start gap-4 lg:shrink lg:gap-[14px]', stepCap]}>
               <Image
                 src={step.icon}
                 alt=""
-                width={48}
-                height={48}
-                class="mt-0.5 size-6 shrink-0 object-contain text-mn-green"
+                width={45}
+                height={45}
+                class="size-8 shrink-0 object-contain lg:mt-[9px] lg:size-[45px]"
                 loading="lazy"
               />
-              <div class="flex flex-col gap-1">
-                <p class="text-[14px] font-semibold text-mn-ink">{step.title}</p>
-                <p class="text-[12px] leading-5 text-mn-muted">{step.desc}</p>
+              <div class="flex flex-col gap-1 lg:gap-[10px]">
+                <p class="text-[15px] font-bold text-mn-ink lg:text-[18px] lg:leading-[27px]">{step.title}</p>
+                <p class="text-[13px] leading-5 text-mn-muted lg:text-[18px] lg:leading-[27px]">{step.desc}</p>
               </div>
             </li>
-          ))
-        }
-      </ol>
-    </div>
+            {i < steps.length - 1 && (
+              <li aria-hidden="true" class="hidden lg:mx-auto lg:flex lg:items-center lg:self-center">
+                <svg
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="size-5 shrink-0 text-[#7c867e]"
+                >
+                  <path d="m9 5 7 7-7 7" />
+                </svg>
+              </li>
+            )}
+          </>
+        ))
+      }
+    </ol>
   </Container>
 </section>

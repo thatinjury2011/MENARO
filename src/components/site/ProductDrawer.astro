@@ -1,0 +1,249 @@
+---
+import type { ImageMetadata } from 'astro';
+import { getLangFromUrl, localizePath } from '../../i18n/utils';
+import { ui } from '../../i18n/ui';
+import { productDrawer } from '../../data/product-drawer';
+
+import categoryTitle from '../../assets/drawer/category-title.webp';
+import categoryBg from '../../assets/drawer/category-bg.webp';
+import itemGrout from '../../assets/drawer/item-grout.webp';
+import itemAdhesive from '../../assets/drawer/item-adhesive.webp';
+import itemSealant from '../../assets/drawer/item-sealant.webp';
+import itemEpoxy from '../../assets/drawer/item-epoxy.webp';
+import itemWaterproof from '../../assets/drawer/item-waterproof.webp';
+import itemCoating from '../../assets/drawer/item-coating.webp';
+import itemJoinery from '../../assets/drawer/item-joinery.webp';
+import itemWindows from '../../assets/drawer/item-windows.webp';
+import itemFlooring from '../../assets/drawer/item-flooring.webp';
+import itemSanitary from '../../assets/drawer/item-sanitary.webp';
+import itemLighting from '../../assets/drawer/item-lighting.webp';
+import itemFurniture from '../../assets/drawer/item-furniture.webp';
+import collab from '../../assets/drawer/collab.webp';
+import contactEmail from '../../assets/drawer/contact-email.webp';
+import contactPhone from '../../assets/drawer/contact-phone.webp';
+
+const lang = getLangFromUrl(Astro.url);
+const t = productDrawer[lang];
+const c = t.collab;
+
+const icons: Record<string, ImageMetadata> = {
+  grout: itemGrout,
+  adhesive: itemAdhesive,
+  sealant: itemSealant,
+  epoxy: itemEpoxy,
+  waterproof: itemWaterproof,
+  coating: itemCoating,
+  joinery: itemJoinery,
+  windows: itemWindows,
+  flooring: itemFlooring,
+  sanitary: itemSanitary,
+  lighting: itemLighting,
+  furniture: itemFurniture,
+  collab,
+};
+const bgs = { 'category-title': categoryTitle, 'category-bg': categoryBg };
+const telHref = 'tel:+8657688539555';
+// 中文按设计稿自然换行（378）；英文文案更长，放宽一档避免撑高分类条
+const descWidth = lang === 'zh' ? 'max-w-[378px]' : 'max-w-[440px]';
+// 英文分类说明更长，上下留白避免贴到分类条圆角
+const bannerPad = lang === 'zh' ? '' : 'py-[12px]';
+---
+
+<div id="product-drawer" data-drawer class="fixed inset-0 z-[60] hidden" aria-hidden="true">
+  <div
+    data-drawer-backdrop
+    class="absolute inset-0 bg-[#01362d]/[0.53] opacity-0 transition-opacity duration-300 ease-out"
+  ></div>
+
+  <aside
+    data-drawer-panel
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="product-drawer-title"
+    class="absolute inset-y-0 right-0 flex w-full max-w-[800px] translate-x-full flex-col bg-[#fbfcfa] transition-transform duration-300 ease-out"
+  >
+    <div class="flex h-[130px] shrink-0 items-center justify-between px-[28px]">
+      <a href={localizePath('/', lang)} class="flex shrink-0 items-center" aria-label={ui[lang].logoLabel}>
+        <img src="/brand/logo-horizontal.png" alt="MENARO" width="270" height="55" class="h-[55px] w-[270px]" />
+      </a>
+      <div class="flex items-center">
+        <span class="h-[51px] w-px bg-[#d9dfd8]" aria-hidden="true"></span>
+        <h2 id="product-drawer-title" class="ml-[23px] text-[23px] leading-[32px] font-bold text-[#064b35]">
+          {t.panelTitle}
+        </h2>
+        <button
+          type="button"
+          data-drawer-close
+          class="mr-[20px] ml-[66px] flex size-[30px] cursor-pointer items-center justify-center text-[#064b35] transition-opacity hover:opacity-70"
+          aria-label={t.closeLabel}
+        >
+          <svg viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.2" class="size-3" aria-hidden="true">
+            <path d="M1 1 11 11M11 1 1 11"></path>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="min-h-0 flex-1 overflow-y-auto px-[28px] pb-[58px]">
+      {
+        t.groups.map((group, gi) => (
+          <section aria-label={`${t.groupAria} ${group.index}`} class:list={[gi > 0 && 'mt-[33px]']}>
+            <div class="relative min-h-[110px] overflow-hidden rounded-[10px]">
+              <img src={bgs[group.bg].src} alt="" class="absolute inset-0 size-full object-cover" />
+              <div class:list={['relative flex min-h-[110px] items-center pl-[30px]', bannerPad]}>
+                <span class="w-[64px] shrink-0 pt-[4px] font-['Times_New_Roman',_serif] text-[64px] leading-none text-[#064b35]">
+                  {group.index}
+                </span>
+                <span class="ml-[39px] h-[64px] w-px bg-[#d9dfd8]" aria-hidden="true" />
+                <div class="ml-[24px] pt-[4px]">
+                  <h3 class="text-[25px] leading-[28px] font-bold text-[#064b35]">{group.title}</h3>
+                  <p class:list={['mt-[12px] text-[14px] leading-[22px] whitespace-pre-line text-[#7d8c84]', descWidth]}>
+                    {group.desc}
+                  </p>
+                </div>
+              </div>
+            </div>
+
+            <ul class:list={['mx-[22px]', gi === 0 ? 'mt-[31px]' : 'mt-[15px]']}>
+              {group.items.map((item, i) => (
+                <li>
+                  <a
+                    href={localizePath(item.href, lang)}
+                    class:list={[
+                      'group/row flex min-h-[78px] items-center pl-[10px] transition-colors',
+                      i < group.items.length - 1 && 'border-b border-[#d9dfd8]',
+                      'hover:bg-[#f5f7f4]',
+                    ]}
+                  >
+                    <img src={icons[item.icon].src} alt="" width="48" height="48" class="size-12 shrink-0" />
+                    <span class="ml-4 h-7 w-px bg-[#d9dfd8]" aria-hidden="true" />
+                    <span class="ml-8 flex-1 pt-[2px]">
+                      <span class="block text-[19px] leading-[26px] font-bold text-black">{item.name}</span>
+                      <span class="mt-[7px] block text-[15px] leading-[20px] text-[#333]">{item.meta}</span>
+                    </span>
+                    {item.planned ? (
+                      <span class="inline-flex h-[28px] shrink-0 items-center gap-[5px] rounded-full bg-[#d7d9d6] px-[17px] text-[14px] text-[#333]">
+                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" class="size-4" aria-hidden="true">
+                          <circle cx="8" cy="8" r="6.4" stroke-width="1.2" />
+                          <path d="M8 4.6V8l2.4 1.6" stroke-width="1.2" stroke-linecap="round" />
+                        </svg>
+                        {t.planned}
+                      </span>
+                    ) : (
+                      <span class="inline-flex h-[28px] shrink-0 items-center gap-[5px] rounded-full bg-[#07563d] px-[17px] text-[14px] text-white">
+                        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" class="size-4" aria-hidden="true">
+                          <path d="M3.2 8.4 6.4 11.6 12.8 4.8" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                        {t.online}
+                      </span>
+                    )}
+                    <span class="ml-[46px] flex size-5 shrink-0 items-center justify-center text-[#064b35]" aria-hidden="true">
+                      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.4" class="size-5">
+                        <path d="m8 4 6 6-6 6" stroke-linecap="round" stroke-linejoin="round" />
+                      </svg>
+                    </span>
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </section>
+        ))
+      }
+
+      <div class="mt-[33px] flex min-h-[116px] items-center rounded-[10px] bg-[#edf3ee] pl-[24px]">
+        <img src={icons[c.icon].src} alt="" width="48" height="48" class="size-12 shrink-0" />
+        <span class="ml-[22px] h-[50px] w-px bg-[#064b35]" aria-hidden="true" />
+        <div class="ml-[19px] min-w-0 flex-1 pt-[4px]">
+          <p class="text-[23px] leading-[30px] font-bold text-[#064b35]">{c.title}</p>
+          <p class="mt-[9px] text-[15px] leading-[20px] text-[#064b35]">{c.meta}</p>
+        </div>
+        <div class="flex shrink-0 items-center gap-[13px] pr-[64px]">
+          <a
+            href={localizePath(c.href, lang)}
+            class="inline-flex h-[42px] shrink-0 items-center gap-[10px] bg-[#07563d] px-[21px] text-[16px] font-bold whitespace-nowrap text-white transition-colors hover:bg-[#064b35]"
+          >
+            {c.cta}
+            <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" stroke-width="1.6" class="size-[22px]" aria-hidden="true">
+              <path d="M3 11h15M13 5.5 18.5 11 13 16.5" stroke-linecap="round" stroke-linejoin="round" />
+            </svg>
+          </a>
+          <a href={`mailto:${c.email}`} aria-label={c.emailLabel} class="block transition-opacity hover:opacity-70">
+            <img src={contactEmail.src} alt="" width="44" height="42" class="h-[42px] w-[44px]" />
+          </a>
+          <a href={telHref} aria-label={c.phoneLabel} class="block transition-opacity hover:opacity-70">
+            <img src={contactPhone.src} alt="" width="44" height="42" class="h-[42px] w-[44px]" />
+          </a>
+        </div>
+      </div>
+    </div>
+  </aside>
+</div>
+
+<script>
+  const root = document.querySelector<HTMLElement>('[data-drawer]');
+  const panel = root?.querySelector<HTMLElement>('[data-drawer-panel]');
+  const backdrop = root?.querySelector<HTMLElement>('[data-drawer-backdrop]');
+  const triggers = document.querySelectorAll<HTMLElement>('[data-drawer-open]');
+
+  if (root && panel && backdrop) {
+    let lastTrigger: HTMLElement | null = null;
+    let isOpen = false;
+
+    const open = (trigger: HTMLElement) => {
+      lastTrigger = trigger;
+      isOpen = true;
+      root.classList.remove('hidden');
+      root.setAttribute('aria-hidden', 'false');
+      document.body.style.overflow = 'hidden';
+      triggers.forEach((el) => el.setAttribute('aria-expanded', 'true'));
+      requestAnimationFrame(() => {
+        backdrop.classList.replace('opacity-0', 'opacity-100');
+        panel.classList.replace('translate-x-full', 'translate-x-0');
+      });
+      panel.querySelector<HTMLElement>('[data-drawer-close]')?.focus();
+    };
+
+    const close = () => {
+      isOpen = false;
+      backdrop.classList.replace('opacity-100', 'opacity-0');
+      panel.classList.replace('translate-x-0', 'translate-x-full');
+      root.setAttribute('aria-hidden', 'true');
+      document.body.style.overflow = '';
+      triggers.forEach((el) => el.setAttribute('aria-expanded', 'false'));
+      window.setTimeout(() => {
+        if (!isOpen) root.classList.add('hidden');
+      }, 300);
+      lastTrigger?.focus();
+    };
+
+    triggers.forEach((trigger) => {
+      trigger.addEventListener('click', () => {
+        if (isOpen) close();
+        else open(trigger);
+      });
+    });
+
+    root.querySelectorAll('[data-drawer-close]').forEach((btn) => btn.addEventListener('click', close));
+    backdrop.addEventListener('click', close);
+
+    document.addEventListener('keydown', (event) => {
+      if (!isOpen) return;
+      if (event.key === 'Escape') {
+        close();
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusables = panel.querySelectorAll<HTMLElement>('a[href], button');
+      if (!focusables.length) return;
+      const first = focusables[0];
+      const last = focusables[focusables.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+  }
+</script>
