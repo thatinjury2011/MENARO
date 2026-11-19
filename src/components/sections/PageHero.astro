@@ -3,8 +3,7 @@ import { Image } from 'astro:assets';
 import Container from '../ui/Container.astro';
 import Button from '../ui/Button.astro';
 import type { ImageMetadata } from 'astro';
-import { getLangFromUrl } from '../../i18n/utils';
-import { ui } from '../../i18n/ui';
+import logoHero from '../../assets/brand/logo-hero.webp';
 
 interface Cta {
   label: string;
@@ -27,6 +26,8 @@ interface Props {
   variant?: 'default' | 'wide';
   /** 在标题上方渲染 MENARO 品牌标识（关于我们等品牌页使用） */
   brandMark?: boolean;
+  /** light：图内已烘焙左侧渐隐（多数内页）；strong：图本身偏暗，需要更重的白色蒙版（全球合作） */
+  scrim?: 'light' | 'strong';
 }
 
 const {
@@ -40,19 +41,46 @@ const {
   secondary,
   variant = 'default',
   brandMark = false,
+  scrim = 'light',
 } = Astro.props;
 
-const lang = getLangFromUrl(Astro.url);
 const wide = variant === 'wide';
-const imageWidth = wide ? 'lg:w-[65%]' : 'lg:w-[58%]';
-const imageSizes = wide ? '(min-width: 1024px) 65vw, 100vw' : '(min-width: 1024px) 58vw, 100vw';
-const overlay =
-  'absolute inset-0 bg-linear-to-r from-white from-30% via-white/85 via-55% to-white/40 ' +
-  (wide
-    ? 'lg:from-30% lg:via-white/80 lg:via-38% lg:to-transparent lg:to-52%'
-    : 'lg:from-40% lg:via-white/70 lg:via-48% lg:to-transparent lg:to-60%');
-const bodyWidth = wide ? 'w-full lg:max-w-[30vw] 2xl:max-w-[560px]' : 'w-full lg:max-w-[38vw] 2xl:max-w-[700px]';
-const bodyHeight = wide ? 'lg:min-h-[440px]' : 'lg:min-h-[360px]';
+// 宽幅 banner（≥2.4:1）铺满整幅并用左侧渐隐；竖图/近方图仍走「右侧固定列」，避免占位图被拉伸
+const isBanner = image.width / image.height >= 2.4;
+const fullBleed = !wide && isBanner;
+const overlay = wide
+  ? 'absolute inset-0 bg-linear-to-r from-white from-30% via-white/85 via-55% to-white/40 lg:from-30% lg:via-white/80 lg:via-38% lg:to-transparent lg:to-52%'
+  : fullBleed
+    ? scrim === 'strong'
+      ? 'absolute inset-0 bg-white/90 lg:bg-transparent lg:bg-linear-to-r lg:from-white lg:via-white/92 lg:via-35% lg:to-transparent lg:to-52%'
+      : 'absolute inset-0 bg-white/88 lg:bg-transparent lg:bg-linear-to-r lg:from-white lg:via-white/22 lg:via-25% lg:to-transparent lg:to-42%'
+    : 'absolute inset-0 bg-linear-to-r from-white from-30% via-white/85 via-55% to-white/40 lg:from-40% lg:via-white/70 lg:via-48% lg:to-transparent lg:to-60%';
+const imageClass = wide
+  ? 'absolute inset-y-0 right-0 h-full w-full object-cover object-right lg:w-[65%]'
+  : fullBleed
+    ? 'absolute inset-0 h-full w-full object-cover object-center'
+    : 'absolute inset-y-0 right-0 h-full w-full object-cover object-right lg:w-[58%]';
+const imageSizes = wide ? '(min-width: 1024px) 65vw, 100vw' : fullBleed ? '100vw' : '(min-width: 1024px) 58vw, 100vw';
+const bodyWidth = wide
+  ? 'w-full lg:max-w-[30vw] 2xl:max-w-[560px]'
+  : brandMark
+    ? 'w-full lg:max-w-[520px]'
+    : 'w-full lg:max-w-[38vw] 2xl:max-w-[700px]';
+const bodySpacing = wide
+  ? 'py-12 lg:py-16'
+  : fullBleed
+    ? brandMark
+      ? 'py-12 lg:pt-[96px] lg:pb-[106px]'
+      : 'py-12 lg:pt-[146px] lg:pb-[106px]'
+    : 'py-12 lg:min-h-[360px] lg:justify-center lg:py-16';
+// 品牌页（关于我们）的标识与标题间距比普通内页更紧凑，逐项对齐导出稿
+const titleSpacing = brandMark ? 'lg:mt-[22px]' : 'lg:mt-[35px]';
+const titleSize = brandMark ? 'lg:text-[64px] lg:leading-[93px]' : 'lg:text-[63px] lg:leading-[91px]';
+const subtitleSpacing = brandMark ? 'lg:-mt-[7px]' : '';
+const subtitleColor = brandMark ? 'text-mn-ink' : 'text-mn-ink/80';
+const descriptionSpacing = brandMark ? 'lg:mt-[12px]' : 'lg:mt-[17px]';
+const descriptionLeading = brandMark ? 'lg:leading-[28px]' : 'lg:leading-[27px]';
+const actionSpacing = brandMark ? 'lg:mt-[44px]' : 'lg:mt-[87px]';
 ---
 
 <section class="relative isolate overflow-hidden bg-base-200">
@@ -61,29 +89,83 @@ const bodyHeight = wide ? 'lg:min-h-[440px]' : 'lg:min-h-[360px]';
     alt={imageAlt}
     widths={[640, 960, 1440, 1920]}
     sizes={imageSizes}
-    class:list={['absolute inset-y-0 right-0 h-full w-full object-cover object-right', imageWidth]}
+    class:list={[imageClass]}
     loading="eager"
     fetchpriority="high"
   />
   <div class={overlay}></div>
 
-  <Container class="relative">
-    <div class:list={['flex flex-col gap-4 py-12 lg:justify-center lg:py-16', bodyWidth, bodyHeight]}>
-      {brandMark && (
-        <div class="flex flex-col gap-1 pb-2">
-          <img src="/brand/logo.png" alt="MENARO 美纳罗" width="237" height="82" class="h-10 w-auto self-start" />
-          <p class="text-[12px] tracking-wide text-mn-muted">{ui[lang].brandTagline}</p>
-        </div>
-      )}
-      {eyebrow && <p class="text-[13px] font-medium tracking-wide text-mn-muted">{eyebrow}</p>}
-      <h1 class="text-[32px] leading-[1.15] font-bold tracking-tight text-mn-ink lg:text-[44px]">{title}</h1>
-      {subtitle && <p class="text-[15px] font-medium tracking-wide text-mn-ink/80">{subtitle}</p>}
-      {description && <p class="text-[14px] leading-7 text-mn-muted">{description}</p>}
-      <div class="mt-3 flex flex-wrap gap-4">
-        <Button href={primary.href} withArrow class="min-w-[168px] justify-between">{primary.label}</Button>
+  <Container width="narrow" class="relative">
+    <div class:list={['flex flex-col', bodySpacing, bodyWidth]}>
+      {
+        brandMark && (
+          <img
+            src={logoHero.src}
+            alt="MENARO 美纳罗 — 更好的材料，更好的建筑"
+            width="980"
+            height="176"
+            class="h-10 w-auto self-start lg:h-[58px]"
+          />
+        )
+      }
+      {
+        eyebrow && (
+          <p class="text-[13px] font-bold tracking-wide text-mn-ink lg:text-[18px] lg:leading-[27px]">{eyebrow}</p>
+        )
+      }
+      <h1
+        class:list={[
+          'mt-3 text-[32px] leading-[1.15] font-bold tracking-tight text-mn-ink',
+          titleSpacing,
+          titleSize,
+        ]}
+      >
+        {title}
+      </h1>
+      {
+        subtitle && (
+          <p
+            class:list={[
+              'mt-2 text-[15px] font-bold tracking-wide lg:text-[18px] lg:leading-[27px]',
+              subtitleColor,
+              subtitleSpacing,
+            ]}
+          >
+            {subtitle}
+          </p>
+        )
+      }
+      {
+        description && (
+          <p
+            class:list={[
+              'mt-3 whitespace-pre-line text-[14px] leading-7 text-mn-muted lg:text-[18px]',
+              descriptionLeading,
+              descriptionSpacing,
+            ]}
+          >
+            {description}
+          </p>
+        )
+      }
+      <div class:list={['mt-6 flex flex-wrap gap-4 lg:gap-[18px]', actionSpacing]}>
+        <Button
+          href={primary.href}
+          size="lg"
+          withArrow
+          class:list={['justify-between', brandMark ? 'min-w-[248px]' : 'min-w-[219px]']}
+        >
+          {primary.label}
+        </Button>
         {
           secondary && (
-            <Button href={secondary.href} variant="outline" withArrow class="min-w-[168px] justify-between">
+            <Button
+              href={secondary.href}
+              variant="outline"
+              size="lg"
+              withArrow
+              class="min-w-[229px] justify-between"
+            >
               {secondary.label}
             </Button>
           )

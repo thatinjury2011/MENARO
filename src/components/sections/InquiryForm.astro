@@ -2,6 +2,7 @@
 import Button from '../ui/Button.astro';
 import { getLangFromUrl } from '../../i18n/utils';
 import { ui } from '../../i18n/ui';
+import { inquiryForm } from '../../data/inquiry-form';
 
 interface Props {
   variant?: 'contact' | 'quote';
@@ -15,66 +16,7 @@ const isQuote = variant === 'quote';
 const lang = getLangFromUrl(Astro.url);
 const labels = ui[lang];
 
-const t = {
-  zh: {
-    productsLabel: '意向产品（可多选）',
-    required: '* 为必填项',
-    name: '联系人',
-    nameQuote: '联系人姓名',
-    namePlaceholder: '请输入联系人姓名',
-    nameQuotePlaceholder: '请输入您的姓名',
-    email: '电子邮箱',
-    emailPlaceholder: '请输入电子邮箱',
-    emailQuotePlaceholder: '例如：name@company.com',
-    country: '国家/地区',
-    countryPlaceholder: '请选择国家/地区',
-    countryQuotePlaceholder: '请选择或输入您的国家/地区',
-    whatsappPlaceholder: '请输入 WhatsApp 号码',
-    whatsappQuotePlaceholder: '例如：+971 50123 4567',
-    company: '公司名称（选填）',
-    companyPlaceholder: '请输入公司名称',
-    quantity: '预计采购数量',
-    quantityPlaceholder: '例如：5,000支/1个集装箱',
-    message: '数量、规格或其他需求（选填）',
-    messageQuote: '包装定制及其他要求',
-    messagePlaceholder: '例如：产品规格、数量、包装要求、目标市场、预计采购时间等。',
-    messageQuotePlaceholder: '例如：OEM 包装、产品规格、应用场景等',
-    groups: [
-      { index: '01', name: '建筑与装修施工材料', items: ['美缝与填缝材料', '瓷砖胶与铺贴材料', '建筑密封胶与结构胶', '环氧地坪与自流平', '防水与防护材料', '建筑涂料与艺术漆'], planned: [false, false, false, false, true, true] },
-      { index: '02', name: '空间成品与定制系统', items: ['全屋定制与木作系统', '门窗与移门系统', '地板与装饰面料', '卫浴洁具与五金配件', '照明与智能控制', '家具与软装家居'], planned: [true, true, true, true, true, true] },
-    ],
-    countries: ['中国', '阿联酋', '沙特阿拉伯', '美国', '德国', '英国', '法国', '意大利', '西班牙', '俄罗斯', '澳大利亚', '越南', '泰国', '马来西亚', '印度尼西亚', '巴西', '墨西哥', '南非', '其他国家和地区'],
-  },
-  en: {
-    productsLabel: 'Products of interest (multiple selection)',
-    required: '* Required fields',
-    name: 'Contact person',
-    nameQuote: 'Contact name',
-    namePlaceholder: 'Your contact name',
-    nameQuotePlaceholder: 'Your full name',
-    email: 'Email',
-    emailPlaceholder: 'Your email address',
-    emailQuotePlaceholder: 'e.g. name@company.com',
-    country: 'Country / Region',
-    countryPlaceholder: 'Select your country / region',
-    countryQuotePlaceholder: 'Select or type your country / region',
-    whatsappPlaceholder: 'Your WhatsApp number',
-    whatsappQuotePlaceholder: 'e.g. +971 50123 4567',
-    company: 'Company name (optional)',
-    companyPlaceholder: 'Your company name',
-    quantity: 'Estimated quantity',
-    quantityPlaceholder: 'e.g. 5,000 pcs / 1 container',
-    message: 'Quantity, specification or other requirements (optional)',
-    messageQuote: 'Packaging, customisation and other requirements',
-    messagePlaceholder: 'e.g. product specification, quantity, packaging requirements, target market, expected purchase date.',
-    messageQuotePlaceholder: 'e.g. OEM packaging, product specification, application.',
-    groups: [
-      { index: '01', name: 'Construction & finishing materials', items: ['Tile grout & jointing', 'Tile adhesive & installation', 'Sealants & structural adhesives', 'Epoxy flooring & self-levelling', 'Waterproofing & protection', 'Architectural & decorative coatings'], planned: [false, false, false, false, true, true] },
-      { index: '02', name: 'Interior products & custom systems', items: ['Whole-house customisation & joinery', 'Doors, windows & sliding systems', 'Flooring & decorative panels', 'Sanitary ware & hardware', 'Lighting & smart control', 'Furniture & soft furnishing'], planned: [true, true, true, true, true, true] },
-    ],
-    countries: ['United Arab Emirates', 'Saudi Arabia', 'United States', 'Germany', 'United Kingdom', 'France', 'Italy', 'Spain', 'Russia', 'Australia', 'Vietnam', 'Thailand', 'Malaysia', 'Indonesia', 'Brazil', 'Mexico', 'South Africa', 'China', 'Other country / region'],
-  },
-}[lang];
+const t = inquiryForm[lang];
 ---
 
 <form class="flex flex-col gap-6" action="#" method="post" novalidate>

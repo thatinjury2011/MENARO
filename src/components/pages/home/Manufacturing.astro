@@ -15,41 +15,49 @@ const t = home[lang].manufacturing;
 const images = [mfg01, mfg02, mfg03, mfg04];
 ---
 
-<section class="bg-base-200/70 py-14 lg:py-24">
+<section class="bg-[#f6f6f2] py-14 lg:py-24">
   <Container>
     <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
       <SectionHeading eyebrow={t.eyebrow} title={t.title} subtitle={t.subtitle} />
-      <p class="max-w-[520px] text-[13px] leading-6 text-mn-muted lg:text-right">
+      <p class="max-w-[520px] text-[13px] leading-6 text-mn-muted lg:max-w-[560px] lg:text-right lg:text-[18px] lg:leading-[27px]">
         {t.note[0]}<br class="hidden lg:block" />
         {t.note[1]}
       </p>
     </div>
 
-    <ul class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">
+    <ul class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">
       {
         t.cards.map((title, i) => (
-          <li class="flex flex-col gap-4">
+          <li class="flex flex-col bg-base-100">
             <Image
               src={images[i]}
               alt={title}
               widths={[415, 830]}
               sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-              class="aspect-[415/249] w-full rounded-box object-cover"
+              class="aspect-[415/249] w-full object-cover"
               loading="lazy"
             />
-            <p class="text-[15px] font-semibold text-mn-ink">{title}</p>
+            <div class="flex flex-1 flex-col gap-1 px-6 pt-8 pb-8">
+              <p class="text-[20px] leading-[30px] font-bold text-mn-ink">{title}</p>
+              <p class="text-[16px] leading-[26px] text-mn-muted">{title}</p>
+            </div>
           </li>
         ))
       }
     </ul>
 
-    <ul class="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-box bg-primary lg:mt-10 lg:grid-cols-2">
+    <ul class="mt-8 grid grid-cols-1 gap-1.5 lg:mt-10 lg:grid-cols-2">
       {
-        t.pillars.map((p) => (
-          <li class="flex flex-col gap-3 bg-primary px-7 py-8 text-white lg:px-10 lg:py-10">
-            <p class="text-[13px] text-white/70">{p.label}</p>
-            <p class="text-xl font-semibold">{p.title}</p>
-            <p class="text-[13px] leading-6 text-white/75">{p.desc}</p>
+        t.pillars.map((p, i) => (
+          <li
+            class:list={[
+              'flex flex-col gap-3 px-7 py-9 text-white lg:px-11 lg:py-11',
+              i === 0 ? 'bg-mn-green' : 'bg-mn-green-soft',
+            ]}
+          >
+            <p class="text-[13px] text-white/70 lg:text-[16px] lg:leading-[26px]">{p.label}</p>
+            <p class="text-xl font-bold lg:text-[26px] lg:leading-[38px]">{p.title}</p>
+            <p class="text-[13px] leading-6 text-white/75 lg:text-[16px] lg:leading-[26px]">{p.desc}</p>
           </li>
         ))
       }

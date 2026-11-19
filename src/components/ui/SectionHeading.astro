@@ -10,8 +10,8 @@ const { eyebrow, title, subtitle, class: className = '' } = Astro.props;
 ---
 
 <div class:list={['flex flex-col gap-2', className]}>
-  {eyebrow && <p class="text-sm font-medium text-mn-muted">{eyebrow}</p>}
-  <h2 class="text-[32px] leading-[1.15] font-bold tracking-tight text-mn-ink lg:text-[44px]">{title}</h2>
-  {subtitle && <p class="text-sm text-mn-muted lg:text-base">{subtitle}</p>}
+  {eyebrow && <p class="text-sm font-bold text-mn-ink lg:text-[16px] lg:leading-[24px]">{eyebrow}</p>}
+  <h2 class="text-[32px] leading-[1.15] font-bold tracking-tight text-mn-ink lg:text-[48px] lg:leading-[70px]">{title}</h2>
+  {subtitle && <p class="text-sm text-mn-muted lg:text-[18px] lg:leading-[27px]">{subtitle}</p>}
   <slot />
 </div>

@@ -1,7 +1,10 @@
 ---
 import { Image } from 'astro:assets';
 import Container from '../../ui/Container.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
 import type { ImageMetadata } from 'astro';
+import quoteOpen from '../../../assets/icons/quote-open.webp';
+import quoteClose from '../../../assets/icons/quote-close.webp';
 
 interface Props {
   eyebrow?: string;
@@ -14,37 +17,78 @@ interface Props {
 }
 
 const { eyebrow = 'FOUNDER', title, subtitle, paragraphs, quote, image, imageAlt } = Astro.props;
+// 中文按导出稿的 41.7px 行距；英文用更紧凑的 34px，2.3 倍行距只适合中文排版
+const articleLeading = getLangFromUrl(Astro.url) === 'zh' ? 'lg:leading-[41.7px]' : 'lg:leading-[34px]';
 ---
 
-<section class="bg-base-100 py-14 lg:py-24">
-  <Container>
-    <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1fr)] lg:gap-16">
+<section class="bg-base-100 pt-14 lg:pt-[106px]">
+  <Container width="narrow">
+    <div
+      class="grid grid-cols-1 items-start gap-10 lg:grid-cols-[45%_minmax(0,1fr)] lg:gap-[80px] 2xl:grid-cols-[749px_minmax(0,1fr)]"
+    >
       <Image
         src={image}
         alt={imageAlt}
-        widths={[520, 780, 1040]}
-        sizes="(min-width: 1024px) 42vw, 100vw"
-        class="w-full rounded-box object-cover"
+        widths={[520, 749, 1040]}
+        sizes="(min-width: 1024px) 749px, 100vw"
+        class="w-full object-cover"
         loading="lazy"
       />
 
-      <div class="flex flex-col gap-4">
-        <p class="text-[12px] tracking-[0.08em] text-mn-muted">{eyebrow}</p>
-        <h2 class="text-[26px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[34px]">{title}</h2>
-        {subtitle && <p class="text-[15px] font-bold text-mn-ink">{subtitle}</p>}
-        <div class="flex flex-col gap-3">
-          {paragraphs.map((p) => <p class="text-[14px] leading-7 text-mn-muted">{p}</p>)}
+      <div class="flex flex-col lg:-mr-[24px]">
+        <p class="text-[14px] leading-[21px] font-bold tracking-[0.2em] text-mn-muted lg:-mt-[3px]">{eyebrow}</p>
+        <h2
+          class="mt-4 text-[30px] leading-[1.25] font-bold tracking-tight text-mn-ink lg:mt-[36px] lg:text-[46px] lg:leading-[69px]"
+        >
+          {title}
+        </h2>
+        {
+          subtitle && (
+            <p class="mt-1 text-[20px] leading-[1.35] font-bold text-mn-ink lg:-mt-[11px] lg:text-[29px] lg:leading-[42px]">
+              {subtitle}
+            </p>
+          )
+        }
+        <div class="mt-4 flex flex-col lg:mt-[25px]">
+          {
+            paragraphs.map((p) => (
+              <p class:list={['text-[15px] leading-7 text-mn-muted lg:text-[18px]', articleLeading]}>{p}</p>
+            ))
+          }
         </div>
 
         {
           quote && (
-            <figure class="mt-2 flex flex-col gap-3 rounded-box bg-base-200/70 px-6 py-5 lg:px-8 lg:py-6">
-              <blockquote class="text-[15px] leading-7 font-semibold text-mn-ink lg:text-[17px]">
-                “{quote.text}”
+            <figure
+              class="relative mt-6 rounded-[4px] bg-[#f6f7f3] px-6 py-5 lg:mt-[18px] lg:flex lg:min-h-[148px] lg:w-full lg:max-w-[826px] lg:flex-col lg:pb-[12px] lg:pl-[115px] lg:pr-[76px] lg:pt-[16px]"
+            >
+              <Image
+                src={quoteOpen}
+                alt=""
+                width="34"
+                height="34"
+                class="absolute left-3 top-2 size-6 lg:left-[23px] lg:top-[20px] lg:size-[34px]"
+                loading="lazy"
+              />
+              <blockquote
+                class="whitespace-pre-line text-[17px] leading-7 font-bold italic text-mn-ink lg:mt-[6px] lg:max-w-[560px] lg:text-[26px] lg:leading-[39px]"
+              >
+                {quote.text}
               </blockquote>
               {quote.signature && (
-                <figcaption class="text-[13px] text-mn-muted">— {quote.signature}</figcaption>
+                <figcaption class="mt-4 flex items-center gap-3 pb-1 lg:mt-auto lg:self-end lg:pb-0">
+                  <span aria-hidden="true" class="hidden h-px w-[67px] bg-[#c8cdc6] lg:block" />
+                  <span class="text-[17px] font-bold italic text-mn-ink lg:text-[24px]">{quote.signature}</span>
+                </figcaption>
               )}
+              <Image
+                src={quoteClose}
+                alt=""
+                width="34"
+                height="34"
+                class="absolute bottom-1 right-3 size-6 lg:bottom-[12px] lg:right-[23px] lg:size-[34px]"
+                loading="lazy"
+              />
             </figure>
           )
         }

@@ -1,4 +1,4 @@
----
+﻿---
 import ArrowIcon from './ArrowIcon.astro';
 
 interface Props {
@@ -6,7 +6,8 @@ interface Props {
   type?: 'button' | 'submit';
   variant?: 'primary' | 'outline' | 'white';
   withArrow?: boolean;
-  size?: 'md' | 'lg';
+  direction?: 'right' | 'up-right';
+  size?: 'md' | 'lg' | 'cta';
   class?: string;
 }
 
@@ -15,16 +16,27 @@ const {
   type = 'button',
   variant = 'primary',
   withArrow = false,
+  direction = 'right',
   size = 'md',
   class: className = '',
 } = Astro.props;
 
+const sizeClass =
+  size === 'lg'
+    ? 'h-[81px] px-[26px] text-[18px]'
+    : size === 'cta'
+      ? 'h-[70px] px-[26px] text-[18px]'
+      : 'h-auto px-6 py-3.5 text-[15px]';
+// 设计稿 outline 变体的内边距与字号比 primary 略大（px30 / 20px）
+const outlineSizeClass = size === 'lg' ? 'px-[30px] text-[20px]' : '';
+const arrowClass = size === 'md' ? 'size-4' : 'size-[22px]';
+
 const classes = [
-  'btn h-auto min-h-0 gap-3 rounded-field font-medium shadow-none',
-  size === 'lg' ? 'px-8 py-4 text-base' : 'px-6 py-3.5 text-[15px]',
+  'btn min-h-0 gap-3 rounded-field font-bold shadow-none',
+  sizeClass,
   variant === 'primary' && 'btn-primary hover:bg-mn-green-hover active:bg-mn-green-pressed',
   variant === 'outline' &&
-    'btn-outline border-mn-border text-mn-ink hover:border-mn-green hover:bg-mn-green hover:text-white',
+    `btn-outline border-[#708a7d] bg-base-100 text-mn-green hover:border-mn-green hover:bg-mn-green hover:text-white ${outlineSizeClass}`,
   variant === 'white' && 'btn border-0 bg-base-100 text-mn-ink hover:bg-base-200',
   className,
 ];
@@ -34,12 +46,13 @@ const classes = [
   href ? (
     <a href={href} class:list={classes}>
       <slot />
-      {withArrow && <ArrowIcon className="size-4" />}
+      {withArrow && <ArrowIcon direction={direction} className={arrowClass} />}
     </a>
   ) : (
     <button type={type} class:list={classes}>
       <slot />
-      {withArrow && <ArrowIcon className="size-4" />}
+      {withArrow && <ArrowIcon direction={direction} className={arrowClass} />}
     </button>
   )
 }
+

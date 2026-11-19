@@ -5,7 +5,7 @@ import Button from '../../ui/Button.astro';
 import { getLangFromUrl, localizePath } from '../../../i18n/utils';
 import { home } from '../../../i18n/home';
 import hero from '../../../assets/home/hero.webp';
-import logo from '../../../assets/brand/logo.webp';
+import logoHero from '../../../assets/brand/logo-hero.webp';
 
 const lang = getLangFromUrl(Astro.url);
 const t = home[lang].hero;
@@ -21,23 +21,25 @@ const t = home[lang].hero;
     loading="eager"
     fetchpriority="high"
   />
-  <div
-    class="absolute inset-0 bg-white/85 lg:bg-transparent lg:bg-linear-to-r lg:from-white lg:via-white/75 lg:to-white/0"
-  >
-  </div>
+  <div class="absolute inset-0 bg-white/85 lg:hidden"></div>
 
   <Container class="relative">
     <div class="flex max-w-[720px] flex-col gap-5 py-16 lg:gap-6 lg:py-[110px]">
-      <img src={logo.src} alt={t.logoAlt} width="237" height="82" class="h-11 w-auto self-start lg:h-12" />
-      <p class="text-[13px] tracking-[0.05em] text-mn-muted">{t.tagline}</p>
+      <img
+        src={logoHero.src}
+        alt={`${t.logoAlt} — ${t.tagline}`}
+        width="980"
+        height="176"
+        class="h-auto w-[250px] self-start lg:w-[490px]"
+      />
 
-      <h1 class="text-[34px] leading-[1.2] font-bold tracking-tight text-mn-ink lg:text-[58px] lg:leading-[1.12]">
+      <h1 class="text-[34px] leading-[1.2] font-bold tracking-tight text-mn-ink lg:text-[58px] lg:leading-[65px]">
         {t.titleLines.map((line, i) => <>{i > 0 && <br />}{line}</>)}
       </h1>
 
-      <p class="text-base text-mn-muted lg:text-lg">{t.sub}</p>
+      <p class="text-base text-mn-muted lg:text-[29px] lg:leading-[42px]">{t.sub}</p>
 
-      <p class="max-w-[640px] text-[14px] leading-7 text-mn-muted lg:text-[15px]">{t.desc}</p>
+      <p class="max-w-[700px] text-[14px] leading-7 text-mn-muted lg:text-[17px] lg:leading-[38px]">{t.desc}</p>
 
       <div class="mt-3 flex flex-wrap gap-4">
         <Button href={localizePath(t.primary.href, lang)} withArrow class="min-w-[188px] justify-between">

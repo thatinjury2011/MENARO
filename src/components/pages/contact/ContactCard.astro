@@ -7,76 +7,93 @@ interface InfoItem {
   icon: ImageMetadata;
   label: string;
   value: string;
-  hint?: string;
+  href?: string;
 }
 
 interface Props {
-  eyebrow?: string;
+  eyebrow: string;
   title: string;
   paragraphs: string[];
   photo: ImageMetadata;
   photoAlt: string;
   address: string;
+  addressNote: string;
   addressIcon: ImageMetadata;
   items: InfoItem[];
 }
 
-const { eyebrow, title, paragraphs, photo, photoAlt, address, addressIcon, items } = Astro.props;
+const { eyebrow, title, paragraphs, photo, photoAlt, address, addressNote, addressIcon, items } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
-const t = {
-  zh: { eyebrow: '开始沟通', heading: '联系我们', sub: '欢迎与我们联系，获取产品资料与报价。' },
-  en: { eyebrow: 'Start a conversation', heading: 'Contact us', sub: 'Get in touch for product documents and pricing.' },
-}[lang];
+const heading = { zh: '联系我们', en: 'Contact us' }[lang];
+
+const rows = [
+  { icon: addressIcon, label: address, value: addressNote, href: undefined },
+  ...items,
+];
 ---
 
-<div class="flex flex-col gap-6 rounded-box bg-mn-paper p-6 lg:p-8">
-  <div class="flex flex-col gap-3">
-    <p class="text-[12px] tracking-[0.08em] text-mn-muted">{eyebrow ?? t.eyebrow}</p>
-    <h2 class="text-[24px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[30px]">{title}</h2>
-    {paragraphs.map((p) => <p class="text-[13px] leading-7 text-mn-muted">{p}</p>)}
+<div class="flex h-full flex-col rounded-[3px] bg-[#edf4ef] px-6 pt-8 pb-10 lg:px-0 lg:pl-[38px] lg:pr-[48px] lg:pt-[32px] lg:pb-[40px]">
+  <p class="text-[14px] font-bold tracking-wide text-mn-ink lg:text-[17.5px] lg:leading-[31px] lg:tracking-normal">
+    {eyebrow}
+  </p>
+  <h2 class="mt-2 text-[26px] leading-[1.2] font-bold tracking-tight text-mn-ink lg:mt-[6px] lg:text-[47px] lg:leading-[70px]">
+    {title}
+  </h2>
+  <div class="mt-3 flex flex-col lg:mt-[13px]">
+    {
+      paragraphs.map((p) => (
+        <p class="whitespace-pre-line text-[15px] leading-7 text-mn-muted lg:text-[20.5px] lg:leading-[35px]">{p}</p>
+      ))
+    }
   </div>
 
   <Image
     src={photo}
     alt={photoAlt}
-    widths={[480, 720, 960]}
-    sizes="(min-width: 1024px) 40vw, 100vw"
-    class="aspect-[4/3] w-full rounded-box object-cover"
+    widths={[400, 706, 1060]}
+    sizes="(min-width: 1024px) 705px, 100vw"
+    class="mt-5 aspect-[705/423] w-full rounded-[4px] object-cover lg:mt-[25px]"
     loading="lazy"
   />
 
-  <div class="flex flex-col gap-4">
-    <p class="text-[18px] font-bold text-mn-ink lg:text-[20px]">{t.heading}</p>
-    <p class="flex items-start gap-2 text-[13px] text-mn-ink">
-      <Image src={addressIcon} alt="" width={48} height={48} class="mt-0.5 size-4 shrink-0 object-contain" loading="lazy" />
-      <span class="flex flex-col gap-0.5">
-        <span class="font-semibold">{address}</span>
-        <span class="text-[12px] text-mn-muted">{t.sub}</span>
-      </span>
-    </p>
+  <div class="mt-6 h-px w-full bg-[#c4d1c7] lg:mt-[32px]"></div>
+  <p class="mt-3 text-[20px] font-bold text-mn-ink lg:mt-[12px] lg:text-[29px] lg:leading-[45px]">{heading}</p>
 
-    <ul class="flex flex-col gap-4">
-      {
-        items.map((item) => (
-          <li class="flex items-start gap-2.5">
-            <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-primary">
+  <ul class="mt-4 flex flex-col gap-4 lg:mt-[14px] lg:gap-[16px]">
+    {
+      rows.map((row) => {
+        const body = (
+          <>
+            <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#00392e] lg:size-[61px]">
               <Image
-                src={item.icon}
+                src={row.icon}
                 alt=""
-                width={40}
-                height={40}
-                class="size-3.5 object-contain brightness-0 invert"
+                width={62}
+                height={62}
+                class="size-[19px] object-contain brightness-0 invert lg:size-[32px]"
                 loading="lazy"
               />
             </span>
-            <span class="flex flex-col gap-0.5">
-              <span class="text-[13px] font-semibold text-mn-ink">{item.label}</span>
-              <span class="text-[13px] text-mn-muted">{item.value}</span>
-              {item.hint && <span class="text-[12px] text-mn-muted">{item.hint}</span>}
+            <span class="flex flex-col">
+              <span class="text-[15px] leading-[24px] font-bold text-mn-ink lg:text-[20.5px] lg:leading-[31px]">
+                {row.label}
+              </span>
+              <span class="text-[14px] leading-[24px] text-mn-muted lg:text-[20.5px] lg:leading-[31px]">{row.value}</span>
             </span>
+          </>
+        );
+        return (
+          <li>
+            {row.href ? (
+              <a href={row.href} class="flex items-center gap-3.5 lg:gap-[25px]">
+                {body}
+              </a>
+            ) : (
+              <div class="flex items-center gap-3.5 lg:gap-[25px]">{body}</div>
+            )}
           </li>
-        ))
-      }
-    </ul>
-  </div>
+        );
+      })
+    }
+  </ul>
 </div>

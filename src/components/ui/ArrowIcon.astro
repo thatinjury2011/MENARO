@@ -2,9 +2,10 @@
 interface Props {
   direction?: 'right' | 'up-right';
   class?: string;
+  className?: string;
 }
 
-const { direction = 'right', class: className = 'size-4' } = Astro.props;
+const { direction = 'right', class: classProp, className = classProp ?? 'size-4' } = Astro.props;
 ---
 
 <svg

@@ -1,4 +1,4 @@
----
+﻿---
 import { Image } from 'astro:assets';
 import Container from '../../ui/Container.astro';
 import ArrowIcon from '../../ui/ArrowIcon.astro';
@@ -20,17 +20,19 @@ interface Props {
 const { eyebrow, title, note, items } = Astro.props;
 ---
 
-<section class="bg-base-100 py-14 lg:py-20">
-  <Container>
-    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-      <div class="flex flex-col gap-2">
-        {eyebrow && <p class="text-[12px] tracking-[0.08em] text-mn-muted">{eyebrow}</p>}
-        <h2 class="text-[28px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[40px]">{title}</h2>
+<section class="bg-base-100 pb-14 pt-10 lg:pb-[100px] lg:pt-[51px]">
+  <Container width="narrow">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
+      <div class="flex flex-col gap-2 lg:gap-4">
+        {eyebrow && <p class="text-[12px] font-bold tracking-[0.08em] text-mn-ink lg:text-[16px] lg:leading-[24px]">{eyebrow}</p>}
+        <h2 class="text-[28px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[48px] lg:leading-[70px]">{title}</h2>
       </div>
-      {note && <p class="max-w-[460px] text-[13px] leading-6 text-mn-muted lg:text-right">{note}</p>}
+      {note && (
+        <p class="max-w-[460px] text-[13px] leading-6 text-mn-muted lg:mb-[18px] lg:max-w-[440px] lg:text-right lg:text-[18px] lg:leading-[27px]">{note}</p>
+      )}
     </div>
 
-    <ul class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">
+    <ul class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:mt-6 lg:grid-cols-4 lg:gap-[12px]">
       {
         items.map((item) => {
           const Tag = item.href ? 'a' : 'div';
@@ -38,20 +40,23 @@ const { eyebrow, title, note, items } = Astro.props;
             <li>
               <Tag
                 {...(item.href ? { href: item.href } : {})}
-                class="group relative block overflow-hidden rounded-box"
+                class="group relative block overflow-hidden"
               >
                 <Image
                   src={item.image}
                   alt={item.title}
-                  widths={[320, 640]}
-                  sizes="(min-width: 1024px) 24vw, (min-width: 640px) 45vw, 100vw"
-                  class="aspect-[3/4] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  widths={[404, 640, 808]}
+                  sizes="(min-width: 1024px) 22vw, (min-width: 640px) 45vw, 100vw"
+                  class="aspect-[404/350] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
                   loading="lazy"
                 />
                 <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent"></div>
-                <div class="absolute inset-x-0 bottom-0 flex items-center justify-between gap-3 p-5">
-                  <p class="text-[15px] font-semibold text-white">{item.title}</p>
-                  <ArrowIcon className="size-4 shrink-0 text-white/85" />
+                <div class="absolute inset-x-0 bottom-0 flex items-end justify-between gap-3 px-5 pb-4 lg:px-[38px] lg:pb-[18px]">
+                  <p class="text-[15px] font-bold text-white lg:text-[26px] lg:leading-[39px]">{item.title}</p>
+                  <ArrowIcon
+                    direction="up-right"
+                    className="size-4 shrink-0 text-white transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 lg:size-6"
+                  />
                 </div>
               </Tag>
             </li>
@@ -61,3 +66,6 @@ const { eyebrow, title, note, items } = Astro.props;
     </ul>
   </Container>
 </section>
+
+
+

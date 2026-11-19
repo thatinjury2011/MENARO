@@ -12,14 +12,14 @@ interface Props {
 const { eyebrow, title, description, cta } = Astro.props;
 ---
 
-<section class="bg-primary py-12 text-white lg:py-16">
-  <Container class="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
-    <div class="flex flex-col gap-2">
-      {eyebrow && <p class="text-[13px] text-white/60">{eyebrow}</p>}
-      <h2 class="text-2xl font-bold tracking-tight lg:text-[30px]">{title}</h2>
-      {description && <p class="text-[13px] text-white/70">{description}</p>}
+<section class="bg-primary text-white lg:pt-[86px] lg:pb-[68px]">
+  <Container width="narrow" class="flex flex-col gap-6 py-12 lg:flex-row lg:items-center lg:justify-between lg:gap-10 lg:py-0">
+    <div class="flex flex-col gap-2 lg:gap-[14px]">
+      {eyebrow && <p class="text-[13px] text-white/60 lg:text-[16px] lg:leading-[23px]">{eyebrow}</p>}
+      <h2 class="text-2xl font-bold tracking-tight lg:text-[38px] lg:leading-[56px]">{title}</h2>
+      {description && <p class="text-[13px] text-white/70 lg:text-[18px] lg:leading-[27px]">{description}</p>}
     </div>
-    <Button href={cta.href} variant="white" withArrow class="shrink-0 min-w-[188px] justify-between">
+    <Button href={cta.href} variant="white" size="cta" withArrow class="shrink-0 min-w-[240px] justify-between">
       {cta.label}
     </Button>
   </Container>

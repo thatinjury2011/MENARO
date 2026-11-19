@@ -1,4 +1,4 @@
----
+﻿---
 import Container from '../ui/Container.astro';
 
 interface Step {
@@ -17,26 +17,33 @@ interface Props {
 const { eyebrow, title, note, steps } = Astro.props;
 ---
 
-<section class="bg-base-200/70 py-14 lg:py-20">
-  <Container>
-    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-      <div class="flex flex-col gap-2">
-        {eyebrow && <p class="text-[12px] tracking-[0.08em] text-mn-muted">{eyebrow}</p>}
-        <h2 class="text-[28px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[40px]">{title}</h2>
+<section class="bg-[#f6f6f4] py-14 lg:pb-[99px] lg:pt-[91px]">
+  <Container width="narrow">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
+      <div class="flex flex-col gap-2 lg:gap-4">
+        {eyebrow && <p class="text-[12px] font-bold tracking-[0.08em] text-mn-ink lg:text-[16px] lg:leading-[24px]">{eyebrow}</p>}
+        <h2 class="text-[28px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[48px] lg:leading-[70px]">{title}</h2>
       </div>
-      {note && <p class="max-w-[460px] text-[13px] leading-6 text-mn-muted lg:text-right">{note}</p>}
+      {note && (
+        <p class="max-w-[460px] text-[13px] leading-6 text-mn-muted lg:mb-[18px] lg:max-w-[560px] lg:text-right lg:text-[18px] lg:leading-[27px]">{note}</p>
+      )}
     </div>
 
-    <ol class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">
+    <ol class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:mt-[31px] lg:grid-cols-4 lg:gap-[12px]">
       {
         steps.map((step) => (
-          <li class="flex flex-col gap-2 rounded-box border border-mn-border bg-base-100 p-6">
-            <span class="text-[13px] font-bold text-mn-green">{step.index}</span>
-            <p class="text-[15px] font-semibold text-mn-ink">{step.title}</p>
-            <p class="text-[13px] leading-6 text-mn-muted">{step.desc}</p>
+          <li class="flex flex-col gap-2 bg-base-100 px-6 py-6 lg:gap-[11px] lg:px-[38px] lg:pt-[37px] lg:pb-[36px]">
+            <p class="text-[15px] font-bold text-mn-ink lg:text-[18px] lg:leading-[27px]">
+              {step.index}
+              {step.title}
+            </p>
+            <p class="text-[13px] text-mn-muted lg:text-[16px] lg:leading-[26px]">{step.desc}</p>
           </li>
         ))
       }
     </ol>
   </Container>
 </section>
+
+
+

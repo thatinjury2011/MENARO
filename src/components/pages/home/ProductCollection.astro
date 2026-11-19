@@ -2,7 +2,6 @@
 import { Image } from 'astro:assets';
 import Container from '../../ui/Container.astro';
 import SectionHeading from '../../ui/SectionHeading.astro';
-import ArrowLink from '../../ui/ArrowLink.astro';
 import ArrowIcon from '../../ui/ArrowIcon.astro';
 import { getLangFromUrl, localizePath } from '../../../i18n/utils';
 import { home } from '../../../i18n/home';
@@ -19,33 +18,41 @@ const labels = ui[lang];
 const images = [grout, adhesive, sealant, floor];
 ---
 
-<section class="bg-base-100 py-14 lg:py-24">
+<section class="bg-base-100 pt-14 pb-8 lg:pt-24 lg:pb-8">
   <Container>
-    <div class="flex items-end justify-between gap-6">
+    <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
       <SectionHeading title={t.title} subtitle={t.subtitle} />
-      <ArrowLink href={localizePath('/products', lang)} class="shrink-0">{t.link}</ArrowLink>
+      <a
+        href={localizePath('/products', lang)}
+        class="group inline-flex shrink-0 items-center gap-3 text-[18px] leading-8 font-bold text-mn-cta transition-colors hover:text-mn-green lg:text-[22px]"
+      >
+        {t.link}
+        <ArrowIcon direction="up-right" className="size-[18px] lg:size-5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+      </a>
     </div>
 
-    <ul class="mt-8 grid grid-cols-1 gap-px overflow-hidden rounded-box border border-mn-border bg-mn-border sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">
+    <ul class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">
       {
         t.items.map((item, i) => (
-          <li class="bg-base-100">
+          <li>
             <a href={localizePath(item.href, lang)} class="group flex h-full flex-col">
-              <Image
-                src={images[i]}
-                alt={item.title}
-                widths={[408, 816]}
-                sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
-                class="aspect-[408/250] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
-                loading="lazy"
-              />
-              <div class="flex flex-1 flex-col gap-2 p-6">
-                <h3 class="text-lg font-semibold text-mn-ink">{item.title}</h3>
-                <p class="text-[13px] text-mn-muted">{item.desc}</p>
+              <div class="overflow-hidden">
+                <Image
+                  src={images[i]}
+                  alt={item.title}
+                  widths={[408, 816]}
+                  sizes="(min-width: 1024px) 25vw, (min-width: 640px) 50vw, 100vw"
+                  class="aspect-[408/250] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  loading="lazy"
+                />
+              </div>
+              <div class="flex flex-1 flex-col gap-2 bg-mn-paper p-6">
+                <h3 class="text-[18px] font-bold text-mn-green lg:text-[20px] lg:leading-[30px]">{item.title}</h3>
+                <p class="text-[13px] text-mn-desc lg:text-[14px] lg:leading-[22px]">{item.desc}</p>
                 <div class="mt-auto flex items-center justify-between pt-6">
-                  <span class="text-[13px] text-mn-ink">{labels.learnSeries}</span>
-                  <span class="grid size-8 place-items-center rounded-full border border-mn-border text-mn-ink transition-colors group-hover:border-mn-green group-hover:bg-mn-green group-hover:text-white">
-                    <ArrowIcon className="size-4" />
+                  <span class="text-[13px] font-bold text-mn-cta lg:text-[14px]">{labels.learnSeries}</span>
+                  <span class="grid size-8 place-items-center rounded-full bg-mn-cta text-white transition-colors group-hover:bg-mn-green lg:size-[42px]">
+                    <ArrowIcon className="size-4 lg:size-5" />
                   </span>
                 </div>
               </div>

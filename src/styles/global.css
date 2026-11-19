@@ -46,8 +46,11 @@
   --color-mn-green: #083c30;
   --color-mn-green-hover: #0d5141;
   --color-mn-green-pressed: #052c23;
+  --color-mn-green-soft: #184e43;
   --color-mn-ink: #19332c;
-  --color-mn-muted: #718178;
+  --color-mn-muted: #6c766e;
+  --color-mn-desc: #7d8c84;
+  --color-mn-cta: #00372d;
   --color-mn-paper: #f5f7f4;
   --color-mn-border: #dce4df;
   --color-mn-gold: #b4965b;

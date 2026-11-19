@@ -1,5 +1,6 @@
 ---
 import Container from '../ui/Container.astro';
+import ArrowIcon from '../ui/ArrowIcon.astro';
 import { getLangFromUrl, localizePath, alternateLangHref } from '../../i18n/utils';
 import { langLabel } from '../../i18n/config';
 import { ui } from '../../i18n/ui';
@@ -14,20 +15,26 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
 const switchHref = alternateLangHref(Astro.url, otherLang);
 ---
 
-<header class="sticky top-0 z-50 border-b border-mn-border bg-base-100/95 backdrop-blur-md">
+<header class="sticky top-0 z-50 border-b border-mn-border bg-[#f8f9f7]/95 backdrop-blur-md">
   <Container class="flex h-16 items-center gap-6 lg:h-[116px] lg:gap-10">
     <a href={localizePath('/', lang)} class="flex shrink-0 items-center" aria-label={t.logoLabel}>
-      <img src="/brand/logo.png" alt={t.logoAlt} width="237" height="82" class="h-9 w-auto lg:h-11" />
+      <img
+        src="/brand/logo.png"
+        alt={t.logoAlt}
+        width="237"
+        height="82"
+        class="h-10 w-auto lg:h-[60px] 2xl:h-[82px]"
+      />
     </a>
 
-    <nav aria-label={t.navAria} class="hidden flex-1 items-center justify-center gap-4 lg:flex xl:gap-7">
+    <nav aria-label={t.navAria} class="hidden items-center gap-4 lg:ml-auto lg:flex xl:gap-6 2xl:ml-[270px] 2xl:gap-[44px]">
       {
         t.nav.map((item) => (
           <a
             href={localizePath(item.href, lang)}
             aria-current={isActive(item.href) ? 'page' : undefined}
             class:list={[
-              'group/nav relative py-1.5 text-[14px] font-medium whitespace-nowrap transition-colors duration-200 xl:text-[15px]',
+              'group/nav relative py-1.5 text-[14px] font-bold whitespace-nowrap transition-colors duration-200 lg:text-[15px] 2xl:text-[16px]',
               'after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:origin-left after:scale-x-0 after:bg-mn-green-hover after:transition-transform after:duration-300',
               'hover:text-mn-green-hover hover:after:scale-x-100',
               isActive(item.href) ? 'text-mn-green after:scale-x-100' : 'text-mn-ink',
@@ -39,12 +46,12 @@ const switchHref = alternateLangHref(Astro.url, otherLang);
       }
     </nav>
 
-    <div class="ml-auto flex items-center gap-2 lg:ml-0 lg:gap-4">
+    <div class="ml-auto flex items-center gap-2 lg:gap-4 2xl:gap-3">
       <a
         href={switchHref}
         hreflang={otherLang === 'zh' ? 'zh-CN' : 'en'}
         lang={otherLang === 'zh' ? 'zh-CN' : 'en'}
-        class="hidden items-center gap-1 text-[14px] text-mn-ink transition-colors hover:text-mn-green xl:inline-flex"
+        class="hidden items-center gap-1 text-[14px] text-mn-ink transition-colors hover:text-mn-green xl:inline-flex 2xl:text-[16px]"
         aria-label={t.langSwitchAria}
       >
         {langLabel[lang]}
@@ -55,9 +62,10 @@ const switchHref = alternateLangHref(Astro.url, otherLang);
 
       <a
         href={localizePath(t.quote.href, lang)}
-        class="btn btn-primary h-auto min-h-0 rounded-field px-5 py-3 text-sm shadow-none"
+        class="inline-flex h-[54px] min-w-[130px] shrink-0 items-center justify-between gap-3 rounded-[4px] bg-mn-green px-5 text-[14px] leading-[21px] font-bold whitespace-nowrap text-white transition-colors hover:bg-mn-green-hover"
       >
         {t.quote.label}
+        <ArrowIcon className="size-[22px]" />
       </a>
 
       <details class="dropdown dropdown-end lg:hidden">

@@ -18,12 +18,12 @@ const images = [app01, app02, app03, app04];
 
 <section class="bg-base-100 py-14 lg:py-24">
   <Container>
-    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-      <SectionHeading title={t.title} subtitle={t.subtitle} />
-      <div class="flex flex-col gap-4 lg:items-end">
-        <p class="max-w-[560px] text-[13px] leading-6 text-mn-muted lg:text-right">{t.note}</p>
-        <ArrowLink href={localizePath('/solutions', lang)}>{t.link}</ArrowLink>
-      </div>
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
+      <SectionHeading title={t.title} subtitle={t.subtitle} class="shrink-0" />
+      <p class="max-w-[560px] text-[13px] leading-6 text-mn-muted lg:max-w-[660px] lg:text-[18px] lg:leading-9">
+        {t.note}
+      </p>
+      <ArrowLink href={localizePath('/solutions', lang)} class="shrink-0">{t.link}</ArrowLink>
     </div>
 
     <ul class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">

@@ -4,6 +4,7 @@ import { getLangFromUrl } from '../../../i18n/utils';
 import { home } from '../../../i18n/home';
 import { ui } from '../../../i18n/ui';
 
+import roadmapBg from '../../../assets/home/roadmap.webp';
 import future01 from '../../../assets/icons/future-01.webp';
 import future02 from '../../../assets/icons/future-02.webp';
 import future03 from '../../../assets/icons/future-03.webp';
@@ -14,50 +15,74 @@ const labels = ui[lang];
 const icons = [future01, future02];
 ---
 
-<section class="bg-base-100 pb-14 lg:pb-24">
+<section class="bg-base-100 pt-8 pb-14 lg:pt-8 lg:pb-24">
   <Container>
-    <div class="rounded-box bg-base-200/70 p-6 lg:p-8">
-      <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
-        <h3 class="text-xl font-bold text-mn-ink lg:text-2xl">{t.title}</h3>
-        <span class="h-4 w-px bg-mn-border"></span>
-        <p class="text-[13px] text-mn-muted">{t.sub}</p>
-        <span class="badge badge-soft gap-1 border-mn-border text-[11px] text-mn-muted">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="size-3" aria-hidden="true">
-            <circle cx="12" cy="12" r="9"></circle>
-            <path d="M12 7v5l3 2"></path>
-          </svg>
-          {labels.planning}
-        </span>
-      </div>
-
-      <ul class="mt-6 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-        {
-          t.items.map((item, i) => (
-            <li class="flex flex-col gap-3">
-              <div class="flex items-center gap-3">
-                <img src={icons[i].src} alt="" width="52" height="52" class="size-8" loading="lazy" />
-                <p class="text-[15px] font-semibold text-mn-ink">{item.title}</p>
-              </div>
-              <p class="text-[13px] text-mn-muted">{item.desc}</p>
-            </li>
-          ))
-        }
-        <li class="flex flex-col gap-3">
-          <div class="flex items-center gap-3">
-            <img src={future03.src} alt="" width="52" height="52" class="size-8" loading="lazy" />
-            <p class="text-[15px] font-semibold text-mn-ink">{t.system.title}</p>
-            <span class="badge badge-soft gap-1 border-mn-border text-[11px] text-mn-muted">{labels.planning}</span>
+    <div class="border-t border-mn-border pt-8">
+      <div class="relative overflow-hidden bg-[#f2f8f0]">
+        <img
+          src={roadmapBg.src}
+          alt=""
+          aria-hidden="true"
+          class="pointer-events-none absolute inset-0 hidden h-full w-full object-cover object-right lg:block"
+          loading="lazy"
+        />
+        <div class="relative p-6 lg:px-[25px] lg:pt-[30px] lg:pb-[26px]">
+          <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <h3 class="text-xl font-bold text-mn-green lg:text-[32px]">{t.title}</h3>
+            <span class="h-5 w-px bg-mn-border lg:h-7"></span>
+            <p class="text-[13px] text-mn-muted lg:text-[16px]">{t.sub}</p>
+            <span class="badge badge-soft gap-1 border-mn-border px-3 py-2.5 text-[11px] text-mn-muted lg:text-[13px]">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="size-3.5" aria-hidden="true">
+                <circle cx="12" cy="12" r="9"></circle>
+                <path d="M12 7v5l3 2"></path>
+              </svg>
+              {labels.planning}
+            </span>
           </div>
-          <p class="text-[13px] text-mn-muted">{t.system.desc}</p>
-          <ul class="flex flex-wrap gap-x-2 gap-y-2">
+
+          <ul class="mt-6 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-5 lg:grid-cols-[379fr_379fr_864fr]">
             {
-              t.system.chips.map((c) => (
-                <li class="rounded border border-mn-border px-2 py-1 text-[11px] text-mn-muted">{c}</li>
+              t.items.map((item, i) => (
+                <li class="flex flex-col gap-4 rounded-lg bg-base-100 p-6 shadow-sm">
+                  <div class="flex items-center gap-4">
+                    <img src={icons[i].src} alt="" width="52" height="52" class="size-10 shrink-0" loading="lazy" />
+                    <p class="text-[15px] font-semibold text-mn-green lg:text-[20px]">{item.title}</p>
+                  </div>
+                  <p class="text-[13px] text-mn-desc lg:text-[15px]">{item.desc}</p>
+                  <span class="badge badge-soft mt-1 w-fit gap-1 border-mn-border px-3 py-2.5 text-[11px] text-mn-muted lg:text-[13px]">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="size-3.5" aria-hidden="true">
+                      <circle cx="12" cy="12" r="9"></circle>
+                      <path d="M12 7v5l3 2"></path>
+                    </svg>
+                    {labels.planning}
+                  </span>
+                </li>
               ))
             }
+            <li class="flex flex-col gap-4 rounded-lg bg-base-100 p-6 shadow-sm">
+              <div class="flex flex-wrap items-center gap-x-4 gap-y-2">
+                <img src={future03.src} alt="" width="52" height="52" class="size-10 shrink-0" loading="lazy" />
+                <p class="text-[15px] font-semibold text-mn-green lg:text-[20px]">{t.system.title}</p>
+                <span class="badge badge-soft gap-1 border-mn-border px-3 py-2.5 text-[11px] text-mn-muted lg:text-[13px]">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" class="size-3.5" aria-hidden="true">
+                    <circle cx="12" cy="12" r="9"></circle>
+                    <path d="M12 7v5l3 2"></path>
+                  </svg>
+                  {labels.planning}
+                </span>
+              </div>
+              <p class="text-[13px] text-mn-desc lg:text-[15px]">{t.system.desc}</p>
+              <ul class="flex flex-wrap gap-2">
+                {
+                  t.system.chips.map((c) => (
+                    <li class="rounded-md border border-mn-border px-3 py-1.5 text-[11px] text-mn-muted lg:text-[12px]">{c}</li>
+                  ))
+                }
+              </ul>
+            </li>
           </ul>
-        </li>
-      </ul>
+        </div>
+      </div>
     </div>
   </Container>
 </section>

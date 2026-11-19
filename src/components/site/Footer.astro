@@ -7,70 +7,105 @@ import linkedin from '../../assets/icons/social-linkedin.webp';
 import youtube from '../../assets/icons/social-youtube.webp';
 import wechat from '../../assets/icons/social-wechat.webp';
 import whatsapp from '../../assets/icons/social-whatsapp.webp';
+import linkedinWhite from '../../assets/icons/social-linkedin-white.webp';
+import youtubeWhite from '../../assets/icons/social-youtube-white.webp';
+import wechatWhite from '../../assets/icons/social-wechat-white.webp';
+import whatsappWhite from '../../assets/icons/social-whatsapp-white.webp';
 
+interface Props {
+  /** light：米白底部（多数页面）；dark：深绿底部（联系我们 / 获取报价这类无 CTA 带的下单页） */
+  theme?: 'light' | 'dark';
+}
+
+const { theme = 'light' } = Astro.props;
+const dark = theme === 'dark';
 const lang = getLangFromUrl(Astro.url);
 const t = ui[lang];
 const year = new Date().getFullYear();
 
 const socials = [
-  { label: t.social.linkedin, href: '#', icon: linkedin },
-  { label: t.social.youtube, href: '#', icon: youtube },
-  { label: t.social.wechat, href: '#', icon: wechat },
-  { label: t.social.whatsapp, href: '#', icon: whatsapp },
+  { label: t.social.linkedin, href: '#', icon: dark ? linkedinWhite : linkedin },
+  { label: t.social.youtube, href: '#', icon: dark ? youtubeWhite : youtube },
+  { label: t.social.wechat, href: '#', icon: dark ? wechatWhite : wechat },
+  { label: t.social.whatsapp, href: '#', icon: dark ? whatsappWhite : whatsapp },
 ];
 ---
 
-<footer class="border-t border-mn-border bg-base-100">
+<footer class:list={[dark ? 'bg-[#01362d]' : 'bg-[#fbfaf6]']}>
   <Container>
-    <div class="flex flex-col gap-8 py-10 lg:flex-row lg:items-center lg:justify-between lg:py-9">
-      <div class="flex flex-col gap-2">
-        <a href={localizePath('/', lang)} class="inline-flex items-center" aria-label={t.logoLabel}>
-          <img src="/brand/logo.png" alt={t.logoAlt} width="237" height="82" class="h-10 w-auto" />
+    <div class="lg:px-[27px]">
+      <div class="flex flex-col gap-7 py-10 lg:flex-row lg:items-center lg:gap-0 lg:py-[19px]">
+        <a href={localizePath('/', lang)} class="inline-flex shrink-0 items-center" aria-label={t.logoLabel}>
+          <img
+            src="/brand/logo-horizontal.png"
+            alt={`${t.logoAlt} — ${t.tagline}`}
+            width="270"
+            height="55"
+            class:list={['h-[46px] w-auto lg:h-[55px]', dark && 'brightness-0 invert']}
+          />
         </a>
-        <p class="text-xs text-mn-muted">{t.tagline}</p>
-      </div>
 
-      <nav aria-label={t.footerNavAria} class="flex flex-wrap items-center gap-x-7 gap-y-2">
-        {
-          [...t.nav, t.quote].map((item) => (
-            <a
-              href={localizePath(item.href, lang)}
-              class="text-[13px] text-mn-ink transition-colors hover:text-mn-green"
-            >
-              {item.label}
-            </a>
-          ))
-        }
-      </nav>
-
-      <ul class="flex items-center gap-4">
-        {
-          socials.map((s) => (
-            <li>
-              <a href={s.href} aria-label={s.label} class="block opacity-80 transition-opacity hover:opacity-100">
-                <img src={s.icon.src} alt="" width="34" height="34" class="size-6" loading="lazy" />
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-
-    <div
-      class="flex flex-col gap-3 border-t border-mn-border py-5 text-xs text-mn-muted sm:flex-row sm:items-center sm:justify-between"
-    >
-      <p>© {year} MENARO. All Rights Reserved.</p>
-      <ul class="flex flex-wrap items-center gap-x-5 gap-y-2">
-        {
-          t.legal.map((item) => (
-            <li>
-              <a href={localizePath(item.href, lang)} class="transition-colors hover:text-mn-green">
+        <nav aria-label={t.footerNavAria} class="mt-7 flex flex-wrap items-center gap-x-6 gap-y-1 lg:mt-0 lg:ml-[248px] lg:gap-x-8">
+          {
+            t.nav.map((item) => (
+              <a
+                href={localizePath(item.href, lang)}
+                class:list={[
+                  'text-[14px] leading-7 transition-colors lg:text-[17px]',
+                  dark ? 'text-white/85 hover:text-white' : 'text-mn-muted hover:text-mn-green',
+                ]}
+              >
                 {item.label}
               </a>
-            </li>
-          ))
-        }
-      </ul>
+            ))
+          }
+        </nav>
+
+        <ul class="flex items-center gap-5 lg:ml-auto lg:gap-[30px]">
+          {
+            socials.map((s) => (
+              <li>
+                <a href={s.href} aria-label={s.label} class="block opacity-80 transition-opacity hover:opacity-100">
+                  <img
+                    src={s.icon.src}
+                    alt=""
+                    width="34"
+                    height="34"
+                    class:list={['size-7 lg:size-[33px]']}
+                    loading="lazy"
+                  />
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+
+      <div class:list={['h-px', dark ? 'bg-white/25' : 'bg-mn-green/28']}></div>
+
+      <div
+        class:list={[
+          'flex flex-col gap-2 py-3 text-[13px] sm:flex-row sm:items-center sm:justify-between lg:text-[16px]',
+          dark ? 'text-white/70' : 'text-mn-muted',
+        ]}
+      >
+        <p>© {year} MENARO. All Rights Reserved.</p>
+        <ul class="flex flex-wrap items-center gap-x-4 gap-y-1">
+          {
+            t.legal.map((item, i) => (
+              <li class="flex items-center gap-4">
+                {i > 0 && <span class:list={[dark ? 'text-white/30' : 'text-mn-border']} aria-hidden="true">|</span>}
+                <a
+                  href={localizePath(item.href, lang)}
+                  class:list={['transition-colors', dark ? 'hover:text-white' : 'hover:text-mn-green']}
+                >
+                  {item.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
     </div>
   </Container>
 </footer>

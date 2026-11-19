@@ -22,38 +22,71 @@ interface Props {
 const { eyebrow, title, note, items } = Astro.props;
 ---
 
-<section class="bg-base-100 py-14 lg:py-20">
-  <Container>
-    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
-      <div class="flex flex-col gap-2">
-        {eyebrow && <p class="text-[12px] tracking-[0.08em] text-mn-muted">{eyebrow}</p>}
-        <h2 class="text-[28px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[40px]">{title}</h2>
+<section class="bg-base-100 pt-14 pb-14 lg:pt-[89px] lg:pb-[73px]">
+  <Container width="narrow">
+    <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-10">
+      <div class="flex flex-col">
+        {
+          eyebrow && (
+            <p class="text-[14px] font-bold tracking-[0.14em] text-mn-ink lg:text-[16px] lg:leading-[24px]">{eyebrow}</p>
+          )
+        }
+        <h2
+          class="mt-2 text-[30px] leading-[1.2] font-bold tracking-tight text-mn-ink lg:mt-[24px] lg:text-[48px] lg:leading-[70px]"
+        >
+          {title}
+        </h2>
       </div>
-      {note && <p class="max-w-[440px] text-[13px] leading-6 text-mn-muted lg:text-right">{note}</p>}
+      {
+        note && (
+          <p class="max-w-[560px] whitespace-pre-line text-[15px] leading-6 text-mn-muted lg:mb-[20px] lg:text-right lg:text-[18px] lg:leading-[27px]">
+            {note}
+          </p>
+        )
+      }
     </div>
 
-    <ul class="mt-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">
+    <ul class="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:mt-[13px] lg:grid-cols-4 lg:gap-[12px]">
       {
         items.map((item) => (
-          <li class="overflow-hidden rounded-box border border-mn-border bg-base-100">
+          <li class="flex flex-col border border-[#daddd8] bg-base-100 lg:min-h-[332px]">
             <Image
               src={item.image}
               alt={item.location}
-              widths={[420, 840]}
-              sizes="(min-width: 1024px) 24vw, (min-width: 640px) 45vw, 100vw"
-              class="aspect-[16/9] w-full object-cover"
+              widths={[404, 808]}
+              sizes="(min-width: 1024px) 404px, (min-width: 640px) 45vw, 100vw"
+              class="aspect-[404/137] w-full object-cover"
               loading="lazy"
             />
-            <div class="flex flex-col gap-3 p-5">
-              <div class="flex items-center gap-2">
-                <Image src={item.icon} alt="" width={48} height={48} class="size-5 object-contain" loading="lazy" />
-                <span class="flex flex-col">
-                  <span class="text-[13px] font-semibold text-mn-ink">{item.location}</span>
-                  <span class="text-[11px] text-mn-muted">{item.locationEn}</span>
+            <div class="flex flex-1 flex-col px-5 pt-3 lg:px-0 lg:pl-[38px] lg:pr-[20px] lg:pt-[12px]">
+              <div class="flex items-center gap-2 lg:h-[59px] lg:items-start lg:gap-[6px]">
+                <Image
+                  src={item.icon}
+                  alt=""
+                  width={48}
+                  height={48}
+                  class="size-9 shrink-0 object-contain lg:mt-[2px] lg:size-[48px]"
+                  loading="lazy"
+                />
+                <span class="flex flex-col lg:mt-[7px]">
+                  <span class="text-[16px] leading-[26px] font-bold text-mn-ink lg:text-[20px] lg:leading-[30px]">
+                    {item.location}
+                  </span>
+                  <span class="text-[14px] leading-[22px] text-mn-muted lg:text-[16px] lg:leading-[23px]">
+                    {item.locationEn}
+                  </span>
                 </span>
               </div>
-              <p class="text-[15px] font-bold text-mn-ink">{item.title}</p>
-              <p class="text-[12px] leading-6 text-mn-muted">{item.desc}</p>
+              <p
+                class="mt-3 pl-11 text-[18px] leading-[28px] font-bold text-mn-ink lg:mt-[7px] lg:pl-[54px] lg:text-[26px] lg:leading-[38px]"
+              >
+                {item.title}
+              </p>
+              <p
+                class="mt-1 whitespace-pre-line pl-11 text-[15px] leading-[22px] text-mn-muted lg:mt-0 lg:pl-[54px] lg:text-[17px] lg:leading-[20px]"
+              >
+                {item.desc}
+              </p>
             </div>
           </li>
         ))

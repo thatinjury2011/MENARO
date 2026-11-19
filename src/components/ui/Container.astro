@@ -2,11 +2,14 @@
 interface Props {
   class?: string;
   as?: 'div' | 'section' | 'header' | 'footer' | 'nav';
+  /** 内页正文列（1652）：设计稿内页内容区比首页窄 54px */
+  width?: 'default' | 'narrow';
 }
 
-const { class: className = '', as: Tag = 'div' } = Astro.props;
+const { class: className = '', as: Tag = 'div', width = 'default' } = Astro.props;
+const widthClass = width === 'narrow' ? 'max-w-[1732px]' : 'max-w-[1786px]';
 ---
 
-<Tag class:list={['mx-auto w-full max-w-[1706px] px-5 sm:px-8 lg:px-10', className]}>
+<Tag class:list={['mx-auto w-full px-5 sm:px-8 lg:px-10', widthClass, className]}>
   <slot />
 </Tag>

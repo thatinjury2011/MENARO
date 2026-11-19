@@ -10,15 +10,21 @@ interface Crumb {
 
 interface Props {
   items: Crumb[];
+  class?: string;
+  /** 内页正文列（1652）；联系我们等整幅页用 default（1706）与页面内容对齐 */
+  width?: 'default' | 'narrow';
+  /** compact：联系我们这类整幅页，面包屑上下留白更小（设计 16） */
+  space?: 'default' | 'compact';
 }
 
-const { items } = Astro.props;
+const { items, class: className = '', width = 'narrow', space = 'default' } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
+const spaceClass = space === 'compact' ? 'lg:py-[16px]' : 'lg:py-[27px]';
 ---
 
-<nav aria-label={ui[lang].breadcrumbAria} class="border-b border-mn-border bg-base-100">
-  <Container class="py-4">
-    <ol class="flex flex-wrap items-center gap-2 text-[13px] text-mn-muted">
+<nav aria-label={ui[lang].breadcrumbAria} class="bg-base-100">
+  <Container width={width} class:list={['py-4', spaceClass, className]}>
+    <ol class="flex flex-wrap items-center gap-2 text-[13px] text-mn-muted lg:text-[18px] lg:leading-[27px]">
       {
         items.map((item, i) => (
           <li class="flex items-center gap-2">

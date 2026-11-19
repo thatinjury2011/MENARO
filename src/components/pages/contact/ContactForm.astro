@@ -1,0 +1,143 @@
+---
+import Button from '../../ui/Button.astro';
+import { getLangFromUrl } from '../../../i18n/utils';
+import { inquiryForm } from '../../../data/inquiry-form';
+
+interface Props {
+  title: string;
+  note: string;
+  submitLabel: string;
+  /** 表单顶部眉标（产品询盘 / Product enquiry） */
+  eyebrow: string;
+  /** 必填说明（带 * 为必填…） */
+  requiredNote: string;
+}
+
+const { title, note, submitLabel, eyebrow, requiredNote } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = inquiryForm[lang];
+
+const fieldClass =
+  'h-[44px] w-full border-[1.5px] border-[#d9dfd9] bg-white px-4 text-[15px] text-mn-ink outline-none transition-colors placeholder:text-[#91968f] focus:border-mn-green lg:h-[57px] lg:px-[16px] lg:text-[20.5px]';
+const labelClass = 'text-[15px] font-bold text-mn-ink lg:text-[20.5px] lg:leading-[32px]';
+const fieldWrap = 'flex flex-col gap-1.5 lg:gap-[6px]';
+---
+
+<form
+  class="flex h-full flex-col border border-[#e7e7e7] bg-white px-6 pt-6 pb-8 lg:px-[42px] lg:pt-[29px] lg:pb-[44px]"
+  action="#"
+  method="post"
+  novalidate
+>
+  <p class="text-[14px] font-bold tracking-wide text-mn-ink lg:text-[17.5px] lg:leading-[31px] lg:tracking-normal">
+    {eyebrow}
+  </p>
+  <h2 class="mt-1 text-[28px] leading-[1.2] font-bold tracking-tight text-mn-ink lg:mt-0 lg:text-[40px] lg:leading-[59px]">
+    {title}
+  </h2>
+  <p class="mt-1 text-[13px] leading-6 text-mn-muted lg:mt-0 lg:text-[19px] lg:leading-[33px]">{requiredNote}</p>
+
+  <fieldset class="mt-6 flex flex-col lg:mt-[24px]">
+    <legend class:list={[labelClass, 'mb-1.5 lg:mb-[6px]']}>
+      {t.productsLabel}<span class="text-[#bd695b]">*</span>
+    </legend>
+
+    <div class="flex flex-col gap-3">
+      {
+        t.groups.map((group) => (
+          <div class="bg-[#fbfcfa]">
+            <p class="flex h-[44px] items-center bg-[#edf4ef]/60 px-4 text-[15px] font-medium text-mn-ink lg:h-[57px] lg:px-[18px] lg:text-[20.5px]">
+              {group.index} {group.name}
+            </p>
+            <div class="grid grid-cols-1 gap-x-10 gap-y-2 px-4 py-3 sm:grid-cols-2 lg:px-[18px] lg:pb-[18px] lg:pt-[13px]">
+              {group.items.map((item) => (
+                <label class="flex cursor-pointer items-start gap-3">
+                  <input type="checkbox" name={`product-${group.index}`} value={item} class="peer sr-only" />
+                  <span class="relative mt-[4px] size-[22px] shrink-0 rounded-[4px] border-[1.5px] border-[#578b73] bg-white transition-colors peer-checked:border-mn-green peer-checked:bg-mn-green peer-checked:[&>svg]:opacity-100 peer-focus-visible:outline peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-mn-focus lg:size-[24px]">
+                    <svg
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="3"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      class="absolute inset-0 size-full p-[4px] text-white opacity-0 transition-opacity"
+                    >
+                      <path d="M4 12.5 9.5 18 20 6.5" />
+                    </svg>
+                  </span>
+                  <span class="text-[15px] leading-[26px] text-[#052c23] lg:text-[18.5px] lg:leading-[32px]">{item}</span>
+                </label>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+  </fieldset>
+
+  <div class="mt-6 grid grid-cols-1 gap-x-[22px] gap-y-4 sm:grid-cols-2 lg:mt-[23px] lg:gap-y-[22px]">
+    <label class={fieldWrap}>
+      <span class={labelClass}>{t.name}<span class="text-[#bd695b]">*</span></span>
+      <input type="text" name="name" required placeholder={t.namePlaceholder} class={fieldClass} />
+    </label>
+
+    <label class={fieldWrap}>
+      <span class={labelClass}>{t.country}<span class="text-[#bd695b]">*</span></span>
+      <span class="relative block">
+        <select name="country" required class:list={[fieldClass, 'appearance-none pr-10']}>
+          <option value="">{t.countryPlaceholder}</option>
+          {t.countries.map((c) => <option value={c}>{c}</option>)}
+        </select>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="pointer-events-none absolute right-4 top-1/2 size-4 -translate-y-1/2 text-mn-ink"
+          aria-hidden="true"
+        >
+          <path d="m6 9 6 6 6-6" />
+        </svg>
+      </span>
+    </label>
+
+    <label class={fieldWrap}>
+      <span class={labelClass}>{t.email}</span>
+      <input type="email" name="email" placeholder={t.emailPlaceholder} class={fieldClass} />
+    </label>
+
+    <label class={fieldWrap}>
+      <span class={labelClass}>WhatsApp</span>
+      <input type="tel" name="whatsapp" placeholder={t.whatsappPlaceholder} class={fieldClass} />
+    </label>
+
+    <label class:list={[fieldWrap, 'sm:col-span-2']}>
+      <span class={labelClass}>{t.company}</span>
+      <input type="text" name="company" placeholder={t.companyPlaceholder} class={fieldClass} />
+    </label>
+  </div>
+
+  <label class:list={[fieldWrap, 'mt-4 lg:mt-[22px]']}>
+    <span class={labelClass}>{t.message}</span>
+    <textarea
+      name="message"
+      placeholder={t.messagePlaceholder}
+      class:list={[fieldClass, 'h-auto resize-none py-2 lg:h-[129px] lg:py-[9px]']}></textarea>
+  </label>
+
+  <p class="mt-3 text-[13px] leading-6 text-mn-muted lg:mt-[15px] lg:text-[19px] lg:leading-[30px]">{note}</p>
+
+  <div class="mt-4 lg:mt-[26px]">
+    <Button
+      type="submit"
+      withArrow
+      direction="up-right"
+      class="min-w-[200px] justify-between [&>svg]:size-[22px] lg:h-[75px] lg:min-w-[275px] lg:text-[26px]"
+    >
+      {submitLabel}
+    </Button>
+  </div>
+</form>

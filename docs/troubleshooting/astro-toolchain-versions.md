@@ -31,7 +31,7 @@
 fnm 由 WinGet 安装（`fnm 1.39.0`），Node 26.13.1 装在
 `%APPDATA%\fnm\node-versions\v26.13.1`，并已设为 `default` 别名。
 
-`C:\Users\LB\Documents\WindowsPowerShell\profile.ps1` 已写入 shell 集成：
+`C:\Users\LB\Documents\WindowsPowerShell\Microsoft.PowerShell_profile.ps1` 已写入 shell 集成：
 
 ```powershell
 if (Get-Command fnm -ErrorAction SilentlyContinue) {
@@ -42,6 +42,8 @@ if (Get-Command fnm -ErrorAction SilentlyContinue) {
 - `--use-on-cd` 会在 `cd` 进入含 `.node-version` 的目录时自动切换版本
 - 项目根目录已有 [`.node-version`](../../.node-version)（`26.13.1`）
 - 验证：新开终端执行 `node -v` → `v26.13.1`、`fnm current` → `v26.13.1`
+
+> ⚠️ **文件名必须是 `Microsoft.PowerShell_profile.ps1`**。2026-11-18 首次配置时误写成同目录下的 `profile.ps1`，PowerShell 不会加载该文件，于是 `node -v` 一直停留在系统级 22.20.0。判断方法：`$PROFILE` 输出的路径才是真正被加载的 profile（2026-11-19 修复，旧文件 `profile.ps1` 已失效可删）。
 
 > ⚠️ 系统级 `C:\Program Files\nodejs` 仍是 **Node 22.20.0**。只有经过 fnm 初始化的 shell（PowerShell / VSCode 集成终端）才会用 26。cmd、Git Bash、GUI 工具或未加载 profile 的进程仍会拿到 22，跑 Astro 7 会直接报错。彻底避免的办法是卸载 Node 22（需要管理员权限），或为对应 shell 也加 fnm 初始化。
 
