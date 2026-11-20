@@ -1,11 +1,20 @@
 ---
+import { Image } from 'astro:assets';
 import Base from '../../../layouts/Base.astro';
 import Container from '../../ui/Container.astro';
 import Button from '../../ui/Button.astro';
 import Breadcrumb from '../../ui/Breadcrumb.astro';
 import InquiryCta from '../../sections/InquiryCta.astro';
 import CatalogGroup from './CatalogGroup.astro';
+import CatalogCard from './CatalogCard.astro';
+import CatalogContactTiles from './CatalogContactTiles.astro';
+import ArrowIcon from '../../ui/ArrowIcon.astro';
 import { getLangFromUrl, localizePath } from '../../../i18n/utils';
+
+import catalogBanner from '../../../assets/products/catalog/banner.webp';
+import catalogGroup01 from '../../../assets/products/catalog/group-01.webp';
+import catalogGroup02 from '../../../assets/products/catalog/group-02.webp';
+import iconManufacturing from '../../../assets/icons/more-manufacturing.webp';
 
 import iconTileGrout from '../../../assets/icons/category-tile-grout.webp';
 import iconTileAdhesive from '../../../assets/icons/category-tile-adhesive.webp';
@@ -27,6 +36,7 @@ const c = {
     pageTitle: '产品体系',
     eyebrow: 'PRODUCT CATALOG · 产品目录',
     title: '产品体系',
+    subtitle: 'PRODUCT CATALOG',
     description:
       '覆盖建筑与装修施工材料、空间成品与定制系统两大板块。已上线系列可直接查看产品资料，规划中系列欢迎就供货与定制需求提前沟通。',
     primary: { label: '获取报价', href: '/quote' },
@@ -65,6 +75,7 @@ const c = {
       eyebrow: 'MENARO · 产品与制造合作',
       title: '更多产品与制造合作',
       description: '产品制造、定制生产、项目配套——按你的市场与项目需求确认方案。',
+      meta: '产品制造 · 定制生产 · 项目配套',
       cta: { label: '联系我们', href: '/contact' },
     },
   },
@@ -72,6 +83,7 @@ const c = {
     pageTitle: 'Products',
     eyebrow: 'PRODUCT CATALOG',
     title: 'Products',
+    subtitle: 'PRODUCT CATALOG',
     description:
       'Two portfolios: construction and finishing materials, plus interior products and custom systems. Available series link straight to product information; planned series are open for early supply and customisation discussions.',
     primary: { label: 'Get a Quote', href: '/quote' },
@@ -111,6 +123,7 @@ const c = {
       eyebrow: 'MENARO · PRODUCTS & MANUFACTURING',
       title: 'More products and manufacturing cooperation',
       description: 'Product manufacturing, custom production and project supply — scoped to your market and project requirements.',
+      meta: 'Manufacturing · Custom production · Project supply',
       cta: { label: 'Contact us', href: '/contact' },
     },
   },
@@ -119,49 +132,104 @@ const c = {
 const constructionIcons = [iconTileGrout, iconTileAdhesive, iconSealant, iconFloor, iconWaterproof, iconCoating];
 const interiorIcons = [iconWoodwork, iconDoors, iconFlooring, iconBathware, iconLighting, iconFurniture];
 const groupIcons = [constructionIcons, interiorIcons];
+const groupBanners = [catalogGroup01, catalogGroup02];
 const groups = c.groups.map((group, gi) => ({
   ...group,
+  banner: groupBanners[gi],
   items: group.items.map((item, i) => ({ ...item, icon: groupIcons[gi][i] })),
 }));
 ---
 
 <Base title={c.pageTitle}>
-  <section class="bg-base-100 pt-14 pb-10 lg:pt-20 lg:pb-14">
-    <Container>
-      <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
-        <div class="flex max-w-[720px] flex-col gap-4">
-          <p class="text-[12px] tracking-[0.08em] text-mn-muted">{c.eyebrow}</p>
-          <h1 class="text-[32px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[44px]">{c.title}</h1>
-          <p class="text-[14px] leading-7 text-mn-muted">{c.description}</p>
-        </div>
-        <div class="flex flex-wrap gap-4">
-          <Button href={localizePath(c.primary.href, lang)} withArrow class="min-w-[168px] justify-between">
-            {c.primary.label}
-          </Button>
-          <Button
-            href={localizePath(c.secondary.href, lang)}
-            variant="outline"
-            withArrow
-            class="min-w-[168px] justify-between"
-          >
-            {c.secondary.label}
-          </Button>
-        </div>
-      </div>
-    </Container>
-  </section>
 
-  <Breadcrumb items={c.crumbs} />
+  <div class="bg-[#fbfbf9] lg:bg-base-100">
+    <section class="relative isolate overflow-hidden pt-[30px] pb-4 lg:bg-base-100 lg:pt-20 lg:pb-14">
+      <Image
+        src={catalogBanner}
+        alt=""
+        widths={[640, 960, 1440, 1920]}
+        sizes="100vw"
+        class="absolute inset-0 size-full object-cover lg:hidden"
+        loading="eager"
+        fetchpriority="high"
+      />
+      <Container class="relative">
+        <div class="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+          <div class="flex max-w-[720px] flex-col gap-1.5 lg:gap-4">
+            <p class="hidden text-[12px] tracking-[0.08em] text-mn-muted lg:block">{c.eyebrow}</p>
+            <h1 class="text-[25px] leading-[1.15] font-bold tracking-tight text-[#054b34] lg:text-[44px] lg:text-mn-ink">
+              {c.title}
+            </h1>
+            <p class="text-[17px] leading-[1.2] font-medium text-[#054b34] lg:hidden">{c.subtitle}</p>
+            <p class="hidden text-[14px] leading-7 text-mn-muted lg:block">{c.description}</p>
+          </div>
+          <div class="hidden flex-wrap gap-4 lg:flex">
+            <Button href={localizePath(c.primary.href, lang)} withArrow class="min-w-[168px] justify-between">
+              {c.primary.label}
+            </Button>
+            <Button
+              href={localizePath(c.secondary.href, lang)}
+              variant="outline"
+              withArrow
+              class="min-w-[168px] justify-between"
+            >
+              {c.secondary.label}
+            </Button>
+          </div>
+        </div>
+      </Container>
+    </section>
 
-  <div class="bg-base-100 py-6 lg:py-10">
-    <Container>
+    <div class="hidden lg:block">
+      <Breadcrumb items={c.crumbs} />
+    </div>
+
+    <div class="flex flex-col gap-8 px-[14px] pt-[14px] lg:hidden">
       {
         groups.map((group) => (
-          <CatalogGroup index={group.index} title={group.title} description={group.description} items={group.items} />
+          <CatalogCard
+            index={group.index}
+            title={group.title}
+            description={group.description}
+            banner={group.banner}
+            items={group.items}
+          />
         ))
       }
-    </Container>
-  </div>
+    </div>
 
-  <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.cta} />
+    <div class="hidden bg-base-100 py-10 lg:block">
+      <Container>
+        {
+          groups.map((group) => (
+            <CatalogGroup index={group.index} title={group.title} description={group.description} items={group.items} />
+          ))
+        }
+      </Container>
+    </div>
+
+    <div class="px-[14px] pt-[14px] lg:hidden">
+      <a
+        href={localizePath(c.cta.cta.href, lang)}
+        class="flex items-center gap-3 rounded-[12px] bg-[#edf3ee] py-[24px] pr-[14px] pl-[24px] transition-colors hover:bg-[#e6efe8]"
+      >
+        <Image src={iconManufacturing} alt="" width={48} height={48} class="size-9 shrink-0 object-contain" />
+        <span class="min-w-0 flex-1">
+          <span class="block text-[16px] leading-6 font-bold text-[#054b34]">{c.cta.title}</span>
+          <span class="mt-[2px] block text-[10.7px] leading-4 text-[#054b34]">{c.cta.meta}</span>
+        </span>
+        <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#07563d] text-white">
+          <ArrowIcon className="size-4" />
+        </span>
+      </a>
+    </div>
+
+    <div class="pt-4 pb-8 lg:hidden">
+      <CatalogContactTiles />
+    </div>
+
+    <div class="hidden lg:block">
+      <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.cta} />
+    </div>
+  </div>
 </Base>

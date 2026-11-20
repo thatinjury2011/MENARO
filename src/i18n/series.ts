@@ -61,7 +61,7 @@ export const seriesContent: Record<string, Record<Lang, any>> = {
       cta: {
         eyebrow: '欢迎与 MENARO 建立合作', title: '让合适的产品更快进入你的采购链',
         description: '欢迎就产品、包装、定制与采购需求与我们联系。',
-        cta: { label: '提交采购询盘', href: '/quote' },
+        cta: { label: '提交采购询盘', href: '/contact' },
       },
     },
     en: {
@@ -123,7 +123,7 @@ export const seriesContent: Record<string, Record<Lang, any>> = {
       cta: {
         eyebrow: 'Work with MENARO', title: 'Bring the right products into your supply chain faster',
         description: 'Talk to us about products, packaging, customisation and procurement.',
-        cta: { label: 'Send an enquiry', href: '/quote' },
+        cta: { label: 'Send an enquiry', href: '/contact' },
       },
     },
   },
@@ -172,7 +172,7 @@ export const seriesContent: Record<string, Record<Lang, any>> = {
       cta: {
         eyebrow: 'MENARO · PRODUCT RANGE', title: '瓷砖铺贴，从合适的材料开始',
         description: '了解不同等级的产品定位，选择更适合实际施工条件的瓷砖胶。',
-        cta: { label: '返回产品系列', href: '/products' },
+        cta: { label: '返回产品系列', href: 'back' },
       },
     },
     en: {
@@ -219,7 +219,7 @@ export const seriesContent: Record<string, Record<Lang, any>> = {
       cta: {
         eyebrow: 'MENARO · PRODUCT RANGE', title: 'Tile installation starts with the right material',
         description: 'Understand the positioning of each grade and choose the adhesive that suits your site conditions.',
-        cta: { label: 'Back to products', href: '/products' },
+        cta: { label: 'Back to products', href: 'back' },
       },
     },
   },
@@ -267,7 +267,7 @@ export const seriesContent: Record<string, Record<Lang, any>> = {
       cta: {
         eyebrow: '欢迎与 MENARO 建立合作', title: '让合适的产品更快进入你的采购链',
         description: '欢迎就产品、包装、定制与采购需求与我们联系。',
-        cta: { label: '提交采购询盘', href: '/quote' },
+        cta: { label: '提交采购询盘', href: '/contact' },
       },
     },
     en: {
@@ -313,7 +313,7 @@ export const seriesContent: Record<string, Record<Lang, any>> = {
       cta: {
         eyebrow: 'Work with MENARO', title: 'Bring the right products into your supply chain faster',
         description: 'Talk to us about products, packaging, customisation and procurement.',
-        cta: { label: 'Send an enquiry', href: '/quote' },
+        cta: { label: 'Send an enquiry', href: '/contact' },
       },
     },
   },
@@ -361,7 +361,7 @@ export const seriesContent: Record<string, Record<Lang, any>> = {
       cta: {
         eyebrow: '欢迎与 MENARO 建立合作', title: '让合适的产品更快进入你的采购链',
         description: '欢迎就产品、包装、定制与采购需求与我们联系。',
-        cta: { label: '提交采购询盘', href: '/quote' },
+        cta: { label: '提交采购询盘', href: '/contact' },
       },
     },
     en: {
@@ -407,7 +407,7 @@ export const seriesContent: Record<string, Record<Lang, any>> = {
       cta: {
         eyebrow: 'Work with MENARO', title: 'Bring the right products into your supply chain faster',
         description: 'Talk to us about products, packaging, customisation and procurement.',
-        cta: { label: 'Send an enquiry', href: '/quote' },
+        cta: { label: 'Send an enquiry', href: '/contact' },
       },
     },
   },};

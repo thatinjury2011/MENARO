@@ -15,6 +15,7 @@ const lang = getLangFromUrl(Astro.url);
 const t = home[lang].cases;
 const smallImages = [case01, case02];
 const casesHref = localizePath('/cases', lang);
+const cardHref = localizePath('/contact', lang);
 ---
 
 <section class="bg-base-100 py-14 lg:py-24">
@@ -31,11 +32,11 @@ const casesHref = localizePath('/cases', lang);
           alt={t.main.title}
           widths={[600, 1200, 1600]}
           sizes="(min-width: 1024px) 66vw, 100vw"
-          class="h-full min-h-[260px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03] lg:min-h-[420px]"
+          class="h-full min-h-[260px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.025] lg:min-h-[420px]"
           loading="lazy"
         />
         <div class="absolute inset-0 bg-linear-to-t from-black/65 via-black/15 to-transparent"></div>
-        <a href={casesHref} class="absolute inset-0" aria-label={t.main.title}></a>
+        <a href={cardHref} class="absolute inset-0" aria-label={t.main.title}></a>
         <div class="pointer-events-none absolute inset-x-0 bottom-0 flex flex-col items-start gap-4 p-6 lg:p-10">
           <div class="flex flex-col gap-2">
             <p class="text-2xl font-bold text-white lg:text-3xl">{t.main.title}</p>
@@ -56,13 +57,13 @@ const casesHref = localizePath('/cases', lang);
         {
           t.items.map((item, i) => (
             <li class="flex-1">
-              <a href={casesHref} class="group relative block h-full overflow-hidden rounded-box">
+              <a href={cardHref} class="group relative block h-full overflow-hidden rounded-box">
                 <Image
                   src={smallImages[i]}
                   alt={item.title}
                   widths={[527, 1054]}
                   sizes="(min-width: 1024px) 33vw, 100vw"
-                  class="h-full min-h-[190px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                  class="h-full min-h-[190px] w-full object-cover transition-transform duration-500 group-hover:scale-[1.025]"
                   loading="lazy"
                 />
                 <div class="absolute inset-0 bg-linear-to-t from-black/70 via-black/10 to-transparent"></div>

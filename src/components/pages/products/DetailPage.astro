@@ -5,7 +5,7 @@ import InquiryCta from '../../sections/InquiryCta.astro';
 import Breadcrumb from '../../ui/Breadcrumb.astro';
 import ProductShowcase from './ProductShowcase.astro';
 import SpecCards from './SpecCards.astro';
-import { getLangFromUrl } from '../../../i18n/utils';
+import { getLangFromUrl, localizePath } from '../../../i18n/utils';
 import type { ProductDetail } from '../../../data/product-details';
 
 interface Props {
@@ -15,12 +15,13 @@ interface Props {
 const { product } = Astro.props;
 const lang = getLangFromUrl(Astro.url);
 const c = product[lang];
+const seriesHref = localizePath(`/products/${product.series}`, lang);
 
 const text = {
   zh: {
     eyebrow: '产品详情',
     primary: { label: '询价与合作', href: '/contact' },
-    secondary: { label: '返回产品中心', href: '/products' },
+    secondary: { label: '返回产品中心', href: seriesHref },
     crumbs: ['首页', '产品体系'],
     showcaseEyebrow: '产品详情',
     caption: '包装概念参考',
@@ -31,13 +32,13 @@ const text = {
       eyebrow: '欢迎与 MENARO 建立合作',
       title: '让合适的产品更快进入你的采购链',
       description: '欢迎就产品、包装、定制与采购需求与我们联系。',
-      cta: { label: '提交采购询盘', href: '/quote' },
+      cta: { label: '提交采购询盘', href: '/contact' },
     },
   },
   en: {
     eyebrow: 'Product detail',
     primary: { label: 'Enquire & cooperate', href: '/contact' },
-    secondary: { label: 'Back to products', href: '/products' },
+    secondary: { label: 'Back to products', href: seriesHref },
     crumbs: ['Home', 'Products'],
     showcaseEyebrow: 'Product detail',
     caption: 'Packaging reference',
@@ -48,7 +49,7 @@ const text = {
       eyebrow: 'Work with MENARO',
       title: 'Bring the right products into your supply chain faster',
       description: 'Talk to us about products, packaging, customisation and procurement.',
-      cta: { label: 'Send an enquiry', href: '/quote' },
+      cta: { label: 'Send an enquiry', href: '/contact' },
     },
   },
 }[lang];

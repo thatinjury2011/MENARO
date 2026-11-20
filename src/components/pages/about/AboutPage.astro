@@ -28,6 +28,7 @@ import advantage03 from '../../../assets/icons/advantage-03.webp';
 import advantage04 from '../../../assets/icons/advantage-04.webp';
 import advantage05 from '../../../assets/icons/advantage-05.webp';
 import advantage06 from '../../../assets/icons/advantage-06.webp';
+import ContentScale from '../../ui/ContentScale.astro';
 
 const lang = getLangFromUrl(Astro.url);
 
@@ -91,7 +92,7 @@ const c = {
       eyebrow: '欢迎与美纳罗建立合作',
       title: '让合适的产品更快进入你的采购链',
       description: '欢迎就产品、包装、定制与采购需求与我们联系。',
-      button: { label: '提交采购询盘', href: '/quote' },
+      button: { label: '提交采购询盘', href: '/contact' },
     },
   },
   en: {
@@ -152,7 +153,7 @@ const c = {
       eyebrow: 'Work with MENARO',
       title: 'Bring the right products into your supply chain faster',
       description: 'Talk to us about products, packaging, customisation and procurement.',
-      button: { label: 'Send an enquiry', href: '/quote' },
+      button: { label: 'Send an enquiry', href: '/contact' },
     },
   },
 }[lang];
@@ -175,43 +176,44 @@ const advantages = c.advantages.items.map((item, i) => ({ ...item, icon: advanta
     imageAlt={c.hero.imageAlt}
     primary={c.hero.primary}
   />
+  <ContentScale>
+    <Breadcrumb items={c.crumbs} />
 
-  <Breadcrumb items={c.crumbs} />
+    <div id="founder">
+      <FounderBlock
+        eyebrow={c.founder.eyebrow}
+        title={c.founder.title}
+        subtitle={c.founder.subtitle}
+        paragraphs={c.founder.paragraphs}
+        quote={{ text: c.founder.quote, signature: c.founder.signature }}
+        image={founder}
+        imageAlt={c.founder.imageAlt}
+      />
+    </div>
 
-  <div id="founder">
-    <FounderBlock
-      eyebrow={c.founder.eyebrow}
-      title={c.founder.title}
-      subtitle={c.founder.subtitle}
-      paragraphs={c.founder.paragraphs}
-      quote={{ text: c.founder.quote, signature: c.founder.signature }}
-      image={founder}
-      imageAlt={c.founder.imageAlt}
+    <GlobalLocations
+      eyebrow={c.locations.eyebrow}
+      title={c.locations.title}
+      note={c.locations.note}
+      items={locations}
     />
-  </div>
 
-  <GlobalLocations
-    eyebrow={c.locations.eyebrow}
-    title={c.locations.title}
-    note={c.locations.note}
-    items={locations}
-  />
+    <AdvantageBand
+      eyebrow={c.advantages.eyebrow}
+      title={c.advantages.title}
+      note={c.advantages.note}
+      items={advantages}
+    />
 
-  <AdvantageBand
-    eyebrow={c.advantages.eyebrow}
-    title={c.advantages.title}
-    note={c.advantages.note}
-    items={advantages}
-  />
+    <JoinBand
+      title={c.join.title}
+      subtitle={c.join.subtitle}
+      description={c.join.description}
+      image={advantageBg}
+      imageAlt={c.join.imageAlt}
+      cta={c.join.cta}
+    />
 
-  <JoinBand
-    title={c.join.title}
-    subtitle={c.join.subtitle}
-    description={c.join.description}
-    image={advantageBg}
-    imageAlt={c.join.imageAlt}
-    cta={c.join.cta}
-  />
-
-  <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.button} />
+    <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.button} />
+  </ContentScale>
 </Base>

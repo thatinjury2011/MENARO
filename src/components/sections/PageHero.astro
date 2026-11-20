@@ -28,6 +28,8 @@ interface Props {
   brandMark?: boolean;
   /** light：图内已烘焙左侧渐隐（多数内页）；strong：图本身偏暗，需要更重的白色蒙版（全球合作） */
   scrim?: 'light' | 'strong';
+  /** 强制整幅 banner 铺满（图片比例不足 2.4:1 时仍按满幅渲染，靠 object-cover 裁切） */
+  bleed?: boolean;
 }
 
 const {
@@ -42,12 +44,13 @@ const {
   variant = 'default',
   brandMark = false,
   scrim = 'light',
+  bleed = false,
 } = Astro.props;
 
 const wide = variant === 'wide';
-// 宽幅 banner（≥2.4:1）铺满整幅并用左侧渐隐；竖图/近方图仍走「右侧固定列」，避免占位图被拉伸
+// 宽幅 banner（≥2.4:1）铺满整幅并用左侧渐隐；竖图/近方图仍走「右侧固定列」，避免占位图被拉伸（可用 bleed 强制满幅）
 const isBanner = image.width / image.height >= 2.4;
-const fullBleed = !wide && isBanner;
+const fullBleed = !wide && (bleed || isBanner);
 const overlay = wide
   ? 'absolute inset-0 bg-linear-to-r from-white from-30% via-white/85 via-55% to-white/40 lg:from-30% lg:via-white/80 lg:via-38% lg:to-transparent lg:to-52%'
   : fullBleed
@@ -80,7 +83,7 @@ const subtitleSpacing = brandMark ? 'lg:-mt-[7px]' : '';
 const subtitleColor = brandMark ? 'text-mn-ink' : 'text-mn-ink/80';
 const descriptionSpacing = brandMark ? 'lg:mt-[12px]' : 'lg:mt-[17px]';
 const descriptionLeading = brandMark ? 'lg:leading-[28px]' : 'lg:leading-[27px]';
-const actionSpacing = brandMark ? 'lg:mt-[44px]' : 'lg:mt-[87px]';
+const actionSpacing = brandMark ? 'lg:mt-[32px]' : 'lg:mt-[56px]';
 ---
 
 <section class="relative isolate overflow-hidden bg-base-200">
@@ -149,23 +152,12 @@ const actionSpacing = brandMark ? 'lg:mt-[44px]' : 'lg:mt-[87px]';
         )
       }
       <div class:list={['mt-6 flex flex-wrap gap-4 lg:gap-[18px]', actionSpacing]}>
-        <Button
-          href={primary.href}
-          size="lg"
-          withArrow
-          class:list={['justify-between', brandMark ? 'min-w-[248px]' : 'min-w-[219px]']}
-        >
+        <Button href={primary.href} withArrow class="min-w-[188px] justify-between">
           {primary.label}
         </Button>
         {
           secondary && (
-            <Button
-              href={secondary.href}
-              variant="outline"
-              size="lg"
-              withArrow
-              class="min-w-[229px] justify-between"
-            >
+            <Button href={secondary.href} variant="outline" withArrow class="min-w-[188px] justify-between">
               {secondary.label}
             </Button>
           )

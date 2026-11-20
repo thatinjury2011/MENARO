@@ -8,6 +8,7 @@ import PartnerTypes from './PartnerTypes.astro';
 import { getLangFromUrl } from '../../../i18n/utils';
 
 import hero from '../../../assets/global/hero.webp';
+import ContentScale from '../../ui/ContentScale.astro';
 
 const lang = getLangFromUrl(Astro.url);
 
@@ -48,7 +49,7 @@ const c = {
       eyebrow: '欢迎与美纳罗建立合作',
       title: '让合适的产品更快进入你的采购链',
       description: '欢迎就产品、包装、定制与采购需求与我们联系。',
-      button: { label: '提交采购询盘', href: '/quote' },
+      button: { label: '提交采购询盘', href: '/contact' },
     },
   },
   en: {
@@ -87,7 +88,7 @@ const c = {
       eyebrow: 'Work with MENARO',
       title: 'Bring the right products into your supply chain faster',
       description: 'Talk to us about products, packaging, customisation and procurement.',
-      button: { label: 'Send an enquiry', href: '/quote' },
+      button: { label: 'Send an enquiry', href: '/contact' },
     },
   },
 }[lang];
@@ -103,22 +104,23 @@ const c = {
     primary={c.hero.primary}
     scrim="strong"
   />
+  <ContentScale>
+    <Breadcrumb items={c.crumbs} />
 
-  <Breadcrumb items={c.crumbs} />
+    <PartnerTypes
+      eyebrow={c.partners.eyebrow}
+      title={c.partners.title}
+      note={c.partners.note}
+      items={c.partners.items}
+    />
 
-  <PartnerTypes
-    eyebrow={c.partners.eyebrow}
-    title={c.partners.title}
-    note={c.partners.note}
-    items={c.partners.items}
-  />
+    <ProcessSteps
+      eyebrow={c.steps.eyebrow}
+      title={c.steps.title}
+      note={c.steps.note}
+      steps={c.steps.items}
+    />
 
-  <ProcessSteps
-    eyebrow={c.steps.eyebrow}
-    title={c.steps.title}
-    note={c.steps.note}
-    steps={c.steps.items}
-  />
-
-  <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.button} />
+    <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.button} />
+  </ContentScale>
 </Base>

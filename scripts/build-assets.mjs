@@ -214,6 +214,11 @@ const ENTRIES = [
   ['MENARO 最终版 _ 08 _ 获取报价/图片-图标/为什么选择/素材包_8获取报价_5.png.png', 'quote/why'],
   ['MENARO 最终版 _ 08 _ 获取报价/图片-图标/为什么选择/Mask group.png', 'quote/why-mask'],
 
+  // ── 产品目录（手机端 1170 稿）────────────────────────
+  ['手机端产品页/图片-图标/banner.png', 'products/catalog/banner'],
+  ['手机端产品页/图片-图标/group-01.png', 'products/catalog/group-01'],
+  ['手机端产品页/图片-图标/group-02.png', 'products/catalog/group-02'],
+
   // ── 产品抽屉 ─────────────────────────────────────────
   ['首页 _ 全部产品弹窗（展开状态）/图片-图标/02背景.png', 'drawer/category-bg'],
   ['首页 _ 全部产品弹窗（展开状态）/图片-图标/分类标题.png', 'drawer/category-title'],

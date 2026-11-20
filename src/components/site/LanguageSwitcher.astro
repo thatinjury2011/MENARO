@@ -1,0 +1,58 @@
+---
+import { alternateLangHref, getLangFromUrl } from '../../i18n/utils';
+import { htmlLang, langName, locales, type Lang } from '../../i18n/config';
+import { ui } from '../../i18n/ui';
+
+const lang = getLangFromUrl(Astro.url);
+const t = ui[lang];
+const options = locales.map((code: Lang) => ({
+  code,
+  name: langName[code],
+  href: alternateLangHref(Astro.url, code),
+  current: code === lang,
+}));
+---
+
+<details class="dropdown dropdown-end">
+  <summary
+    class="flex h-9 cursor-pointer list-none items-center gap-1 text-[12px] whitespace-nowrap text-mn-ink transition-colors hover:text-mn-green [&::-webkit-details-marker]:hidden lg:text-[clamp(11px,calc(100vw*12/1920),12px)]"
+    aria-label={t.langSwitchAria}
+  >
+    {langName[lang]}
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="1.6"
+      class="size-3 lg:size-[clamp(9px,calc(100vw*10/1920),10px)]"
+      aria-hidden="true"
+    >
+      <path d="m6 9 6 6 6-6"></path>
+    </svg>
+  </summary>
+  <ul class="dropdown-content z-50 mt-2 w-32 rounded-box border border-mn-border bg-base-100 p-1.5 shadow-lg">
+    {
+      options.map((option) => (
+        <li>
+          <a
+            href={option.href}
+            hreflang={htmlLang[option.code]}
+            lang={htmlLang[option.code]}
+            aria-current={option.current ? 'true' : undefined}
+            class:list={[
+              'flex items-center justify-between gap-2 rounded-[4px] px-2 py-2 text-[13px] whitespace-nowrap transition-colors hover:bg-base-200',
+              option.current ? 'font-semibold text-mn-green' : 'text-mn-ink',
+            ]}
+          >
+            {option.name}
+            {option.current && (
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" class="size-3.5 shrink-0" aria-hidden="true">
+                <path d="M3.2 8.4 6.4 11.6 12.8 4.8" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+              </svg>
+            )}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</details>

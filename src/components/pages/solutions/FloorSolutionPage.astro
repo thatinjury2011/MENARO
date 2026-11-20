@@ -27,6 +27,7 @@ import iconShield from '../../../assets/icons/value-shield.webp';
 import iconShieldOutline from '../../../assets/icons/value-shield-outline.webp';
 import iconTag from '../../../assets/icons/value-tag.webp';
 import iconHome from '../../../assets/icons/value-home.webp';
+import ContentScale from '../../ui/ContentScale.astro';
 
 const lang = getLangFromUrl(Astro.url);
 
@@ -48,7 +49,7 @@ const c = {
       title: '产品介绍',
       description: 'MENARO 环氧彩砂自流平采用优质环氧树脂为基础，加入精选彩砂骨料，通过自流平施工形成整体无缝的装饰性与功能性地面。表面具有细腻的彩砂质感，耐磨、耐压、易清洁，适用于对地面品质要求较高的工业与商业空间。',
       imageAlt: '环氧彩砂自流平地坪表面',
-      cta: { label: '了解更多产品信息', href: '/products/floor' },
+      cta: { label: '了解更多产品信息', href: '/products/floor/epoxy-sand' },
       features: [
         { title: '彩砂质感', desc: '美观大气' },
         { title: '整体无缝', desc: '易清洁维护' },
@@ -83,7 +84,7 @@ const c = {
       eyebrow: 'GET IN TOUCH',
       title: '获取环氧彩砂自流平地坪解决方案',
       description: '我们提供产品选型、技术支持与定制化服务，欢迎联系我们。',
-      button: { label: '提交采购询盘', href: '/quote' },
+      button: { label: '提交采购询盘', href: '/contact' },
     },
   },
   en: {
@@ -103,7 +104,7 @@ const c = {
       title: 'Product introduction',
       description: 'MENARO epoxy coloured sand self-levelling is based on quality epoxy resin with selected coloured sand aggregate. Applied as a self-levelling system, it forms a seamless decorative and functional floor with a fine sand texture that is wear resistant, load bearing and easy to clean — suited to industrial and commercial spaces with higher flooring requirements.',
       imageAlt: 'Epoxy coloured sand floor surface',
-      cta: { label: 'More product information', href: '/products/floor' },
+      cta: { label: 'More product information', href: '/products/floor/epoxy-sand' },
       features: [
         { title: 'Coloured sand finish', desc: 'Attractive appearance' },
         { title: 'Seamless', desc: 'Easy to clean and maintain' },
@@ -138,7 +139,7 @@ const c = {
       eyebrow: 'GET IN TOUCH',
       title: 'Request an epoxy coloured sand flooring solution',
       description: 'We provide product selection, technical support and customisation — get in touch.',
-      button: { label: 'Send an enquiry', href: '/quote' },
+      button: { label: 'Send an enquiry', href: '/contact' },
     },
   },
 }[lang];
@@ -163,46 +164,47 @@ const steps = c.steps.items.map((s, i) => ({ ...s, image: stepImages[i] }));
     secondary={c.hero.secondary}
     variant="wide"
   />
+  <ContentScale>
+    <Breadcrumb items={c.crumbs} />
 
-  <Breadcrumb items={c.crumbs} />
-
-  <section class="bg-base-100 py-14 lg:py-20">
-    <Container>
-      <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
-        <Image
-          src={intro}
-          alt={c.intro.imageAlt}
-          widths={[600, 900, 1186]}
-          sizes="(min-width: 1024px) 50vw, 100vw"
-          class="aspect-[4/3] w-full rounded-box object-cover"
-          loading="lazy"
-        />
-        <div class="flex flex-col gap-4">
-          <p class="text-[12px] tracking-[0.08em] text-mn-muted">{c.intro.eyebrow}</p>
-          <h2 class="text-[26px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[34px]">{c.intro.title}</h2>
-          <p class="text-[14px] leading-7 text-mn-muted">{c.intro.description}</p>
-          <FeatureRow items={features} />
-          <div class="pt-2">
-            <Button href={localizePath(c.intro.cta.href, lang)} withArrow>{c.intro.cta.label}</Button>
+    <section class="bg-base-100 py-14 lg:py-20">
+      <Container>
+        <div class="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-16">
+          <Image
+            src={intro}
+            alt={c.intro.imageAlt}
+            widths={[600, 900, 1186]}
+            sizes="(min-width: 1024px) 50vw, 100vw"
+            class="aspect-[4/3] w-full rounded-box object-cover"
+            loading="lazy"
+          />
+          <div class="flex flex-col gap-4">
+            <p class="text-[12px] tracking-[0.08em] text-mn-muted">{c.intro.eyebrow}</p>
+            <h2 class="text-[26px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[34px]">{c.intro.title}</h2>
+            <p class="text-[14px] leading-7 text-mn-muted">{c.intro.description}</p>
+            <FeatureRow items={features} />
+            <div class="pt-2">
+              <Button href={localizePath(c.intro.cta.href, lang)} withArrow>{c.intro.cta.label}</Button>
+            </div>
           </div>
         </div>
-      </div>
-    </Container>
-  </section>
+      </Container>
+    </section>
 
-  <ScenarioCards
-    eyebrow={c.scenarios.eyebrow}
-    title={c.scenarios.title}
-    note={c.scenarios.note}
-    items={scenarios}
-  />
+    <ScenarioCards
+      eyebrow={c.scenarios.eyebrow}
+      title={c.scenarios.title}
+      note={c.scenarios.note}
+      items={scenarios}
+    />
 
-  <ConstructionSteps
-    eyebrow={c.steps.eyebrow}
-    title={c.steps.title}
-    description={c.steps.description}
-    steps={steps}
-  />
+    <ConstructionSteps
+      eyebrow={c.steps.eyebrow}
+      title={c.steps.title}
+      description={c.steps.description}
+      steps={steps}
+    />
 
-  <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.button} />
+    <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.button} />
+  </ContentScale>
 </Base>

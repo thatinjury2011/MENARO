@@ -55,13 +55,13 @@ src/
 │  ├─ ui/                      # 原子件：Container / Button / ArrowLink / ArrowIcon / SectionHeading / Breadcrumb
 │  ├─ site/                    # 全站结构：Header / Footer / ProductDrawer（全部产品抽屉）
 │  ├─ sections/                # 跨页业务区块：PageHero / InquiryCta / ProcessSteps / InquiryForm
-│  └─ pages/<page>/            # 单页私有区块：home / products / cases / solutions / global / about / contact / quote
+│  └─ pages/<page>/            # 单页私有区块：home / products / cases / solutions / global / about / manufacturing / contact / quote
 ├─ data/                       # 单一数据源：site.ts（导航）/ product-details.ts（详情页内容）/ product-drawer.ts（全部产品抽屉）/ inquiry-form.ts（询盘表单）
 ├─ pages/
 │  ├─ index.astro              # 首页
 │  ├─ 404.astro
 │  ├─ cases / solutions/index / solutions/industrial-floor / global / contact / quote
-│  ├─ about/index / about/manufacturing
+│  ├─ about/index / manufacturing   # 制造与品质与关于我们平级（独立一级路由）
 │  ├─ privacy / terms / sitemap
 │  └─ products/
 │     ├─ index.astro           # 产品目录（/products）

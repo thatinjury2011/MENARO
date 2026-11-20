@@ -15,6 +15,7 @@ import iconPhone from '../../../assets/icons/contact-phone.webp';
 import iconWhatsapp from '../../../assets/icons/contact-whatsapp.webp';
 import iconMail from '../../../assets/icons/contact-mail.webp';
 import iconTime from '../../../assets/icons/contact-time.webp';
+import ContentScale from '../../ui/ContentScale.astro';
 
 const lang = getLangFromUrl(Astro.url);
 
@@ -37,9 +38,10 @@ const c = {
       address: '中国 · 浙江 · 台州',
       addressNote: '欢迎与我们联系，获取产品资料与报价。',
       items: [
-        { label: '电话', value: '+86 576 8853 9555（工作时间 9:00 - 18:00）', href: 'tel:+8657688539555' },
-        { label: 'WhatsApp', value: '+86 188 5760 1234（可直接添加联系）', href: 'https://wa.me/8618857601234' },
-        { label: '企业邮箱', value: 'info@menarobm.com', href: 'mailto:info@menarobm.com' },
+        { label: '电话', value: '+86 137 3857 7658', href: 'tel:+8613738577658' },
+        { label: 'WhatsApp', value: '+86 137 3857 7658（可直接添加联系）', href: 'https://wa.me/8613738577658' },
+        { label: '固定电话', value: '0576-8853 9555（工作时间 9:00 - 18:00）', href: 'tel:+8657688539555' },
+        { label: '企业邮箱', value: 'menarobm@gmail.com', href: 'mailto:menarobm@gmail.com' },
         { label: '工作时间（北京时间）', value: '周一至周五 9:00 - 18:00' },
       ],
     },
@@ -70,9 +72,10 @@ const c = {
       address: 'Taizhou, Zhejiang, China',
       addressNote: 'Get in touch for product documents and pricing.',
       items: [
-        { label: 'Phone', value: '+86 576 8853 9555 (9:00 - 18:00 CST)', href: 'tel:+8657688539555' },
-        { label: 'WhatsApp', value: '+86 188 5760 1234 (add us directly)', href: 'https://wa.me/8618857601234' },
-        { label: 'Email', value: 'info@menarobm.com', href: 'mailto:info@menarobm.com' },
+        { label: 'Phone', value: '+86 137 3857 7658', href: 'tel:+8613738577658' },
+        { label: 'WhatsApp', value: '+86 137 3857 7658 (add us directly)', href: 'https://wa.me/8613738577658' },
+        { label: 'Landline', value: '0576-8853 9555 (9:00 - 18:00 CST)', href: 'tel:+8657688539555' },
+        { label: 'Email', value: 'menarobm@gmail.com', href: 'mailto:menarobm@gmail.com' },
         { label: 'Business hours (Beijing time)', value: 'Monday to Friday, 9:00 - 18:00' },
       ],
     },
@@ -86,7 +89,8 @@ const c = {
   },
 }[lang];
 
-const icons = [iconPhone, iconWhatsapp, iconMail, iconTime];
+// 手机与固定电话共用同一个电话图标（设计稿只导出一个电话字形）
+const icons = [iconPhone, iconWhatsapp, iconPhone, iconMail, iconTime];
 const items = c.card.items.map((item, i) => ({ ...item, icon: icons[i] }));
 ---
 
@@ -98,32 +102,33 @@ const items = c.card.items.map((item, i) => ({ ...item, icon: icons[i] }));
     image={hero}
     imageAlt={c.hero.imageAlt}
   />
+  <ContentScale>
+    <Breadcrumb items={c.crumbs} width="default" space="compact" />
 
-  <Breadcrumb items={c.crumbs} width="default" space="compact" />
+    <section class="bg-base-100 pb-12 lg:pt-[11px] lg:pb-[47px]">
+      <Container>
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,793fr)_minmax(0,885fr)] lg:gap-[28px]">
+          <ContactCard
+            eyebrow={c.card.eyebrow}
+            title={c.card.title}
+            paragraphs={[c.card.paragraph]}
+            photo={photo}
+            photoAlt={c.card.photoAlt}
+            address={c.card.address}
+            addressNote={c.card.addressNote}
+            addressIcon={iconAddress}
+            items={items}
+          />
 
-  <section class="bg-base-100 pb-12 lg:pt-[11px] lg:pb-[47px]">
-    <Container>
-      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(0,793fr)_minmax(0,885fr)] lg:gap-[28px]">
-        <ContactCard
-          eyebrow={c.card.eyebrow}
-          title={c.card.title}
-          paragraphs={[c.card.paragraph]}
-          photo={photo}
-          photoAlt={c.card.photoAlt}
-          address={c.card.address}
-          addressNote={c.card.addressNote}
-          addressIcon={iconAddress}
-          items={items}
-        />
-
-        <ContactForm
-          eyebrow={c.form.eyebrow}
-          title={c.form.title}
-          requiredNote={c.form.requiredNote}
-          note={c.form.note}
-          submitLabel={c.form.submit}
-        />
-      </div>
-    </Container>
-  </section>
+          <ContactForm
+            eyebrow={c.form.eyebrow}
+            title={c.form.title}
+            requiredNote={c.form.requiredNote}
+            note={c.form.note}
+            submitLabel={c.form.submit}
+          />
+        </div>
+      </Container>
+    </section>
+  </ContentScale>
 </Base>

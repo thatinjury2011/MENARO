@@ -14,6 +14,7 @@ import case04 from '../../../assets/cases/case-04.webp';
 import case05 from '../../../assets/cases/case-05.webp';
 import case06 from '../../../assets/cases/case-06.webp';
 import caseWide from '../../../assets/cases/case-wide.webp';
+import ContentScale from '../../ui/ContentScale.astro';
 
 const lang = getLangFromUrl(Astro.url);
 
@@ -44,7 +45,7 @@ const c = {
       eyebrow: '欢迎与美纳罗建立合作',
       title: '让合适的产品更快进入你的采购链',
       description: '欢迎就产品、包装、定制与采购需求与我们联系。',
-      button: { label: '提交采购询盘', href: '/quote' },
+      button: { label: '提交采购询盘', href: '/contact' },
     },
   },
   en: {
@@ -73,7 +74,7 @@ const c = {
       eyebrow: 'Work with MENARO',
       title: 'Bring the right products into your supply chain faster',
       description: 'Talk to us about products, packaging, customisation and procurement.',
-      button: { label: 'Send an enquiry', href: '/quote' },
+      button: { label: 'Send an enquiry', href: '/contact' },
     },
   },
 }[lang];
@@ -91,10 +92,11 @@ const items = c.items.map((item, i) => ({ ...item, image: images[i], wide: i ===
     imageAlt={c.imageAlt}
     primary={c.primary}
   />
+  <ContentScale>
+    <Breadcrumb items={c.crumbs} />
 
-  <Breadcrumb items={c.crumbs} />
+    <CaseGrid eyebrow={c.grid.eyebrow} title={c.grid.title} items={items} />
 
-  <CaseGrid eyebrow={c.grid.eyebrow} title={c.grid.title} items={items} />
-
-  <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.button} />
+    <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.button} />
+  </ContentScale>
 </Base>

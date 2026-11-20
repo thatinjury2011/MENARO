@@ -9,6 +9,8 @@ interface Props {
   direction?: 'right' | 'up-right';
   size?: 'md' | 'lg' | 'cta';
   class?: string;
+  /** 原生 onclick，用于「返回上一页」这类无目标地址的按钮 */
+  onClick?: string;
 }
 
 const {
@@ -19,6 +21,7 @@ const {
   direction = 'right',
   size = 'md',
   class: className = '',
+  onClick,
 } = Astro.props;
 
 const sizeClass =
@@ -44,12 +47,12 @@ const classes = [
 
 {
   href ? (
-    <a href={href} class:list={classes}>
+    <a href={href} class:list={classes} onclick={onClick}>
       <slot />
       {withArrow && <ArrowIcon direction={direction} className={arrowClass} />}
     </a>
   ) : (
-    <button type={type} class:list={classes}>
+    <button type={type} class:list={classes} onclick={onClick}>
       <slot />
       {withArrow && <ArrowIcon direction={direction} className={arrowClass} />}
     </button>

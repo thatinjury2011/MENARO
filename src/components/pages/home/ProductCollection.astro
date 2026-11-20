@@ -24,13 +24,16 @@ const widths = [[480, 960, 1640], [408, 816], [408, 816], [408, 816]];
   <Container>
     <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
       <SectionHeading title={t.title} subtitle={t.subtitle} />
-      <a
-        href={localizePath('/products', lang)}
-        class="group inline-flex shrink-0 items-center gap-3 text-[18px] leading-8 font-bold text-mn-cta transition-colors hover:text-mn-green lg:text-[22px]"
+      <button
+        type="button"
+        data-drawer-open
+        aria-expanded="false"
+        aria-controls="product-drawer"
+        class="group inline-flex shrink-0 cursor-pointer items-center gap-3 text-[18px] leading-8 font-bold text-mn-cta transition-colors hover:text-mn-green lg:text-[22px]"
       >
         {t.link}
         <ArrowIcon direction="up-right" className="size-[18px] lg:size-5 transition-transform duration-200 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-      </a>
+      </button>
     </div>
 
     <ul class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-12 lg:grid-cols-4">

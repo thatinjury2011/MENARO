@@ -1,5 +1,6 @@
 ---
 import Base from '../../../layouts/Base.astro';
+import ContentScale from '../../ui/ContentScale.astro';
 import Hero from './Hero.astro';
 import ServiceHighlights from './ServiceHighlights.astro';
 import ProductCollection from './ProductCollection.astro';
@@ -13,12 +14,14 @@ import ContactCta from './ContactCta.astro';
 
 <Base>
   <Hero />
-  <ServiceHighlights />
-  <ProductCollection />
-  <ProductRoadmap />
-  <Manufacturing />
-  <Applications />
-  <Cases />
-  <Partners />
-  <ContactCta />
+  <ContentScale>
+    <ServiceHighlights />
+    <ProductCollection />
+    <ProductRoadmap />
+    <Manufacturing />
+    <Applications />
+    <Cases />
+    <Partners />
+    <ContactCta />
+  </ContentScale>
 </Base>

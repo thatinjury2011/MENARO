@@ -24,34 +24,40 @@ const t = ui[lang];
 const year = new Date().getFullYear();
 
 const socials = [
-  { label: t.social.linkedin, href: '#', icon: dark ? linkedinWhite : linkedin },
-  { label: t.social.youtube, href: '#', icon: dark ? youtubeWhite : youtube },
-  { label: t.social.wechat, href: '#', icon: dark ? wechatWhite : wechat },
-  { label: t.social.whatsapp, href: '#', icon: dark ? whatsappWhite : whatsapp },
+  { label: t.social.linkedin, href: '#', icon: dark ? linkedinWhite : linkedin, external: false },
+  { label: t.social.youtube, href: '#', icon: dark ? youtubeWhite : youtube, external: false },
+  { label: t.social.wechat, href: '#', icon: dark ? wechatWhite : wechat, external: false },
+  { label: t.social.whatsapp, href: 'https://wa.me/8613738577658', icon: dark ? whatsappWhite : whatsapp, external: true },
 ];
 ---
 
-<footer class:list={[dark ? 'bg-[#01362d]' : 'bg-[#fbfaf6]']}>
+<footer
+  class:list={[dark ? 'bg-[#01362d]' : 'bg-[#fbfaf6]']}
+  style="font-size: clamp(4.8px, calc(100vw / 290), 6.8px)"
+>
   <Container>
-    <div class="lg:px-[27px]">
-      <div class="flex flex-col gap-7 py-10 lg:flex-row lg:items-center lg:gap-0 lg:py-[19px]">
+    <div class="lg:px-[2.7em]">
+      <div class="flex flex-col gap-5 py-8 lg:flex-row lg:items-center lg:gap-0 lg:py-[1.7em]">
         <a href={localizePath('/', lang)} class="inline-flex shrink-0 items-center" aria-label={t.logoLabel}>
           <img
             src="/brand/logo-horizontal.png"
             alt={`${t.logoAlt} — ${t.tagline}`}
             width="270"
             height="55"
-            class:list={['h-[46px] w-auto lg:h-[55px]', dark && 'brightness-0 invert']}
+            class:list={['h-[38px] w-auto lg:h-[5.6em]', dark && 'brightness-0 invert']}
           />
         </a>
 
-        <nav aria-label={t.footerNavAria} class="mt-7 flex flex-wrap items-center gap-x-6 gap-y-1 lg:mt-0 lg:ml-[248px] lg:gap-x-8">
+        <nav
+          aria-label={t.footerNavAria}
+          class="mt-5 flex flex-wrap items-center gap-x-5 gap-y-1 lg:mt-0 lg:ml-[15.5em] lg:gap-x-[2.4em]"
+        >
           {
             t.nav.map((item) => (
               <a
                 href={localizePath(item.href, lang)}
                 class:list={[
-                  'text-[14px] leading-7 transition-colors lg:text-[17px]',
+                  'text-[13px] leading-6 transition-colors lg:text-[clamp(13px,1.83em,15px)]',
                   dark ? 'text-white/85 hover:text-white' : 'text-mn-muted hover:text-mn-green',
                 ]}
               >
@@ -61,17 +67,23 @@ const socials = [
           }
         </nav>
 
-        <ul class="flex items-center gap-5 lg:ml-auto lg:gap-[30px]">
+        <ul class="flex items-center gap-4 lg:ml-auto lg:gap-[2.2em]">
           {
             socials.map((s) => (
               <li>
-                <a href={s.href} aria-label={s.label} class="block opacity-80 transition-opacity hover:opacity-100">
+                <a
+                  href={s.href}
+                  aria-label={s.label}
+                  target={s.external ? '_blank' : undefined}
+                  rel={s.external ? 'noopener noreferrer' : undefined}
+                  class="block opacity-80 transition-opacity hover:opacity-100"
+                >
                   <img
                     src={s.icon.src}
                     alt=""
                     width="34"
                     height="34"
-                    class:list={['size-7 lg:size-[33px]']}
+                    class:list={['size-6 lg:size-[3.4em]']}
                     loading="lazy"
                   />
                 </a>
@@ -85,7 +97,7 @@ const socials = [
 
       <div
         class:list={[
-          'flex flex-col gap-2 py-3 text-[13px] sm:flex-row sm:items-center sm:justify-between lg:text-[16px]',
+          'flex flex-col gap-1 py-2 text-[12px] sm:flex-row sm:items-center sm:justify-between lg:py-[0.9em] lg:text-[clamp(12px,1.7em,14px)]',
           dark ? 'text-white/70' : 'text-mn-muted',
         ]}
       >

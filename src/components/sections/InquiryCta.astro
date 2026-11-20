@@ -19,8 +19,21 @@ const { eyebrow, title, description, cta } = Astro.props;
       <h2 class="text-2xl font-bold tracking-tight lg:text-[38px] lg:leading-[56px]">{title}</h2>
       {description && <p class="text-[13px] text-white/70 lg:text-[18px] lg:leading-[27px]">{description}</p>}
     </div>
-    <Button href={cta.href} variant="white" size="cta" withArrow class="shrink-0 min-w-[240px] justify-between">
-      {cta.label}
-    </Button>
+    {cta.href === 'back' ? (
+      <Button
+        type="button"
+        variant="white"
+        size="cta"
+        withArrow
+        onClick="history.back()"
+        class="shrink-0 min-w-[240px] justify-between"
+      >
+        {cta.label}
+      </Button>
+    ) : (
+      <Button href={cta.href} variant="white" size="cta" withArrow class="shrink-0 min-w-[240px] justify-between">
+        {cta.label}
+      </Button>
+    )}
   </Container>
 </section>

@@ -16,6 +16,7 @@ import iconGlobe from '../../../assets/icons/form-globe.webp';
 import processDoc from '../../../assets/icons/process-01.webp';
 import processBox from '../../../assets/icons/process-02.webp';
 import processSupport from '../../../assets/icons/process-03.webp';
+import ContentScale from '../../ui/ContentScale.astro';
 
 const lang = getLangFromUrl(Astro.url);
 
@@ -111,20 +112,21 @@ const steps = c.steps.items.map((item, i) => ({ ...item, icon: stepIcons[i] }));
     imageAlt={c.hero.imageAlt}
     highlights={highlights}
   />
+  <ContentScale>
+    <section class="bg-base-100 pb-12 lg:pt-[74px] lg:pb-[75px]">
+      <Container width="narrow">
+        <div class="grid grid-cols-1 gap-6 lg:grid-cols-[471px_minmax(0,1fr)] lg:gap-[29px]">
+          <WhyCard lines={c.why.lines} items={c.why.items} image={why} imageAlt={c.why.imageAlt} />
 
-  <section class="bg-base-100 pb-12 lg:pt-[74px] lg:pb-[75px]">
-    <Container width="narrow">
-      <div class="grid grid-cols-1 gap-6 lg:grid-cols-[471px_minmax(0,1fr)] lg:gap-[29px]">
-        <WhyCard lines={c.why.lines} items={c.why.items} image={why} imageAlt={c.why.imageAlt} />
+          <QuoteForm
+            title={c.form.title}
+            requiredNote={c.form.requiredNote}
+            submitLabel={c.form.submit}
+          />
+        </div>
+      </Container>
+    </section>
 
-        <QuoteForm
-          title={c.form.title}
-          requiredNote={c.form.requiredNote}
-          submitLabel={c.form.submit}
-        />
-      </div>
-    </Container>
-  </section>
-
-  <QuoteSteps title={c.steps.title} subtitle={c.steps.subtitle} steps={steps} />
+    <QuoteSteps title={c.steps.title} subtitle={c.steps.subtitle} steps={steps} />
+  </ContentScale>
 </Base>

@@ -12,6 +12,7 @@ import residential from '../../../assets/solutions/index/application-01.webp';
 import commercial from '../../../assets/solutions/index/application-02.webp';
 import industrial from '../../../assets/solutions/index/application-03.webp';
 import facade from '../../../assets/solutions/index/application-04.webp';
+import ContentScale from '../../ui/ContentScale.astro';
 
 const lang = getLangFromUrl(Astro.url);
 
@@ -53,7 +54,7 @@ const c = {
       eyebrow: '欢迎与美纳罗建立合作',
       title: '让合适的产品更快进入你的采购链',
       description: '欢迎就产品、包装、定制与采购需求与我们联系。',
-      button: { label: '提交采购询盘', href: '/quote' },
+      button: { label: '提交采购询盘', href: '/contact' },
     },
   },
   en: {
@@ -93,7 +94,7 @@ const c = {
       eyebrow: 'Work with MENARO',
       title: 'Bring the right products into your supply chain faster',
       description: 'Talk to us about products, packaging, customisation and procurement.',
-      button: { label: 'Send an enquiry', href: '/quote' },
+      button: { label: 'Send an enquiry', href: '/contact' },
     },
   },
 }[lang];
@@ -112,17 +113,18 @@ const items = c.applications.items.map((item, i) => ({ ...item, image: images[i]
     primary={c.hero.primary}
     secondary={c.hero.secondary}
   />
+  <ContentScale>
+    <Breadcrumb items={c.crumbs} />
 
-  <Breadcrumb items={c.crumbs} />
+    <ApplicationGrid
+      eyebrow={c.applications.eyebrow}
+      title={c.applications.title}
+      note={c.applications.note}
+      items={items}
+    />
 
-  <ApplicationGrid
-    eyebrow={c.applications.eyebrow}
-    title={c.applications.title}
-    note={c.applications.note}
-    items={items}
-  />
+    <ProcessSteps eyebrow={c.steps.eyebrow} title={c.steps.title} note={c.steps.note} steps={c.steps.items} />
 
-  <ProcessSteps eyebrow={c.steps.eyebrow} title={c.steps.title} note={c.steps.note} steps={c.steps.items} />
-
-  <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.button} />
+    <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.button} />
+  </ContentScale>
 </Base>

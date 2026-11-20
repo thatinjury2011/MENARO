@@ -64,16 +64,14 @@ const rows = [
       rows.map((row) => {
         const body = (
           <>
-            <span class="flex size-9 shrink-0 items-center justify-center rounded-full bg-[#00392e] lg:size-[61px]">
-              <Image
-                src={row.icon}
-                alt=""
-                width={62}
-                height={62}
-                class="size-[19px] object-contain brightness-0 invert lg:size-[32px]"
-                loading="lazy"
-              />
-            </span>
+            <Image
+              src={row.icon}
+              alt=""
+              width={62}
+              height={62}
+              class="size-9 shrink-0 object-contain lg:size-[61px]"
+              loading="lazy"
+            />
             <span class="flex flex-col">
               <span class="text-[15px] leading-[24px] font-bold text-mn-ink lg:text-[20.5px] lg:leading-[31px]">
                 {row.label}

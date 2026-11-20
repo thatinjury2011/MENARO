@@ -11,6 +11,7 @@ import content01 from '../../../assets/about/manufacturing/content-01.webp';
 import content02 from '../../../assets/about/manufacturing/content-02.webp';
 import content03 from '../../../assets/about/manufacturing/content-03.webp';
 import content04 from '../../../assets/about/manufacturing/content-04.webp';
+import ContentScale from '../../ui/ContentScale.astro';
 
 const lang = getLangFromUrl(Astro.url);
 
@@ -24,7 +25,7 @@ const c = {
       imageAlt: 'MENARO 制造生产线',
       primary: { label: '获取报价', href: '/quote' },
     },
-    crumbs: [{ label: '首页', href: '/' }, { label: '关于我们', href: '/about' }, { label: '制造与品质' }],
+    crumbs: [{ label: '首页', href: '/' }, { label: '制造与品质' }],
     section: {
       eyebrow: '制造与供应',
       title: '从生产到交付的支持',
@@ -40,7 +41,7 @@ const c = {
       eyebrow: '欢迎与 MENARO 建立合作',
       title: '让合适的产品更快进入你的采购链',
       description: '欢迎就产品、包装、定制与采购需求与我们联系。',
-      button: { label: '提交采购询盘', href: '/quote' },
+      button: { label: '提交采购询盘', href: '/contact' },
     },
   },
   en: {
@@ -52,7 +53,7 @@ const c = {
       imageAlt: 'MENARO production line',
       primary: { label: 'Get a Quote', href: '/quote' },
     },
-    crumbs: [{ label: 'Home', href: '/' }, { label: 'About', href: '/about' }, { label: 'Manufacturing & quality' }],
+    crumbs: [{ label: 'Home', href: '/' }, { label: 'Manufacturing & quality' }],
     section: {
       eyebrow: 'Manufacturing & supply',
       title: 'Support from production to delivery',
@@ -68,7 +69,7 @@ const c = {
       eyebrow: 'Work with MENARO',
       title: 'Bring the right products into your supply chain faster',
       description: 'Talk to us about products, packaging, customisation and procurement.',
-      button: { label: 'Send an enquiry', href: '/quote' },
+      button: { label: 'Send an enquiry', href: '/contact' },
     },
   },
 }[lang];
@@ -85,17 +86,21 @@ const items = c.section.items.map((item, i) => ({ ...item, image: images[i] }));
     image={hero}
     imageAlt={c.hero.imageAlt}
     primary={c.hero.primary}
+    bleed
+    scrim="strong"
   />
+  <ContentScale>
+    <Breadcrumb items={c.crumbs} />
 
-  <Breadcrumb items={c.crumbs} />
+    <ScenarioCards
+      eyebrow={c.section.eyebrow}
+      title={c.section.title}
+      note={c.section.note}
+      items={items}
+      ratio="wide"
+      variant="card"
+    />
 
-  <ScenarioCards
-    eyebrow={c.section.eyebrow}
-    title={c.section.title}
-    note={c.section.note}
-    items={items}
-    ratio="wide"
-  />
-
-  <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.button} />
+    <InquiryCta eyebrow={c.cta.eyebrow} title={c.cta.title} description={c.cta.description} cta={c.cta.button} />
+  </ContentScale>
 </Base>

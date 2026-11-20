@@ -16,37 +16,63 @@ interface Props {
   items: Scenario[];
   /** standard：3:2（默认）；wide：2:1，用于横向长图 */
   ratio?: 'standard' | 'wide';
+  /** plain：灰色底 + 无边框卡片（工业地坪）；card：白底 + 描边卡片 + 内缩图片（制造与品质） */
+  variant?: 'plain' | 'card';
 }
 
-const { eyebrow, title, note, items, ratio = 'standard' } = Astro.props;
+const { eyebrow, title, note, items, ratio = 'standard', variant = 'plain' } = Astro.props;
 const aspect = ratio === 'wide' ? 'aspect-[2/1]' : 'aspect-[3/2]';
+
+const isCard = variant === 'card';
+const sectionClass = isCard ? 'bg-base-100 py-14 lg:pt-[112px] lg:pb-[108px]' : 'bg-base-200/70 py-14 lg:py-20';
+const gridClass = isCard
+  ? 'mt-8 grid grid-cols-1 gap-[18px] sm:grid-cols-2 lg:mt-[46px] lg:grid-cols-3'
+  : 'mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3';
+const itemClass = isCard ? 'border border-[#dddddd] bg-base-100 p-[32px]' : 'overflow-hidden rounded-box bg-base-100';
+const imageClass = isCard ? 'aspect-[475/241] w-full object-cover' : ['w-full object-cover', aspect];
+const bodyClass = isCard ? 'contents' : 'flex flex-col gap-2 p-6';
+const titleClass = isCard
+  ? 'mt-[18px] text-[20px] leading-[30px] font-bold text-mn-ink lg:text-[24px]'
+  : 'text-[16px] font-bold text-mn-ink';
+const descClass = isCard
+  ? 'mt-[22px] text-[13px] leading-6 text-mn-muted lg:text-[17px] lg:leading-[27px]'
+  : 'text-[13px] leading-6 text-mn-muted';
+const eyebrowClass = isCard
+  ? 'text-[13px] leading-[24px] font-bold text-mn-ink lg:text-[16px]'
+  : 'text-[12px] tracking-[0.08em] text-mn-muted';
+const headingClass = isCard
+  ? 'text-[28px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[46px] lg:leading-[69px]'
+  : 'text-[28px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[40px]';
+const noteClass = isCard
+  ? 'max-w-[560px] text-[13px] leading-6 text-mn-muted lg:text-right lg:text-[17px] lg:leading-[27px]'
+  : 'max-w-[520px] text-[13px] leading-6 text-mn-muted lg:text-right';
 ---
 
-<section class="bg-base-200/70 py-14 lg:py-20">
+<section class={sectionClass}>
   <Container>
     <div class="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
       <div class="flex flex-col gap-2">
-        {eyebrow && <p class="text-[12px] tracking-[0.08em] text-mn-muted">{eyebrow}</p>}
-        <h2 class="text-[28px] leading-tight font-bold tracking-tight text-mn-ink lg:text-[40px]">{title}</h2>
+        {eyebrow && <p class={eyebrowClass}>{eyebrow}</p>}
+        <h2 class={headingClass}>{title}</h2>
       </div>
-      {note && <p class="max-w-[520px] text-[13px] leading-6 text-mn-muted lg:text-right">{note}</p>}
+      {note && <p class={noteClass}>{note}</p>}
     </div>
 
-    <ul class="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 lg:mt-10 lg:grid-cols-3">
+    <ul class={gridClass}>
       {
         items.map((item) => (
-          <li class="overflow-hidden rounded-box bg-base-100">
+          <li class={itemClass}>
             <Image
               src={item.image}
               alt={item.title}
               widths={[420, 840]}
               sizes="(min-width: 1024px) 32vw, (min-width: 640px) 46vw, 100vw"
-              class:list={['w-full object-cover', aspect]}
+              class:list={[imageClass]}
               loading="lazy"
             />
-            <div class="flex flex-col gap-2 p-6">
-              <p class="text-[16px] font-bold text-mn-ink">{item.title}</p>
-              <p class="text-[13px] leading-6 text-mn-muted">{item.desc}</p>
+            <div class={bodyClass}>
+              <p class={titleClass}>{item.title}</p>
+              <p class={descClass}>{item.desc}</p>
             </div>
           </li>
         ))

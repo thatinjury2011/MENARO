@@ -8,8 +8,8 @@ export const htmlLang: Record<Lang, string> = {
   en: 'en',
 };
 
-/** 语言切换按钮上显示的目标语言文案 */
-export const langLabel: Record<Lang, string> = {
-  zh: 'EN',
-  en: '中文',
+/** 语言下拉里各语言的自称（触发器显示当前语言） */
+export const langName: Record<Lang, string> = {
+  zh: '中文',
+  en: 'English',
 };

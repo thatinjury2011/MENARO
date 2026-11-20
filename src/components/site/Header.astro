@@ -2,41 +2,46 @@
 import Container from '../ui/Container.astro';
 import ArrowIcon from '../ui/ArrowIcon.astro';
 import ProductDrawer from './ProductDrawer.astro';
-import { getLangFromUrl, localizePath, alternateLangHref } from '../../i18n/utils';
-import { langLabel } from '../../i18n/config';
+import LanguageSwitcher from './LanguageSwitcher.astro';
+import { getLangFromUrl, localizePath } from '../../i18n/utils';
 import { ui } from '../../i18n/ui';
 
 const lang = getLangFromUrl(Astro.url);
 const t = ui[lang];
-const otherLang = lang === 'zh' ? 'en' : 'zh';
 
 const rawPath = Astro.url.pathname;
 const path = lang === 'zh' ? rawPath : rawPath.replace(/^\/en(?=\/|$)/, '') || '/';
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
-const switchHref = alternateLangHref(Astro.url, otherLang);
 
 // 产品体系改为触发全部产品抽屉（见 ProductDrawer），手机端菜单仍指向产品目录页
 const drawerHref = '/products';
 const navItemClass = [
-  'group/nav relative py-1.5 text-[14px] font-bold whitespace-nowrap transition-colors duration-200 lg:text-[15px] 2xl:text-[16px]',
+  'group/nav relative py-1 text-[12px] font-bold whitespace-nowrap transition-colors duration-200 lg:text-[clamp(12px,1.9em,14px)]',
   'after:absolute after:inset-x-0 after:bottom-0 after:h-0.5 after:origin-left after:scale-x-0 after:bg-mn-green-hover after:transition-transform after:duration-300',
   'hover:text-mn-green-hover hover:after:scale-x-100',
 ];
 ---
 
-<header class="sticky top-0 z-50 border-b border-mn-border bg-[#f8f9f7]/95 backdrop-blur-md">
-  <Container class="flex h-16 items-center gap-6 lg:h-[116px] lg:gap-10">
+<header
+  class="sticky top-0 z-50 border-b border-mn-border bg-[#f8f9f7]/95 backdrop-blur-md"
+  style="font-size: clamp(4.5px, calc(100vw / 296), 6.5px)"
+>
+  <Container class="flex h-[84px] items-center gap-4 lg:h-[10em] lg:gap-[3.8em]">
     <a href={localizePath('/', lang)} class="flex shrink-0 items-center" aria-label={t.logoLabel}>
       <img
-        src="/brand/logo.png"
-        alt={t.logoAlt}
-        width="237"
-        height="82"
-        class="h-10 w-auto lg:h-[60px] 2xl:h-[82px]"
+        src="/brand/logo-horizontal.png"
+        alt={`${t.logoAlt} — ${t.tagline}`}
+        width="270"
+        height="55"
+        class="h-[31px] w-auto lg:hidden"
       />
+      <img src="/brand/logo.png" alt={t.logoAlt} width="237" height="82" class="hidden w-auto lg:block lg:h-[7.2em]" />
     </a>
 
-    <nav aria-label={t.navAria} class="hidden items-center gap-4 lg:ml-auto lg:flex xl:gap-6 2xl:ml-[270px] 2xl:gap-[44px]">
+    <nav
+      aria-label={t.navAria}
+      class="hidden items-center lg:mx-auto lg:flex lg:gap-[2.6em] xl:gap-[3.4em]"
+    >
       {
         t.nav.map((item) =>
           item.href === drawerHref ? (
@@ -66,40 +71,29 @@ const navItemClass = [
       }
     </nav>
 
-    <div class="ml-auto flex items-center gap-2 lg:gap-4 2xl:gap-3">
-      <a
-        href={switchHref}
-        hreflang={otherLang === 'zh' ? 'zh-CN' : 'en'}
-        lang={otherLang === 'zh' ? 'zh-CN' : 'en'}
-        class="hidden items-center gap-1 text-[14px] text-mn-ink transition-colors hover:text-mn-green xl:inline-flex 2xl:text-[16px]"
-        aria-label={t.langSwitchAria}
-      >
-        {langLabel[lang]}
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" class="size-3" aria-hidden="true">
-          <path d="m6 9 6 6 6-6"></path>
-        </svg>
-      </a>
+    <div class="ml-auto flex items-center gap-2 lg:ml-0 lg:gap-[1.6em]">
+      <LanguageSwitcher />
 
       <a
         href={localizePath(t.quote.href, lang)}
-        class="inline-flex h-[54px] min-w-[130px] shrink-0 items-center justify-between gap-3 rounded-[4px] bg-mn-green px-5 text-[14px] leading-[21px] font-bold whitespace-nowrap text-white transition-colors hover:bg-mn-green-hover"
+        class="hidden h-9 min-w-[88px] shrink-0 items-center justify-between gap-2 rounded-[4px] bg-mn-green px-3 text-[11px] leading-[21px] font-bold whitespace-nowrap text-white transition-colors hover:bg-mn-green-hover lg:inline-flex lg:h-[clamp(26px,calc(100vw*31/1920),31px)] lg:min-w-[clamp(64px,calc(100vw*79/1920),79px)] lg:gap-[clamp(3px,calc(100vw*6/1920),6px)] lg:px-[clamp(7px,calc(100vw*11/1920),11px)] lg:text-[clamp(11px,calc(100vw*12/1920),12px)]"
       >
         {t.quote.label}
-        <ArrowIcon className="size-[22px]" />
+        <ArrowIcon className="size-[14px] lg:size-[clamp(10px,calc(100vw*13/1920),13px)]" />
       </a>
 
-      <details class="dropdown dropdown-end lg:hidden">
+      <details class="dropdown dropdown-end -mr-[6px] lg:hidden">
         <summary class="btn btn-square btn-ghost" aria-label={t.menuAria}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
-            class="size-5"
+            class="h-4 w-[17px]"
             fill="none"
-            viewBox="0 0 24 24"
+            viewBox="0 0 17 16"
             stroke="currentColor"
-            stroke-width="1.8"
+            stroke-width="1.6"
             aria-hidden="true"
           >
-            <path stroke-linecap="round" d="M4 7h16M4 12h16M4 17h16"></path>
+            <path stroke-linecap="round" d="M0 .8h17M0 8h17M0 15.2h17"></path>
           </svg>
         </summary>
         <ul
@@ -119,8 +113,12 @@ const navItemClass = [
             ))
           }
           <li>
-            <a href={switchHref} class="py-3" hreflang={otherLang === 'zh' ? 'zh-CN' : 'en'}>
-              {langLabel[lang]}
+            <a
+              href={localizePath(t.quote.href, lang)}
+              aria-current={isActive(t.quote.href) ? 'page' : undefined}
+              class:list={['py-3', isActive(t.quote.href) && 'font-semibold']}
+            >
+              {t.quote.label}
             </a>
           </li>
         </ul>
