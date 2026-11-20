@@ -32,7 +32,9 @@ const otherLang = lang === 'zh' ? 'en' : 'zh';
     <link rel="canonical" href={canonical} />
     <link rel="alternate" hreflang="zh-CN" href={alternateLangHref(Astro.url, 'zh')} />
     <link rel="alternate" hreflang="en" href={alternateLangHref(Astro.url, 'en')} />
-    <link rel="icon" href="/brand/logo.png" type="image/png" />
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta property="og:type" content="website" />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={pageTitle} />
