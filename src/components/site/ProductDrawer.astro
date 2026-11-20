@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
 import { getLangFromUrl, localizePath } from '../../i18n/utils';
 import { ui } from '../../i18n/ui';
@@ -102,7 +103,7 @@ const bannerH = 'h-[5.5em]';
             class:list={['flex min-h-0 flex-1 flex-col', gi > 0 && 'mt-[1.5em]']}
           >
             <div class:list={['relative w-full shrink-0 overflow-hidden rounded-[0.5em]', bannerH]}>
-              <img src={bgs[group.bg].src} alt="" class="absolute inset-0 size-full object-cover" />
+              <Image src={bgs[group.bg]} alt="" class="absolute inset-0 size-full object-cover" />
               <div class="relative flex h-full w-full items-center pl-[1.25em]">
                 <span class="w-[3em] shrink-0 pt-[0.25em] font-['Times_New_Roman',_serif] text-[3em] leading-none text-[#064b35]">
                   {group.index}
@@ -128,7 +129,7 @@ const bannerH = 'h-[5.5em]';
                       'hover:bg-[#f5f7f4]',
                     ]}
                   >
-                    <img src={icons[item.icon].src} alt="" width="48" height="48" class="size-[2.5em] shrink-0" />
+                    <Image src={icons[item.icon]} alt="" width={48} height={48} class="size-[2.5em] shrink-0" />
                     <span class="ml-[0.625em] h-[1.5em] w-px bg-[#d9dfd8]" aria-hidden="true" />
                     <span class="ml-[1.5em] min-w-0 flex-1 pt-[0.125em]">
                       <span class="line-clamp-2 text-[1.0625em] leading-[1.375em] font-bold text-black">{item.name}</span>
@@ -164,7 +165,7 @@ const bannerH = 'h-[5.5em]';
       }
 
       <div class="mt-[1.5em] flex h-[5.5em] shrink-0 items-center rounded-[0.5em] bg-[#edf3ee] pl-[1.25em]">
-        <img src={icons[c.icon].src} alt="" width="48" height="48" class="size-[2.25em] shrink-0" />
+        <Image src={icons[c.icon]} alt="" width={48} height={48} class="size-[2.25em] shrink-0" />
         <span class="ml-[0.75em] h-[1.625em] w-px bg-[#064b35]" aria-hidden="true" />
         <div class="ml-[0.75em] min-w-0 flex-1">
           <p class="line-clamp-2 text-[1.0625em] leading-[1.375em] font-bold text-[#064b35]">{c.title}</p>
@@ -181,10 +182,10 @@ const bannerH = 'h-[5.5em]';
             </svg>
           </a>
           <a href={`mailto:${c.email}`} aria-label={c.emailLabel} class="block shrink-0 transition-opacity hover:opacity-70">
-            <img src={contactEmail.src} alt="" width="44" height="42" class="h-[2em] w-[2em] object-contain" />
+            <Image src={contactEmail} alt="" width={44} height={42} class="h-[2em] w-[2em] object-contain" />
           </a>
           <a href={telHref} aria-label={c.phoneLabel} class="block shrink-0 transition-opacity hover:opacity-70">
-            <img src={contactPhone.src} alt="" width="44" height="42" class="h-[2em] w-[2em] object-contain" />
+            <Image src={contactPhone} alt="" width={44} height={42} class="h-[2em] w-[2em] object-contain" />
           </a>
         </div>
       </div>
