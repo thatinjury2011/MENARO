@@ -67,20 +67,23 @@ const articleLeading = getLangFromUrl(Astro.url) === 'zh' ? 'lg:leading-[41.7px]
                 alt=""
                 width="34"
                 height="34"
-                class="absolute left-3 top-2 size-6 lg:left-[23px] lg:top-[20px] lg:size-[34px]"
+                class="mb-2 block size-6 lg:absolute lg:top-[20px] lg:left-[23px] lg:mb-0 lg:size-[34px]"
                 loading="lazy"
               />
-              <blockquote
-                class="whitespace-pre-line text-[17px] leading-7 font-bold italic text-mn-ink lg:mt-[6px] lg:max-w-[560px] lg:text-[26px] lg:leading-[39px]"
-              >
-                {quote.text}
-              </blockquote>
-              {quote.signature && (
-                <figcaption class="mt-4 flex items-center gap-3 pb-1 lg:mt-auto lg:self-end lg:pb-0">
-                  <span aria-hidden="true" class="hidden h-px w-[67px] bg-[#c8cdc6] lg:block" />
-                  <span class="text-[17px] font-bold italic text-mn-ink lg:text-[24px]">{quote.signature}</span>
-                </figcaption>
-              )}
+              {/* 移动端文字块按最长行居中对齐，右边不留大片空白；lg 起恢复原来的左侧定位 */}
+              <div class="mx-auto w-fit lg:contents">
+                <blockquote
+                  class="whitespace-pre-line text-[17px] leading-7 font-bold italic text-mn-ink lg:mt-[6px] lg:max-w-[560px] lg:text-[26px] lg:leading-[39px]"
+                >
+                  {quote.text}
+                </blockquote>
+                {quote.signature && (
+                  <figcaption class="mt-4 flex items-center gap-3 pb-1 pr-8 lg:mt-auto lg:self-end lg:pb-0 lg:pr-0">
+                    <span aria-hidden="true" class="hidden h-px w-[67px] bg-[#c8cdc6] lg:block" />
+                    <span class="text-[17px] font-bold italic text-mn-ink lg:text-[24px]">{quote.signature}</span>
+                  </figcaption>
+                )}
+              </div>
               <Image
                 src={quoteClose}
                 alt=""

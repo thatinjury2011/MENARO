@@ -128,3 +128,23 @@ const navItemClass = [
 </header>
 
 <ProductDrawer />
+
+<script>
+  // 原生 <details> 不会在点击外部时收起：语言切换 / 汉堡菜单统一在这里管理
+  const openDropdowns = () => document.querySelectorAll<HTMLDetailsElement>('header details.dropdown[open]');
+
+  const closeDropdowns = (inside: Element | null) => {
+    openDropdowns().forEach((el) => {
+      if (inside && el.contains(inside)) return;
+      el.open = false;
+    });
+  };
+
+  const targetOf = (event: Event) => (event.target instanceof Element ? event.target : null);
+
+  document.addEventListener('click', (event) => closeDropdowns(targetOf(event)));
+  document.addEventListener('focusin', (event) => closeDropdowns(targetOf(event)));
+  document.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeDropdowns(null);
+  });
+</script>

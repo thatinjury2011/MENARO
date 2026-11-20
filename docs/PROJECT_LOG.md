@@ -1,6 +1,6 @@
 # Menaro 项目全局日志（滚动版）
 
-> **文档版本**：v1.12.1 ｜ **最后更新**：2026-11-20 ｜ **维护者**：bo li
+> **文档版本**：v1.12.4 ｜ **最后更新**：2026-11-20 ｜ **维护者**：bo li
 >
 > **用途**：任何新会话 / 新协作者读这一份，就能掌握项目现状与历史决策。
 > **规则**：每完成一个任务，在 §5 追加一行记录（版本号自增），并在 §6 看板更新状态。
@@ -75,6 +75,9 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 | 版本 | 日期 | 类型 | 摘要 | 相关文档 |
 | --- | --- | --- | --- | --- |
+| v1.12.4 | 2026-11-20 | 修订 | **关于我们 · 创始人引语块手机端文字靠左、右侧空白过大**：文字（`blockquote` + 签名）原来从 24px 左内边距起排，390 宽下文字只占 296px 槽宽的 245px，右侧留白 73px、左侧仅 22px。改为把「引语 + 签名」包进 `mx-auto w-fit` 容器（`lg:contents` 让容器在桌面端完全不参与布局），文字块按最长行自动居中，左右留白 47/47，且 320→414 各宽度都对称；**两颗引号图保持原位不动**（左上仍贴 22px 内边距、右下仍 `right-3`）。桌面端 1440 像素零变化（图块 694×133、引语左 104、引号图 21/18 前后一致） | — |
+| v1.12.3 | 2026-11-20 | 修订 | **页头两个下拉支持点击外部自动收起**：语言切换与汉堡菜单都是原生 `<details class="dropdown">`，原先只有再点一次 summary 才会关。`Header.astro` 末尾加一段零框架脚本，`click` / `focusin` 时关闭**点击目标之外**的 `header details.dropdown[open]`（用 `contains` 判断，所以点 summary 本身不会被误关，点下拉内部菜单不收起），`Esc` 关闭全部；顺带让两个下拉互斥（汉堡开着点语言，汉堡自动收起）。390 / 1440 实测：点空白收起、点内部不收起、Esc 收起 | — |
+| v1.12.2 | 2026-11-20 | 修订 | **关于我们 · 创始人格言块手机端文字与引号重叠**：`FounderBlock` 的左侧引号图原来是 `absolute`（12,8 处 24×24），移动端正文从 (24,20) 起排，首行直接压在引号上。改为**移动端引号回到文档流**（引号独占一行，下方 8px 间距），仅 `lg` 保持原来的绝对定位（左上角 23/20）；签名行补 `pr-8`，窄屏下不会钻到右下角引号下面。桌面端像素未变 | — |
 | v1.12.1 | 2026-11-20 | 次 | **修上线后全部产品抽屉图标 404**：`ProductDrawer` 里 5 处 `<img src={asset.src}>` 改为 `<Image>`（`.src` 在 build 后指向未产出的文件名，dev 正常、线上破图）；顺带新增 `scripts/check-dist.mjs` + `npm run check`，扫描 dist 所有本地 `src/srcset/href` 是否存在（修复前 13 条缺失 → 现在 0），并在 `astro preview` 下实测 18 张抽屉图片全部加载 | [troubleshooting/astro-image-src.md](troubleshooting/astro-image-src.md) |
 | v1.12.0 | 2026-11-20 | 次 | **SEO + GEO 体系落地**：`astro.config.mjs` 补 `site`（`https://www.menarobm.com`，可用 `SITE_URL` 覆盖，修掉生产 canonical 是 `localhost` 的硬伤）；新增 `data/seo.ts`（42 页逐路由 title/description，**唯一描述从 2 条变 42 条**）+ `data/schema.ts`（Organization/WebSite/WebPage/BreadcrumbList/Product JSON-LD）；`Base.astro` 重写 head：canonical/hreflang（含 `x-default`）全部绝对地址、robots 指令、og:url/image(1200×630)/locale:alternate、twitter card、JSON-LD `@graph`；新增构建期端点 `/sitemap.xml`（40 条 URL 带 hreflang alternates）、`/robots.txt`（含 12 个 AI 爬虫白名单）、`/llms.txt`（GEO 事实索引）；404 加 `noindex`；新增 `scripts/build-og-image.py` → `public/og-default.png` | [seo-geo.md](seo-geo.md) |
 | v1.11.34 | 2026-11-20 | 次 | **浏览器标签页图标换成品牌 M 标**：新增 `scripts/build-favicon.py`（从 `Pc图片及图标/浏览器icon.png` 按 alpha 自动裁成正方形，派生 `public/favicon.ico`（16/32/48）、`favicon-32.png`、`apple-touch-icon.png`（180，实心底 `#014232`，避免 iOS 透明变黑））；`Base.astro` 的 `rel=icon` 从 `/brand/logo.png` 换成上述三张，`/favicon.ico`、`/favicon-32.png`、`/apple-touch-icon.png` 均 200 且类型正确 | 本文档 §3.5 |
@@ -693,6 +696,8 @@ v1.11.18 后仍偏高，按「等比压低高度 + 缩小内部内容」再压�
 | 浏览器标签页图标替换（favicon） | 2026-11-20 | 见 v1.11.34，`scripts/build-favicon.py` 派生 ico / 32 / apple-touch |
 | SEO + GEO 体系（canonical / sitemap / JSON-LD / llms.txt） | 2026-11-20 | 见 v1.12.0 与 [seo-geo.md](seo-geo.md) |
 | 修线上产品抽屉图标 404 + 资源检查脚本 | 2026-11-20 | 见 v1.12.1 与 [troubleshooting/astro-image-src.md](troubleshooting/astro-image-src.md) |
+| 页头语言 / 汉堡下拉点击外部自动收起 | 2026-11-20 | 见 v1.12.3（Header.astro 内零框架脚本） |
+| 创始人引语块手机端文字居中 | 2026-11-20 | 见 v1.12.4（mx-auto w-fit + lg:contents） |
 
 ### 进行中
 
