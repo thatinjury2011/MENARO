@@ -3,6 +3,8 @@ import '../styles/global.css';
 import Header from '../components/site/Header.astro';
 import Footer from '../components/site/Footer.astro';
 import { site } from '../data/site';
+import { getMeta, noindexPaths, pathKey } from '../data/seo';
+import { breadcrumbNode, organizationNode, webPageNode, websiteNode } from '../data/schema';
 import { getLangFromUrl, alternateLangHref } from '../i18n/utils';
 import { htmlLang } from '../i18n/config';
 import { ui } from '../i18n/ui';
@@ -12,14 +14,80 @@ interface Props {
   description?: string;
   /** 深绿页脚（联系我们 / 获取报价这类无 CTA 带的下单页） */
   footerTheme?: 'light' | 'dark';
+  /** 覆盖默认 og:image（绝对地址或站内路径） */
+  image?: string;
+  /** og:type，默认 website */
+  type?: 'website' | 'article' | 'product';
+  /** 强制 noindex（404 等） */
+  noindex?: boolean;
+  /** 额外的 JSON-LD 节点（Product 等） */
+  jsonLd?: Record<string, unknown> | Record<string, unknown>[];
 }
 
 const lang = getLangFromUrl(Astro.url);
 const t = ui[lang];
-const { title, description = site.description[lang], footerTheme = 'light' } = Astro.props;
-const pageTitle = title ? `${title}｜${site.name}` : site.title[lang];
-const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.href;
+const {
+  title,
+  description: descriptionProp,
+  footerTheme = 'light',
+  image,
+  type = 'website',
+  noindex = false,
+  jsonLd,
+} = Astro.props;
+
+const base = Astro.site ?? new URL('https://www.menarobm.com');
+const separator = lang === 'zh' ? '｜' : ' | ';
+const meta = getMeta(Astro.url.pathname, lang);
+const key = pathKey(Astro.url.pathname);
+
+const pageTitle = meta?.title
+  ? `${meta.title}${separator}${site.name}`
+  : title
+    ? `${title}${separator}${site.name}`
+    : site.title[lang];
+const description = descriptionProp ?? meta?.description ?? site.description[lang];
+
+/** 站内路径 → 带尾斜杠的绝对地址（canonical / hreflang / og:url / sitemap 统一口径） */
+const abs = (pathname: string): string => {
+  const isFile = /\.[a-z0-9]+$/i.test(pathname);
+  const path = pathname === '/' || isFile ? pathname : `${pathname.replace(/\/+$/, '')}/`;
+  return new URL(path, base).href;
+};
+
+const canonical = abs(Astro.url.pathname);
+const zhHref = abs(alternateLangHref(Astro.url, 'zh'));
+const enHref = abs(alternateLangHref(Astro.url, 'en'));
+const ogImage = new URL(image ?? '/og-default.png', base).href;
+const ogImageAlt =
+  lang === 'zh'
+    ? 'MENARO 美纳罗 — 建筑材料制造与全球供应'
+    : 'MENARO — building materials manufacturing and global supply';
+
 const otherLang = lang === 'zh' ? 'en' : 'zh';
+const shouldNoindex = noindex || noindexPaths.has(key);
+
+// 面包屑由路由层级 + seo 标题推导（首页 → 各层级），页面组件无需重复声明
+const segments = key === '/' ? [] : key.slice(1).split('/');
+const crumbPaths = ['/'];
+const crumbNames = [ui[lang].nav[0].label];
+let walked = '';
+for (const segment of segments) {
+  walked += `/${segment}`;
+  crumbPaths.push(walked);
+  const segmentTitle = getMeta(walked, lang)?.title;
+  crumbNames.push(segmentTitle ? segmentTitle.split(' · ')[0] : segment);
+}
+const crumbs = crumbNames.map((name, i) => ({ name, url: abs(crumbPaths[i]) }));
+
+const breadcrumb = breadcrumbNode(crumbs);
+const graph = [
+  organizationNode(lang, base),
+  ...(key === '/' ? [websiteNode(lang, base)] : []),
+  webPageNode({ lang, base, pageUrl: canonical, name: pageTitle, description, image: ogImage }),
+  ...(breadcrumb ? [breadcrumb] : []),
+  ...(Array.isArray(jsonLd) ? jsonLd : jsonLd ? [jsonLd] : []),
+];
 ---
 
 <!doctype html>
@@ -30,16 +98,43 @@ const otherLang = lang === 'zh' ? 'en' : 'zh';
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    <link rel="alternate" hreflang="zh-CN" href={alternateLangHref(Astro.url, 'zh')} />
-    <link rel="alternate" hreflang="en" href={alternateLangHref(Astro.url, 'en')} />
+    <link rel="alternate" hreflang="zh-CN" href={zhHref} />
+    <link rel="alternate" hreflang="en" href={enHref} />
+    <link rel="alternate" hreflang="x-default" href={zhHref} />
+    {
+      shouldNoindex ? (
+        <meta name="robots" content="noindex, follow" />
+      ) : (
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+      )
+    }
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
-    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#054b34" />
+
+    <meta property="og:type" content={type} />
     <meta property="og:site_name" content={site.name} />
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={ogImage} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogImageAlt} />
     <meta property="og:locale" content={lang === 'zh' ? 'zh_CN' : 'en_US'} />
+    <meta property="og:locale:alternate" content={otherLang === 'zh' ? 'zh_CN' : 'en_US'} />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={ogImage} />
+    <meta name="twitter:image:alt" content={ogImageAlt} />
+
+    <script
+      type="application/ld+json"
+      set:html={JSON.stringify({ '@context': 'https://schema.org', '@graph': graph })}
+    />
     <slot name="head" />
   </head>
   <body class="flex min-h-screen flex-col bg-base-100 text-base-content antialiased">

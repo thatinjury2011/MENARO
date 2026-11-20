@@ -1,6 +1,6 @@
 # Menaro 项目全局日志（滚动版）
 
-> **文档版本**：v1.11.34 ｜ **最后更新**：2026-11-20 ｜ **维护者**：bo li
+> **文档版本**：v1.12.0 ｜ **最后更新**：2026-11-20 ｜ **维护者**：bo li
 >
 > **用途**：任何新会话 / 新协作者读这一份，就能掌握项目现状与历史决策。
 > **规则**：每完成一个任务，在 §5 追加一行记录（版本号自增），并在 §6 看板更新状态。
@@ -75,6 +75,7 @@ VS Code 已安装相关扩展：Tailwind CSS IntelliSense、ESLint、Prettier、
 
 | 版本 | 日期 | 类型 | 摘要 | 相关文档 |
 | --- | --- | --- | --- | --- |
+| v1.12.0 | 2026-11-20 | 次 | **SEO + GEO 体系落地**：`astro.config.mjs` 补 `site`（`https://www.menarobm.com`，可用 `SITE_URL` 覆盖，修掉生产 canonical 是 `localhost` 的硬伤）；新增 `data/seo.ts`（42 页逐路由 title/description，**唯一描述从 2 条变 42 条**）+ `data/schema.ts`（Organization/WebSite/WebPage/BreadcrumbList/Product JSON-LD）；`Base.astro` 重写 head：canonical/hreflang（含 `x-default`）全部绝对地址、robots 指令、og:url/image(1200×630)/locale:alternate、twitter card、JSON-LD `@graph`；新增构建期端点 `/sitemap.xml`（40 条 URL 带 hreflang alternates）、`/robots.txt`（含 12 个 AI 爬虫白名单）、`/llms.txt`（GEO 事实索引）；404 加 `noindex`；新增 `scripts/build-og-image.py` → `public/og-default.png` | [seo-geo.md](seo-geo.md) |
 | v1.11.34 | 2026-11-20 | 次 | **浏览器标签页图标换成品牌 M 标**：新增 `scripts/build-favicon.py`（从 `Pc图片及图标/浏览器icon.png` 按 alpha 自动裁成正方形，派生 `public/favicon.ico`（16/32/48）、`favicon-32.png`、`apple-touch-icon.png`（180，实心底 `#014232`，避免 iOS 透明变黑））；`Base.astro` 的 `rel=icon` 从 `/brand/logo.png` 换成上述三张，`/favicon.ico`、`/favicon-32.png`、`/apple-touch-icon.png` 均 200 且类型正确 | 本文档 §3.5 |
 | v1.11.33 | 2026-11-20 | 次 | **语言切换改为下拉 + 汉堡菜单瘦身**：新增 `LanguageSwitcher.astro`（当前语言 + ⌄ 触发器，面板里「中文 ✓ / English」选中即跳对应语言页），移动端放在**汉堡左侧**、桌面端替代原来「一点就切」的直跳链接（`xl:inline-flex` 隐藏规则去掉，lg 起可见，1024–1440 无横向溢出）；汉堡菜单里的「获取报价」从绿色整条 CTA 改为**与其它导航项同级的一行**（放在最后），语言项从菜单移除；i18n `config.ts` 的 `langLabel`（目标语言文案）替换为 `langName`（各语言自称） | 本文档 §5.3 / design-analysis §3.6 |
 | v1.11.32 | 2026-11-20 | 次 | **移动端页头按设计稿重排**（`<lg` 生效，桌面端一行未动）：高度 48→**84**；logo 换成页脚那张横版 lockup「MENARO 美纳罗® + 建筑材料制造与全球供应」（152×31，桌面仍用 `logo.png`）；**修掉移动端图标簇没靠右的真 bug**（右侧簇加 `ml-auto`，汉堡墨迹右边缘对齐 365）；汉堡图标 20→**17×16** 三线（粗 1.6、距 7.2）；移动端隐藏「获取报价」按钮，改放进抽屉菜单顶部做成整条绿色 CTA；按决定不加搜索图标。顺带：分组 banner 文案在 **<390 宽**（iPhone SE 375）时取消右侧 70px 预留，避免标题折行 | 本文档 §5.3 / design-analysis §3.6 || v1.11.31 | 2026-11-20 | 修订 | 产品体系页手机端：hero 图片条与「01 建筑与装修施工材料」卡片之间补 **14px** 间距（与导出稿里 hero 与首卡的留白一致） | 本文档 §5 / design-analysis §3.6 |
@@ -689,6 +690,7 @@ v1.11.18 后仍偏高，按「等比压低高度 + 缩小内部内容」再压�
 | 移动端页头按设计稿重排 | 2026-11-20 | 见 v1.11.32，高度 84 / 横版 lockup / 图标右对齐 / 报价移入菜单 |
 | 语言切换改下拉（两端统一） | 2026-11-20 | 见 v1.11.33，`LanguageSwitcher` + 汉堡菜单瘦身 |
 | 浏览器标签页图标替换（favicon） | 2026-11-20 | 见 v1.11.34，`scripts/build-favicon.py` 派生 ico / 32 / apple-touch |
+| SEO + GEO 体系（canonical / sitemap / JSON-LD / llms.txt） | 2026-11-20 | 见 v1.12.0 与 [seo-geo.md](seo-geo.md) |
 
 ### 进行中
 

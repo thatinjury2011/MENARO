@@ -9,6 +9,7 @@
 1. [docs/PROJECT_LOG.md](docs/PROJECT_LOG.md) — 项目全局状态与**滚动版本日志**（每次任务完成后必须追加一条）
 2. [docs/design-analysis.md](docs/design-analysis.md) — Figma 设计稿分析（页面清单、令牌、组件、交互、实施路线）
 3. [docs/troubleshooting/](docs/troubleshooting/) — 环境/工具链的踩坑与修复手册
+4. [docs/seo-geo.md](docs/seo-geo.md) — SEO/GEO 口径（canonical、sitemap、JSON-LD、llms.txt 怎么加怎么改）
 
 ## 强制约定
 

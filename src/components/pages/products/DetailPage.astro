@@ -55,9 +55,34 @@ const text = {
 }[lang];
 
 const cards = c.cards.map((card, i) => ({ ...card, image: product.gallery[i] }));
+
+const seriesCategory = {
+  'tile-grout': { zh: '美缝与填缝材料', en: 'Tile grout & jointing' },
+  'tile-adhesive': { zh: '瓷砖胶与铺贴材料', en: 'Tile adhesive & installation' },
+  sealant: { zh: '建筑密封胶与结构胶', en: 'Sealants & structural adhesives' },
+  floor: { zh: '环氧地坪与自流平', en: 'Epoxy flooring & self-levelling' },
+}[product.series];
+
+const jsonLd = {
+  '@type': 'Product',
+  '@id': `${Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.href}#product`,
+  name: c.title,
+  description: c.description,
+  sku: c.model,
+  mpn: c.model,
+  category: seriesCategory?.[lang] ?? product.series,
+  url: Astro.site ? new URL(Astro.url.pathname, Astro.site).href : Astro.url.href,
+  image: product.showcase.src ? [new URL(product.showcase.src, Astro.site ?? Astro.url).href] : undefined,
+  brand: { '@type': 'Brand', name: 'MENARO' },
+  manufacturer: { '@id': Astro.site ? new URL('/#organization', Astro.site).href : undefined },
+  additionalProperty: [
+    { '@type': 'PropertyValue', name: 'Model', value: c.model },
+    { '@type': 'PropertyValue', name: 'Packaging', value: c.packaging },
+  ],
+};
 ---
 
-<Base title={c.title}>
+<Base title={c.title} type="product" jsonLd={jsonLd}>
   <PageHero
     eyebrow={text.eyebrow}
     title={c.title}
